@@ -53,13 +53,13 @@
                 <!-- End Right Panel tooltip and timestamp -->
                 <!-- Source, Destination, Test Tabs -->
                 <div class="row menu-tab-header">
-                    <div class="col-md-4" [ngClass]="{'selected-menu-tab': sourceTab, 'menu-tab': !sourceTab && !validationSourceTab(), 'completed-menu-tab': !sourceTab && validationSourceTab()}" align="center" (click)="changeMenuTab(0)">
+                    <div class="col-md-4 tab-btn" [ngClass]="{'selected-menu-tab': sourceTab, 'menu-tab': !sourceTab && !validationSourceTab(), 'completed-menu-tab': !sourceTab && validationSourceTab()}" align="center" (click)="changeMenuTab(0)"><span class="bubble"></span>
                         Source
                     </div>
-                    <div class="col-md-4" [ngClass]="{'selected-menu-tab': destinationTab, 'menu-tab': !destinationTab && !validationDestnationTab(), 'completed-menu-tab': !destinationTab && validationDestnationTab()}" align="center" (click)="changeMenuTab(1)">
+                    <div class="col-md-4 tab-btn" [ngClass]="{'selected-menu-tab': destinationTab, 'menu-tab': !destinationTab && !validationDestnationTab(), 'completed-menu-tab': !destinationTab && validationDestnationTab()}" align="center" (click)="changeMenuTab(1)"><span class="bubble"></span>
                         Destination(s)
                     </div>
-                    <div class="col-md-4" [ngClass]="{'selected-menu-tab': testTab, 'menu-tab': !testTab}" align="center" (click)="changeMenuTab(2)">
+                    <div class="col-md-4 tab-btn" [ngClass]="{'selected-menu-tab': testTab, 'menu-tab': !testTab}" align="center" (click)="changeMenuTab(2)"><span class="bubble"></span>
                         Results
                     </div>
                 </div> 
@@ -87,7 +87,7 @@
                 </div> -->
                 
                 <!-- Source Tab Content-->
-                <div align="center" *ngIf="sourceTab" style="overflow-y: auto; height: 192px">
+                <div align="center" *ngIf="sourceTab" style="overflow-y: auto; height: 170px">
                     <div class="source-cloud-drop-down">Select cloud</div>
                     <select placeholder="Select Cloud" style="border: 0; outline: 0; background: transparent; border-bottom: 1px solid black; color: #a8a8a8; margin-bottom: 15px; width: 200px;" [(ngModel)]="speedtestModel.sourceCloudProvider" (ngModelChange)="changeSourceCloudProvider()">
                         <option value="" disabled selected style="color: #a8a8a8;">Select Cloud Provider</option>
@@ -103,7 +103,7 @@
                 </div>
                 <!-- End Source Tab Content-->
                 <!-- Destination Tab content -->
-                <div class="row" *ngIf="destinationTab" style="height: 192px;">
+                <div class="row" *ngIf="destinationTab" style="height: 170px;">
                     <div class="col-md-12">
                         <div class="row" align="center" style="margin: 0px; height: 33px; font-weight: 500;">
                             <div class="col-md-4" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'azure', 'non-active-destination-menu': destinationCloudProvider != 'azure'}">
@@ -137,7 +137,7 @@
                                 Select All GCE Regions
                             </label>
                         </div>
-                        <div class="row" *ngIf="destinationCloudProvider == 'azure'" style="margin: 0px; margin-top: 10px; overflow-y: auto; height: 141px;">
+                        <div class="row" *ngIf="destinationCloudProvider == 'azure'" style="margin: 0px; margin-top: 10px; overflow-y: auto; height: 119px;">
                         
                             <div class="col-md-6" style="padding: 0px;" *ngFor="let option of dashboardModel.azureRegions">
                                 <img src="/assets/ic_check_box_filled@2x.png" alt="Smiley face" width="22" height="22" style="margin-right: 5px;" (click)="updateCheckbox(option);" *ngIf="option.isSelected && (speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion)">
@@ -147,7 +147,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="row" *ngIf="destinationCloudProvider == 'aws'" style="margin: 0px; margin-top: 10px; overflow-y: auto; height: 141px;">
+                        <div class="row" *ngIf="destinationCloudProvider == 'aws'" style="margin: 0px; margin-top: 10px; overflow-y: auto; height: 119px;">
                             <div class="col-md-6" style="padding: 0px;" *ngFor="let option of dashboardModel.awsRegions">
                                 <img src="/assets/ic_check_box_filled@2x.png" alt="Smiley face" width="22" height="22" style="margin-right: 5px;" (click)="updateCheckbox(option);" *ngIf="option.isSelected && (speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion)">
                                 <img src="/assets/ic_check_box_outline@2x.png" alt="Smiley face" width="22" height="22" style="margin-right: 5px;" (click)="updateCheckbox(option);" *ngIf="!option.isSelected && (speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion)">
@@ -156,7 +156,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="row" *ngIf="destinationCloudProvider == 'gce'" style="margin: 0px; margin-top: 10px; overflow-y: auto; height: 141px;">
+                        <div class="row" *ngIf="destinationCloudProvider == 'gce'" style="margin: 0px; margin-top: 10px; overflow-y: auto; height: 119px;">
                             <div class="col-md-6" style="padding: 0px;" *ngFor="let option of dashboardModel.gceRegions">
                                 <img src="/assets/ic_check_box_filled@2x.png" alt="Smiley face" width="22" height="22" style="margin-right: 5px;" (click)="updateCheckbox(option);" *ngIf="option.isSelected && (speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion)">
                                 <img src="/assets/ic_check_box_outline@2x.png" alt="Smiley face" width="22" height="22" style="margin-right: 5px;" (click)="updateCheckbox(option);" *ngIf="!option.isSelected && (speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion)">
@@ -169,7 +169,7 @@
                 </div>
                 <!-- End Destination Tab content -->
                 <!-- Test Tab content -->
-                <div *ngIf="testTab" style="height: 184px;">
+                <div *ngIf="testTab" style="height: 162px;">
                     <div class="row" style="margin-top: 8px; border-bottom: 1px solid #e0e0e0; margin-left: 0px; margin-right: 0px; padding-bottom: 8px;">
                         <div class="col-md-5">
                             <span style="font-weight: 500; margin-left: -5px;">Source Provider:&nbsp;</span>
@@ -207,7 +207,7 @@
                     </table>
                     <!-- End Analytics table header -->
                     <!-- List of selected destination regions as per cloud provider -->
-                    <div style="overflow-y: auto; height: 151px">
+                    <div style="overflow-y: auto; height: 129px">
                     
                         <table class="table table-striped" style="margin-top: 10px;">
                             <tbody>
