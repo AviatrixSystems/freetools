@@ -3,9 +3,8 @@ import service
 from flask import Flask, request, Response
 from flask_cors import CORS, cross_origin
 from influxdb import InfluxDBClient
+from werkzeug.serving import run_simple
 import constants
-# from config.Config import (INFLUX_DB_HOST, INFLUX_DB_PORT, INFLUX_DB_USERNAME, INFLUX_DB_PASSWORD, INFLUX_DB_DBNAME)
-# import config
 
 
 app = Flask(__name__)
@@ -52,4 +51,4 @@ def save_speedtest():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    run_simple('0.0.0.0', 5000, app, use_reloader=True, threaded=True)
