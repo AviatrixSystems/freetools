@@ -200,9 +200,10 @@
 
                                     <td style="width: 30%; padding-left: 15px">
                                         <span *ngIf="!region.bandwidth">{{properties.NA_TEXT}}
-                                            <img src="/assets/ic_remove.png" class="pull-right" alt="Smiley face" width="17" height="17" style="cursor: pointer;" (click)="removeRegionFromDestination(region, region.cloudProvider);"></span>
+                                            <img src="/assets/ic_remove.png" class="pull-right" alt="Region" width="17" height="17" style="cursor: pointer;" (click)="removeRegionFromDestination(region, region.cloudProvider);">
+                                        </span>
                                         <span *ngIf="region.bandwidth">{{region.bandwidth}}
-                                            <img src="/assets/ic_remove.png" class="pull-right" alt="Smiley face" width="17" height="17" style="cursor: pointer;" (click)="removeRegionFromDestination(region, region.cloudProvider);">
+                                            <img src="/assets/ic_remove.png" class="pull-right" alt="Region" width="17" height="17" style="cursor: pointer;" (click)="removeRegionFromDestination(region, region.cloudProvider);">
                                         </span>
                                     </td>
                                 </tr>
