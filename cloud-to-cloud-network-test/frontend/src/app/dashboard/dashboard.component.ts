@@ -261,7 +261,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   changeSourceCloudProvider() {
     this.sourceCloudRegions = this.dashboardModel.locations[this.speedtestModel.sourceCloudProvider]
     this.speedtestModel.sourceCloudRegion = "";
-    this.speedtestModel.sourceCloudRegion
     // this.selectedAllAWSRegion = false;
     // this.selectedAllAzureRegion = false;
     // this.selectedAllGCERegion = false;
