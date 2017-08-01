@@ -599,7 +599,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     }
     this.generateAmMap();
 
-    console.log('regions: ', region);
+    // console.log('regions: ', region);
   }
 
   /**
@@ -612,7 +612,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         break;
       }
     }
-    console.log('current location: ', this.currentSourceRegion);
+    // console.log('current location: ', this.currentSourceRegion);
 
   }
 
@@ -819,11 +819,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     let badwidthSeries = [];
     this.dashboardService.getLatencyAndBandwidth(this.speedtestModel).subscribe((resp: any) =>{
       let chartData = JSON.parse(resp);
-      console.log('chart: ', chartData);
+      // console.log('chart: ', chartData);
       this.chartModel.chartData = chartData['data'];
       for (let index = 0; index < this.speedtestModel.destinationRegions.length; index++) {
-        latencySeries.push(this.getSeriesData('spline', this.speedtestModel.destinationRegions[index].region, this.getChartData(this.speedtestModel.destinationRegions[index].cloud_info.region, 'latency'), this.speedtestModel.destinationRegions[index].color));
-        badwidthSeries.push(this.getSeriesData('spline', this.speedtestModel.destinationRegions[index].region, this.getChartData(this.speedtestModel.destinationRegions[index].cloud_info.region, 'throughput'), this.speedtestModel.destinationRegions[index].color));
+        latencySeries.push(this.getSeriesData('spline', this.speedtestModel.destinationRegions[index].cloud_info.region, this.getChartData(this.speedtestModel.destinationRegions[index].cloud_info.region, 'latency'), this.speedtestModel.destinationRegions[index].color));
+        badwidthSeries.push(this.getSeriesData('spline', this.speedtestModel.destinationRegions[index].cloud_info.region, this.getChartData(this.speedtestModel.destinationRegions[index].cloud_info.region, 'throughput'), this.speedtestModel.destinationRegions[index].color));
       }
       this.updateLatencyAndBandwidthForDestinationCloud();
       this.latencyOptions = this.getChartConfig('', this.properties.MILISECONDS, latencySeries, 'spline');
