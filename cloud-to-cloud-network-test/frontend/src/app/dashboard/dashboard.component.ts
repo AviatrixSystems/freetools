@@ -105,7 +105,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.sourceCloudProvider = "";
     this.destinationCloudProvider = "azure";
     this.chartLoaded = false;
-    this.speedtestModel.timestamp = this.dashboardModel.timeRanges[0].value;
+    this.speedtestModel.timestamp = this.dashboardModel.timeRanges[2].value;
     this.selectedAllAWSRegion = false;
     this.selectedAllAzureRegion = false;
     this.selectedAllGCERegion = false;
