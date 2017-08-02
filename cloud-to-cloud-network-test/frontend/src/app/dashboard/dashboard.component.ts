@@ -495,7 +495,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             this.chartLoaded = false;
             break;
           } 
-          if(this.latencyChart.series[i].name == region.cloud_info.region) {
+          if(this.latencyChart.series[i].name == region.label) {
             this.latencyChart.series[i].remove()
             this.bandwidthChart.series[i].remove();
             break;
@@ -569,7 +569,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             this.chartLoaded = false;
             break;
           } 
-          if(this.latencyChart.series[i].name == region.cloud_info.region) {
+          if(this.latencyChart.series[i].name == region.label) {
             this.latencyChart.series[i].remove()
             this.bandwidthChart.series[i].remove();
             break;
@@ -821,8 +821,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       // console.log('chart: ', chartData);
       this.chartModel.chartData = chartData['data'];
       for (let index = 0; index < this.speedtestModel.destinationRegions.length; index++) {
-        latencySeries.push(this.getSeriesData('spline', this.speedtestModel.destinationRegions[index].cloud_info.region, this.getChartData(this.speedtestModel.destinationRegions[index].cloud_info.region, 'latency'), this.speedtestModel.destinationRegions[index].color));
-        badwidthSeries.push(this.getSeriesData('spline', this.speedtestModel.destinationRegions[index].cloud_info.region, this.getChartData(this.speedtestModel.destinationRegions[index].cloud_info.region, 'throughput'), this.speedtestModel.destinationRegions[index].color));
+        latencySeries.push(this.getSeriesData('spline', this.speedtestModel.destinationRegions[index].label, this.getChartData(this.speedtestModel.destinationRegions[index].cloud_info.region, 'latency'), this.speedtestModel.destinationRegions[index].color));
+        badwidthSeries.push(this.getSeriesData('spline', this.speedtestModel.destinationRegions[index].label, this.getChartData(this.speedtestModel.destinationRegions[index].cloud_info.region, 'throughput'), this.speedtestModel.destinationRegions[index].color));
       }
       this.updateLatencyAndBandwidthForDestinationCloud();
       this.latencyOptions = this.getChartConfig('', this.properties.MILISECONDS, latencySeries, 'spline');
@@ -1025,7 +1025,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   updateChartOnMarker(marker: any, hide: boolean) {
     if (this.latencyChart && this.latencyChart.series) {
       for (let index = 0; index < this.latencyChart.series.length; index++) {
-        if (this.latencyChart.series[index].name !== marker.cloud_info.region && hide) {
+        if (this.latencyChart.series[index].name !== marker.label && hide) {
           this.latencyChart.series[index].setVisible(false, false);
 
           if (this.bandwidthChart && this.bandwidthChart.series) {

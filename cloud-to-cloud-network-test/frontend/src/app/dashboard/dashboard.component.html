@@ -3,7 +3,7 @@
 <div class="panel marquee short" id="network-white" style="margin-left: -15px; margin-right: -15px;">
     <div class="content threecolumns tight">
         <div class="column double" style="margin-left: -10px;">
-            <h4 class="uppercase wide semitight-top">Multi Cloud Network Performance&nbsp;Test</h4>
+            <h4 class="uppercase wide semitight-top">Multi-Cloud Network Performance&nbsp;Test</h4>
         </div>
     </div>
 </div>
@@ -242,7 +242,7 @@
                 </div>
             </div>
             <div class="card-block" #latencyCard>
-                <chart [options]="latencyOptions" (load)="latencyInstance($event.context)"  *ngIf="latencyOptions !== null" class="chart-height display-block"></chart>
+                <chart [options]="latencyOptions" (load)="latencyInstance($event.context)"  *ngIf="latencyOptions !== null" class="chart-height" [ngClass]="{'display-block': chartLoaded}"></chart>
                 <h6 class="chart-label" *ngIf="!chartLoaded">Select source and destination(s) to begin test.</h6>
             </div>
         </div>
@@ -258,7 +258,7 @@
 
             </div>
             <div class="card-block">
-                <chart [options]="bandwidthOptions" (load)="bandwidthInstance($event.context)" *ngIf="bandwidthOptions !== null" class="chart-height display-block"></chart>
+                <chart [options]="bandwidthOptions" (load)="bandwidthInstance($event.context)" *ngIf="bandwidthOptions !== null" class="chart-height display-block" [ngClass]="{'display-block': chartLoaded}"></chart>
                  <h6 class="chart-label" *ngIf="!chartLoaded">Select source and destination(s) to begin test.</h6>
             </div>
         </div>
