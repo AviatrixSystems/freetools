@@ -760,3 +760,12 @@ a:hover {
 .divider-border {
     border-right: solid 1px #e0e0e0;
 }
+
+.mat-select:focus:not(.mat-select-disabled) .mat-select-underline {
+  color: #bbb;
+  height:0px;
+}
+.mat-select:focus:not(.mat-select-disabled) .mat-select-arrow {
+  color: #bbb;
+  height:0px;
+}
