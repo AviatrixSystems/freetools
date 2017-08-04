@@ -321,10 +321,8 @@ a:hover {
 
 .active-back-button {
   float: left; // margin-right: 10px; 
-  color: #2196F3 !important;
-  // background-color: #2196F3 !important;
-  cursor: pointer;
-  //margin-top: -5px;
+  color: #2196F3 !important; // background-color: #2196F3 !important;
+  cursor: pointer; //margin-top: -5px;
   //box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.22);
   //outline: none;
   //width: 108px;
@@ -482,8 +480,7 @@ a:hover {
 
 .timestamp {
   //width: 115px;
-  font-size: 14px;
-  //border: 0;
+  font-size: 14px; //border: 0;
   //outline: 0;
   //background: transparent;
   //border-bottom: 1px solid #a8a8a8;
@@ -758,15 +755,36 @@ a:hover {
 }
 
 .divider-border {
-    border-right: solid 1px #e0e0e0;
+  border-right: solid 1px #e0e0e0;
 }
 
 .mat-select:focus:not(.mat-select-disabled) .mat-select-underline {
   color: #bbb;
-  height:0px;
+  height: 0px;
 }
+
 .begin-test-content {
   font-size: 16px;
   line-height: 20px;
   text-align: center;
+}
+
+.begin-text {
+  //font-family: sans-serif;
+  font-size: 17px; //color: #bbb;
+  padding: 17px; //font-weight: 100;
+  font-family: "Yoga Sans Light", Corbel, Calibri, HelveticaNeue, Tahoma, sans-serif;
+  font-weight: normal;
+  font-style: normal;
+}
+
+.begin-test-btn {
+  color: #FFFFFF;
+  background-color: #2196F3;
+  cursor: pointer;
+  margin-top: -5px;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.22);
+  height: 40px;
+  width: 135px;
+  font-size: 16px;
 }
