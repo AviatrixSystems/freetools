@@ -526,6 +526,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
    */
   removeRegionFromDestination(region: any, cloudProvider: any) {
     // "dashboardModel.azureRegions"
+    this.properties.isLoading = true;
     for (let index = 0; index < this.speedtestModel.destinationCloudRegions[cloudProvider].length; index++) {
       if (region.cloud_info.region === this.speedtestModel.destinationCloudRegions[cloudProvider][index]['cloud_info']['region'] && region.public_ip == this.speedtestModel.destinationCloudRegions[cloudProvider][index]['public_ip']) {
         this.speedtestModel.destinationCloudRegions[cloudProvider][index].latency = 0.0;
@@ -582,7 +583,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         break;
       }
     }
-
+    this.properties.isLoading = false;
 
   }
 
