@@ -38,11 +38,11 @@
         <!-- End Right Panel tooltip and timestamp -->
         <!-- Source, Destination, Test Tabs -->
         <div class="row menu-tab-header">
-          <div class="col-md-4 tab-btn" [ngClass]="{'selected-menu-tab': sourceTab, 'menu-tab': !sourceTab && !validationSourceTab(), 'completed-menu-tab': !sourceTab && validationSourceTab()}" align="center" (click)="changeMenuTab(0)"><span class="bubble"></span> Source
+          <div class="col-md-4 tab-btn" [ngClass]="{'selected-menu-tab': sourceTab, 'menu-tab': !sourceTab && !validationSourceTab(), 'completed-menu-tab': !sourceTab && validationSourceTab()}" align="center" (click)="changeMenuTab(0)"><span class="bubble"></span><span class="line"></span>Source
           </div>
-          <div class="col-md-4 tab-btn" [ngClass]="{'selected-menu-tab': destinationTab, 'menu-tab': !destinationTab && !validationDestnationTab(), 'completed-menu-tab': !destinationTab && validationDestnationTab(), 'incomplete-menu-tab': !validationDestnationTab() && testTab}" align="center" (click)="changeMenuTab(1)"><span class="bubble"></span> Destination(s)
+          <div class="col-md-4 tab-btn" [ngClass]="{'selected-menu-tab': destinationTab, 'menu-tab': !destinationTab && !validationDestnationTab(), 'completed-menu-tab': !destinationTab && validationDestnationTab(), 'incomplete-menu-tab': !validationDestnationTab() && testTab}" align="center" (click)="changeMenuTab(1)"><span class="bubble"></span><span class="line"></span>Destination(s)
           </div>
-          <div class="col-md-4 tab-btn" [ngClass]="{'selected-menu-tab': testTab, 'menu-tab': !testTab, 'incomplete-dest-menu-tab': !validationDestnationTab() && testTab}" align="center" (click)="changeMenuTab(2)"><span class="bubble"></span> Results
+          <div class="col-md-4 tab-btn" [ngClass]="{'selected-menu-tab': testTab, 'menu-tab': !testTab, 'incomplete-dest-menu-tab': !validationDestnationTab() && testTab}" align="center" (click)="changeMenuTab(2)"><span class="bubble"></span><span class="line"></span> Results
           </div>
         </div>
         <!-- Source Tab Content-->
