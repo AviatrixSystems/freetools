@@ -1097,7 +1097,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     for (let index = 0; index < this.speedtestModel.destinationRegions.length; index++) {
       let object = this.speedtestModel.destinationRegions[index];
 
-      if (self.currentSourceRegion.lat && self.currentSourceRegion.lng) {
+      if (self.currentSourceRegion && self.currentSourceRegion.lat && self.currentSourceRegion.lng) {
         // Creating lines
         var line = {
           "id": "line" + index,

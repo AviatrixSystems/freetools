@@ -11,7 +11,7 @@
 <!-- Left and Right Panel -->
 <div class="row mrg-top-15 padding-left-right-15">
   <!-- Right panel -->
-  <div class="col-md-5 pad-right-none">
+  <div class="col-md-5 pad-right-none" >
     <div class="card card-radious-none">
       <div class="card-header cart-header-right-panel">
         <!-- Right Panel tooltip and timestamp -->
@@ -195,9 +195,9 @@
       <!-- Next and Back buttons -->
       <div class="flow-buttons-bottom">
         <a class="pull-left active-back-button" (click)="backTab();" *ngIf="destinationTab"><i class="fa fa-chevron-left padding-right-10" aria-hidden="true"></i> Previous</a>
-        <button class="{{validate() ? 'pull-right btn btn-start next-button-common':'btn next_btn_disabled pull-right next-button-common'}}" (click)="nextTab();" [disabled]="!validate()" *ngIf="!testTab">Next <span class="divider-border" style="padding-left: 15px"></span><i class="fa fa-chevron-right padding-left-10" aria-hidden="true"></i></button>
+        <button class="{{validate() ? 'pull-right btn btn-start next-button-common':'btn next_btn_disabled pull-right next-button-common'}}" (click)="nextTab();" [disabled]="!validate()" *ngIf="!testTab">Next <i class="fa fa-chevron-right padding-left-10" aria-hidden="true"></i></button>
         <!-- <button class="pull-right btn btn-start outline-none" (click)="startTest();" [disabled]="speedtestModel.destinationRegions.length < 1" *ngIf="!isTestCompleted && !disabledStart && testTab">Begin Test&nbsp;&nbsp;<i class="fa fa-play" aria-hidden="true"></i></button> -->
-        <button class="btn btn-start outline-none" (click)="startTest();" [disabled]="speedtestModel.destinationRegions.length < 1" *ngIf="testTab">Restart Test<span class="divider-border padding-left-20"></span><i class="fa fa-play pull-right padding-left-10" aria-hidden="true"></i></button>
+        <button class="btn btn-start outline-none" (click)="startTest();" [disabled]="speedtestModel.destinationRegions.length < 1" *ngIf="testTab">Restart Test<i class="fa fa-play pull-right padding-left-10" aria-hidden="true"></i></button>
       </div>
       <!-- End Next and Back buttons -->
     </div>
