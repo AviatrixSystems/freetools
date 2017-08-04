@@ -236,29 +236,11 @@ a:hover {
   transform: initial !important;
 }
 
-.selected-menu-tab {
-  text-align: center;
-  font-weight: 500;
-  padding-bottom: 15px;
-  cursor: pointer;
-}
 
-.menu-tab {
-  text-align: center;
-  font-weight: 500;
-  padding-bottom: 15px;
-  cursor: pointer;
-  color: #cfcfcf;
-}
 
-.completed-menu-tab {
-  text-align: center;
-  font-weight: 500;
-  padding-bottom: 15px;
-  cursor: pointer;
-  color: #86A058;
-  ;
-}
+
+
+
 
 .cart-header-right-panel {
   margin-bottom: 25px;
@@ -380,57 +362,14 @@ a:hover {
   background-color: #bbb;
   display: block;
   margin: 0 auto .5em;
-}
-
-.tab-btn {
+  position: relative;
   z-index: 1;
 }
 
-.tab-btn .bubble:after,
-.tab-btn .bubble:before {
-  display: block;
-  position: absolute;
-  top: 6px;
-  width: 50%;
-  height: 3px;
-  content: '';
-  background-color: #bbb;
-  z-index: -1;
-}
 
-.tab-btn:last-child .bubble:after,
-.tab-btn:last-child .bubble:before {
-  width: 50%;
-  margin-right: 50%;
-}
 
-.tab-btn:first-child .bubble:after,
-.tab-btn:first-child .bubble:before {
-  width: 50%;
-  margin-left: 50%;
-}
 
-.bubble:before {
-  left: 0;
-}
 
-.bubble:after {
-  right: 0;
-}
-
-.completed-menu-tab .bubble {
-  background: #86A058;
-  box-shadow: 0 0 0 2px #fff inset;
-  box-sizing: border-box;
-  border: 1px solid #86A058;
-}
-
-.selected-menu-tab .bubble {
-  background: #474747;
-  box-shadow: 0 0 0 2px #fff inset;
-  box-sizing: border-box;
-  border: 1px solid #474747;
-}
 
 
 .after-sselection-source-cloud {
@@ -652,57 +591,18 @@ a:hover {
 }
 
 
-.selected-menu-tab .bubble {
-  box-shadow: 0 0 0 2px #fff inset;
-  box-sizing: border-box;
-  border: 1px solid #474747;
-}
+
+
+
 
 
 .tab-btn:last-child .bubble:after {
   display: none
 }
 
-.completed-menu-tab .bubble:after,
-.completed-menu-tab .bubble:before {
-  background: #86A058;
-}
 
-.selected-menu-tab .bubble:before {
-  background: #86A058;
-}
 
-.tab-btn:last-child.selected-menu-tab {
-  color: #86A058;
-}
 
-.tab-btn:last-child.selected-menu-tab .bubble {
-  background: #86A058;
-  border-color: #86A058;
-  box-shadow: 0 0 0 2px #fff inset;
-  box-sizing: border-box;
-  border: 1px solid #86A058;
-}
-
-.incomplete-menu-tab .bubble:before {
-  background: #86A058;
-}
-
-.incomplete-menu-tab .bubble:after {
-  background: #BBBBBB;
-}
-
-.incomplete-dest-menu-tab .bubble:before {
-  background: #BBBBBB;
-}
-
-.incomplete-dest-menu-tab .bubble {
-  background-color: #474747 !important;
-}
-
-.incomplete-dest-menu-tab {
-  color: #474747 !important;
-}
 
 .mat-option.mat-selected {
   color: #BBBBBB;
@@ -787,4 +687,101 @@ a:hover {
   height: 40px;
   width: 135px;
   font-size: 16px;
+}
+
+.menu-tab {
+  text-align: center;
+  font-weight: 500;
+  padding-bottom: 15px;
+  cursor: pointer;
+  color: #cfcfcf;
+}
+
+.selected-menu-tab {
+  text-align: center;
+  font-weight: 500;
+  padding-bottom: 15px;
+  cursor: pointer;
+}
+
+.completed-menu-tab {
+  text-align: center;
+  font-weight: 500;
+  padding-bottom: 15px;
+  cursor: pointer;
+  color: #86A058;
+  ;
+}
+
+.completed-menu-tab .bubble {
+  box-shadow: inset 0 0 0 2px #fff;
+  box-sizing: border-box;
+  border: 1px solid #86A058;
+  background: #86A058;
+}
+
+.selected-menu-tab .bubble {
+  box-shadow: inset 0 0 0 2px #fff;
+  box-sizing: border-box;
+  border: 1px solid #474747;
+  background: #474747;
+}
+
+.menu-tab .bubble {
+  box-shadow: inset 0 0 0 2px #fff;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  background: #ccc;
+}
+
+.completed-menu-tab .line {
+  background: #86A058
+}
+
+.selected-menu-tab .line {
+  background: #86A058
+}
+
+.tab-btn:last-child.selected-menu-tab .bubble {
+  background: #86a058;
+  border-color: #86a058;
+  box-shadow: inset 0 0 0 2px #fff;
+  box-sizing: border-box;
+  border: 1px solid #86a058;
+}
+
+.tab-btn:first-child .line {
+  display: none;
+}
+
+.menu-tab .line {
+  background: #ccc;
+}
+
+.tab-btn .line {
+  width: 100%;
+  height: 3px;
+  position: absolute;
+  right: 50%;
+  top: 6px; //z-index: -1;
+}
+
+.incomplete-dest-menu-tab .bubble {
+  background-color: #474747 !important;
+}
+
+.incomplete-dest-menu-tab .line {
+  background-color: #cfcfcf !important;
+}
+
+.incomplete-menu-tab .line {
+  background: #86A058;
+}
+
+.tab-btn:last-child.selected-menu-tab {
+  color: #86a058;
+}
+
+.incomplete-dest-menu-tab {
+  color: #474747 !important;
 }
