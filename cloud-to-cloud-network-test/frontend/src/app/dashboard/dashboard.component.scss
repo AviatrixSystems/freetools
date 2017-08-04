@@ -376,7 +376,7 @@ a:hover {
   border: 0;
   outline: 0;
   background: transparent;
-  border-bottom: 1px solid #a8a8a8;
+  //border-bottom: 1px solid #a8a8a8;
   margin-bottom: 15px;
   width: 200px;
 }
@@ -385,7 +385,7 @@ a:hover {
   border: 0;
   outline: 0;
   background: transparent;
-  border-bottom: 1px solid #a8a8a8;
+  //border-bottom: 1px solid #a8a8a8;
   margin-bottom: 15px;
   width: 200px;
   color: #a8a8a8;
@@ -395,7 +395,7 @@ a:hover {
   border: 0;
   outline: 0;
   background: transparent;
-  border-bottom: 1px solid #a8a8a8;
+  //border-bottom: 1px solid #a8a8a8;
   width: 200px;
   color: #a8a8a8;
 }
@@ -404,7 +404,7 @@ a:hover {
   border: 0;
   outline: 0;
   background: transparent;
-  border-bottom: 1px solid #a8a8a8;
+  //border-bottom: 1px solid #a8a8a8;
   width: 200px;
 }
 
@@ -784,4 +784,12 @@ a:hover {
 
 .incomplete-dest-menu-tab {
   color: #474747 !important;
+}
+
+.mat-select-value {
+    top: -3px !important;
+}
+.mat-select-underline {
+  top: 25px;
+  color: #bbb;
 }
