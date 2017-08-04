@@ -50,6 +50,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   selectedAllAWSRegion: boolean;
   selectedAllAzureRegion: boolean;
   selectedAllGCERegion: boolean;
+  beginTest: boolean;
 
   dashboardModel: DashboardModel;
   speedtestModel: SpeedtestModel;
@@ -109,6 +110,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.selectedAllAWSRegion = false;
     this.selectedAllAzureRegion = false;
     this.selectedAllGCERegion = false;
+    this.beginTest = false;
     this.generateAmMap();
   }
 
