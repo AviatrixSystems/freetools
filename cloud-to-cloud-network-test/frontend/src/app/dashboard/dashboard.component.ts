@@ -319,6 +319,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       }
       if(selectAll) {
         this.selectedAllAzureRegion = true;
+      } else {
+        this.selectedAllAzureRegion = false;
       }
     }else if(destinationCloudProvider == 'aws') {
       let selectAll = true;
@@ -330,6 +332,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       }
       if(selectAll) {
         this.selectedAllAWSRegion = true;
+      } else {
+        this.selectedAllAWSRegion = false;
       }
     } else if(destinationCloudProvider == 'gce') {
       let selectAll = true;
@@ -341,6 +345,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       }
       if(selectAll) {
         this.selectedAllGCERegion = true;
+      } else {
+        this.selectedAllGCERegion = false;
       }
     }
   }
@@ -578,13 +584,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             break;
           }
         }
+
         this.generateAmMap();
         this.isTestCompleted = false;
         break;
       }
     }
     this.properties.isLoading = false;
-
   }
 
   /**
@@ -864,6 +870,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
    * Get the inventory from s3
    */
   getInvetory() {
+    this.properties.isLoading = true;
     for (let key in this.dashboardModel.inventoryPath) {
       let path = this.dashboardModel.inventoryPath[key]
       this.locations[key] = [];
@@ -883,7 +890,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       },
         (error: any) => this.handleError(error)
       );
+      this.properties.isLoading = false;
     }
+    this.properties.isLoading = false;
   }
 
   handleError(error: any) {

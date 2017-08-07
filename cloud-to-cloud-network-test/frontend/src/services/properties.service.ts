@@ -44,9 +44,9 @@ export class PropertiesService {
   public GCE_SOURCE_CLOUD_PIN_PATH = '/assets/source-gce.png';
   public AZURE_SOURCE_CLOUD_PIN_PATH = '/assets/source-azure.png';
 
-  public RIGHT_PANEL_TOOLTIP: string = "Aviatrix tool measures multi cloud network connectivity data from source cloud region to destination(s) cloud regions. Use this data to confidently plan cloud deployments. To measure multi cloud network performance from source cloud region to destination(s) cloud regions.";
-  public LATENCY_CHART_TOOLTIP: string = "Measures latency from source cloud region to destination(s) cloud regions. Use latency to determine deployment of latency sensitive applications. To measure multi cloud network performance from source cloud region to the destination(s) cloud region.";
-  public THROUGHPUT_PANEL_TOOLTIP: string = "Measures throughput from source cloud region to destination(s) cloud regions. Use throughput data for data intensive applications. To measure multi cloud network performance from source cloud region to the destination(s) cloud region.";
+  public RIGHT_PANEL_TOOLTIP: string = "This Aviatrix cloud tool measures multi-cloud network connectivity data between multiple cloud providers and locations from a selected source cloud region. Use this data confidently plan multi-cloud deployments and to measure multi cloud network performance across cloud providers.";
+  public LATENCY_CHART_TOOLTIP: string = "Measures latency from source cloud region to selected destination cloud regions. This measurement of latency can be used to determine deployment of time sensitive applications.";
+  public THROUGHPUT_PANEL_TOOLTIP: string = " Measures throughput from source cloud region to selected destination cloud regions. This measurement can be used to determine deployment strategies for data intensive applications.";
 
   public SHARE_POST: string ='Checkout the cool free cloud speed test from Aviatrix!';
 
