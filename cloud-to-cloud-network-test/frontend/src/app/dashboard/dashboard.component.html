@@ -1,7 +1,7 @@
 <!-- Text on Dashboard image -->
-<div class="panel marquee short" id="network-white" style="margin-left: -15px; margin-right: -15px;">
+<div class="panel marquee short" id="network-white">
   <div class="content threecolumns tight">
-    <div class="column double" style="margin-left: -10px;">
+    <div class="column double" style="margin-left: 10px;">
       <h4 class="uppercase wide semitight-top">Multi-Cloud Network Performance&nbsp;Test</h4>
     </div>
   </div>
@@ -11,7 +11,7 @@
 <!-- Left and Right Panel -->
 <div class="row mrg-top-15 padding-left-right-15">
   <div class="col-md-5 pad-right-none" *ngIf="!beginTest">
-      <div class="card card-radious-none" style="height:370px;">
+      <div class="card card-radious-none" style="height:370px; overflow-y: auto;">
           <!-- <div class="card-header cart-header-right-panel">               -->
               <div class="center" style="padding:15px;">
                 <img src="/assets/cloud-01.svg" height="120" width="120"/>
@@ -27,14 +27,14 @@
   </div>
   <!-- Right panel -->
   <div class="col-md-5 pad-right-none" *ngIf="beginTest">
-    <div class="card card-radious-none"  style="height:370px;">
+    <div class="card card-radious-none"  style="height:370px; overflow-y: auto;">
       <div class="card-header cart-header-right-panel">
         <!-- Right Panel tooltip and timestamp -->
         <div class="row">
-          <div class="col-md-7 padding-right-0">
+          <div class="col-sm-7 padding-right-0">
             <div class="card-title card-title-margin">{{properties.RIGHT_PANEL_HEADER}}&nbsp;<i class="fa fa-info-circle fa-lg info-color cursor-pointer" aria-hidden="true" mdTooltip="{{properties.RIGHT_PANEL_TOOLTIP}}"></i></div>
           </div>
-          <div class="col-md-5">
+          <div class="col-sm-5">
             <div class="pull-right">
               <i class="fa fa-clock-o fa-lg clock" aria-hidden="true"></i>
               <md-select class="timestamp" [(ngModel)]="speedtestModel.timestamp" (ngModelChange)="changeTimestamp()">
@@ -46,11 +46,11 @@
         <!-- End Right Panel tooltip and timestamp -->
         <!-- Source, Destination, Test Tabs -->
         <div class="row menu-tab-header">
-          <div class="col-md-4 tab-btn" [ngClass]="{'selected-menu-tab': sourceTab, 'menu-tab': !sourceTab && !validationSourceTab(), 'completed-menu-tab': !sourceTab && validationSourceTab()}" align="center" (click)="changeMenuTab(0)"><span class="bubble"></span><span class="line"></span>Source
+          <div class="col-sm-4 tab-btn" [ngClass]="{'selected-menu-tab': sourceTab, 'menu-tab': !sourceTab && !validationSourceTab(), 'completed-menu-tab': !sourceTab && validationSourceTab()}" align="center" (click)="changeMenuTab(0)"><span class="bubble"></span><span class="line"></span>Source
           </div>
-          <div class="col-md-4 tab-btn" [ngClass]="{'selected-menu-tab': destinationTab, 'menu-tab': !destinationTab && !validationDestnationTab(), 'completed-menu-tab': !destinationTab && validationDestnationTab(), 'incomplete-menu-tab': !validationDestnationTab() && testTab}" align="center" (click)="changeMenuTab(1)"><span class="bubble"></span><span class="line"></span>Destination(s)
+          <div class="col-sm-4 tab-btn" [ngClass]="{'selected-menu-tab': destinationTab, 'menu-tab': !destinationTab && !validationDestnationTab(), 'completed-menu-tab': !destinationTab && validationDestnationTab(), 'incomplete-menu-tab': !validationDestnationTab() && testTab}" align="center" (click)="changeMenuTab(1)"><span class="bubble"></span><span class="line"></span>Destination(s)
           </div>
-          <div class="col-md-4 tab-btn" [ngClass]="{'selected-menu-tab': testTab, 'menu-tab': !testTab, 'incomplete-dest-menu-tab': !validationDestnationTab() && testTab}" align="center" (click)="changeMenuTab(2)"><span class="bubble"></span><span class="line"></span> Results
+          <div class="col-sm-4 tab-btn" [ngClass]="{'selected-menu-tab': testTab, 'menu-tab': !testTab, 'incomplete-dest-menu-tab': !validationDestnationTab() && testTab}" align="center" (click)="changeMenuTab(2)"><span class="bubble"></span><span class="line"></span> Results
           </div>
         </div>
         <!-- Source Tab Content-->
@@ -71,15 +71,15 @@
         <!-- End Source Tab Content-->
         <!-- Destination Tab content -->
         <div class="row height-170" *ngIf="destinationTab">
-          <div class="col-md-12">
+          <div class="col-sm-12">
             <div class="row destination-tab" align="center">
-              <div class="col-md-4" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'azure', 'non-active-destination-menu': destinationCloudProvider != 'azure'}">
+              <div class="col-sm-4" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'azure', 'non-active-destination-menu': destinationCloudProvider != 'azure'}">
                 <span class="cursor-pointer" (click)="setDestinationCloudProvider('azure')">Azure</span>
               </div>
-              <div class="col-md-4" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'aws', 'non-active-destination-menu': destinationCloudProvider != 'aws'}">
+              <div class="col-sm-4" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'aws', 'non-active-destination-menu': destinationCloudProvider != 'aws'}">
                 <span class="cursor-pointer" (click)="setDestinationCloudProvider('aws')">AWS</span>
               </div>
-              <div class="col-md-4" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'gce', 'non-active-destination-menu': destinationCloudProvider != 'gce'}">
+              <div class="col-sm-4" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'gce', 'non-active-destination-menu': destinationCloudProvider != 'gce'}">
                 <span class="cursor-pointer" (click)="setDestinationCloudProvider('gce')">GCE</span>
               </div>
             </div>
@@ -106,7 +106,7 @@
             </div>
             <div class="row destination-region" *ngIf="destinationCloudProvider == 'azure'">
               <template ngFor let-option [ngForOf]="dashboardModel.azureRegions" let-i="index">
-                <div class="col-md-6 padding-0" *ngIf="speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion">
+                <div class="col-sm-6 padding-0" *ngIf="speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion">
                   <img src="/assets/ic_check_box_filled@2x.png" alt="Smiley face" width="22" height="22" class="margin-right-5" (click)="updateCheckbox(option);" *ngIf="option.isSelected && (speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion)">
                   <img src="/assets/ic_check_box_outline@2x.png" alt="Smiley face" width="22" height="22" class="margin-right-5" (click)="updateCheckbox(option);" *ngIf="!option.isSelected && (speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion)">
                   <label *ngIf="speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion" class="padding-top-10" (click)="updateCheckbox(option);">
@@ -143,7 +143,7 @@
         <!-- Test Tab content -->
         <div *ngIf="testTab" class="height-162">
           <div class="row test-source">
-            <div class="col-md-5">
+            <div class="col-sm-5">
               <span class="test-source-cloud-label">Source Provider:&nbsp;</span>
               <span>
                   <span class="color-a8a8a8" *ngIf="speedtestModel.sourceCloudProvider == 'aws'">AWS</span>
@@ -151,7 +151,7 @@
                   <span class="color-a8a8a8" *ngIf="speedtestModel.sourceCloudProvider == 'gce'">GCE</span>
               </span>
             </div>
-            <div class="col-md-7">
+            <div class="col-sm-7">
               <span class="test-source-region-label">Source Region:&nbsp;</span>
               <span class="color-a8a8a8">{{currentSourceRegion.region_name}}</span>
             </div>
@@ -228,13 +228,13 @@
             <h6 class="card-title card-title-margin">Cloud Regions</h6>
           </div>
           <!-- <div class="col-md-6">
-                        <div class="pull-right">
-                            <i class="fa fa-clock-o fa-lg clock" aria-hidden="true"></i>
-                            <select class="timestamp" [(ngModel)]="speedtestModel.timestamp" (ngModelChange)="changeTimestamp()">
-                                <option *ngFor="let range of dashboardModel.timeRanges" [value]="range.value"> {{ range.label }}</option>
-                            </select>
-                        </div>
-                    </div> -->
+                  <div class="pull-right">
+                      <i class="fa fa-clock-o fa-lg clock" aria-hidden="true"></i>
+                      <select class="timestamp" [(ngModel)]="speedtestModel.timestamp" (ngModelChange)="changeTimestamp()">
+                          <option *ngFor="let range of dashboardModel.timeRanges" [value]="range.value"> {{ range.label }}</option>
+                      </select>
+                  </div>
+              </div> -->
         </div>
       </div>
       <div class="card-block padding-0">
