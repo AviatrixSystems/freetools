@@ -63,7 +63,7 @@
             </md-select>
           </div>
           <div class="row padding-left-20 margin-top-15">
-            <md-select class="drop-down" [ngClass]="{'after-selection-source-region': speedtestModel.sourceCloudRegion != '', 'before-selection-source-region': speedtestModel.sourceCloudRegion == ''}" placeholder="Select Cloud Region" [(ngModel)]="speedtestModel.sourceCloudRegion" (ngModelChange)="changeSourceRegion($event)">
+            <md-select class="drop-down" [ngClass]="{'after-selection-source-region': speedtestModel.sourceCloudRegion != '', 'before-selection-source-region': speedtestModel.sourceCloudRegion == ''}" placeholder="Select Cloud Region" [(ngModel)]="speedtestModel.sourceCloudRegion" (change)="changeSourceRegion()">
               <md-option *ngFor="let region of sourceCloudRegions" [value]="region.cloud_info.region">{{ region.label }}</md-option>
             </md-select>
           </div>
