@@ -359,12 +359,6 @@ a:hover {
   z-index: 1;
 }
 
-
-
-
-
-
-
 .after-sselection-source-cloud {
   border: 0;
   outline: 0;
@@ -583,19 +577,9 @@ a:hover {
   word-break: break-word;
 }
 
-
-
-
-
-
-
 .tab-btn:last-child .bubble:after {
   display: none
 }
-
-
-
-
 
 .mat-option.mat-selected {
   color: #BBBBBB;
@@ -786,4 +770,9 @@ a:hover {
 .mat-select-underline {
   top: 25px;
   color: #bbb;
+}
+
+.display-inline-text-icon {
+  display: inline-block !important;
+  vertical-align: middle !important;
 }
