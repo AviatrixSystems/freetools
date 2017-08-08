@@ -55,14 +55,14 @@
         </div>
         <!-- Source Tab Content-->
         <div *ngIf="sourceTab" class="source-tab">
-          <div class="row padding-left-20 margin-top-35">
+          <div class="row margin-top-40">
             <md-select class="drop-down" placeholder="Select Cloud Provider" [ngClass]="{'after-sselection-source-cloud': speedtestModel.sourceCloudProvider != '', 'before-sselection-source-cloud': speedtestModel.sourceCloudProvider == ''}" [(ngModel)]="speedtestModel.sourceCloudProvider" (change)="changeSourceCloudProvider()">
               <md-option value="azure">Azure</md-option>
               <md-option value="aws">AWS</md-option>
               <md-option value="gce">GCE</md-option>
             </md-select>
           </div>
-          <div class="row padding-left-20 margin-top-15">
+          <div class="row margin-top-20">
             <md-select class="drop-down" [ngClass]="{'after-selection-source-region': speedtestModel.sourceCloudRegion != '', 'before-selection-source-region': speedtestModel.sourceCloudRegion == ''}" placeholder="Select Cloud Region" [(ngModel)]="speedtestModel.sourceCloudRegion" (change)="changeSourceRegion()">
               <md-option *ngFor="let region of sourceCloudRegions" [value]="region.cloud_info.region">{{ region.label }}</md-option>
             </md-select>
