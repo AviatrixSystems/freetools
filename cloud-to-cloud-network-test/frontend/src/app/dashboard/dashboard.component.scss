@@ -430,7 +430,7 @@ a:hover {
 
 .source-tab {
   overflow-y: auto;
-  height: 175px;
+  height: 167px;
   overflow-x: hidden;
 }
 
@@ -444,11 +444,11 @@ a:hover {
 }
 
 .height-170 {
-  height: 175px;
+  height: 167px;
 }
 
 .height-162 {
-  height: 167px;
+  height: 160px;
 }
 
 .destination-tab {
@@ -472,7 +472,7 @@ a:hover {
 
 .destination-region {
   margin: 0px;
-  margin-top: 10px;
+  //margin-top: 10px;
   overflow-y: auto;
   height: 119px;
 }
@@ -519,7 +519,7 @@ a:hover {
 
 .destination-region-table {
   overflow-y: auto;
-  height: 134px;
+  height: 128px;
 }
 
 .margin-right-7 {
@@ -547,6 +547,7 @@ a:hover {
 .flow-buttons-bottom {
   border-top: 1px solid #e0e0e0;
   padding-top: 15px;
+ // margin-top: 7px;
 }
 
 .next-button-common {
@@ -776,4 +777,9 @@ a:hover {
 .display-inline-text-icon {
   display: inline-block !important;
   vertical-align: middle !important;
+}
+
+.margin-none {
+  margin-left: 0px;
+  margin-right: 0px;
 }
