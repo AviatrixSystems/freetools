@@ -22,6 +22,7 @@ import { AppRoutingModule, appRoutingProviders} from './app-routing.module';
 import {SlimLoadingBarModule} from 'ng2-slim-loading-bar';
 // import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MdButtonModule, MdCheckboxModule} from '@angular/material';
+import { ToastrModule } from 'toastr-ng2';
 
 declare var require: any;
 
@@ -52,7 +53,8 @@ export function highchartsFactory() {
     StarRatingModule,
     // BrowserAnimationsModule,
     ShareButtonsModule.forRoot(),
-    SlimLoadingBarModule.forRoot()
+    SlimLoadingBarModule.forRoot(),
+    ToastrModule.forRoot({timeOut: 5000, closeButton: true}),
   ],
   providers: [
     ApiService,

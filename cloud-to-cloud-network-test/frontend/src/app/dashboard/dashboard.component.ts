@@ -6,6 +6,7 @@ import { Response, Http } from '@angular/http';
 import { DashboardService, PropertiesService } from '../../services';
 import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
 import { SlimLoadingBarService } from 'ng2-slim-loading-bar';
+import { ToastrService } from 'toastr-ng2';
 
 declare const google: any;
 
@@ -66,10 +67,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
    * Contructor for dashboard component
    */
   constructor(private http: Http,
-    private dashboardService: DashboardService,
-    public properties: PropertiesService,
-    public dialog: MdDialog,
-    private slimLoadingBarService: SlimLoadingBarService) {
+              private dashboardService: DashboardService,
+              public properties: PropertiesService,
+              public dialog: MdDialog,
+              private slimLoadingBarService: SlimLoadingBarService,
+              public toasterService: ToastrService) {
 
     this.chartColors = ['#2196F3', '#F44336', '#FF609E', '#14936C', '#00FF4F', '#A99000',
       '#E8C21A', '#673AB7', '#3D495A', '#536DFE', '#C3429B', '#C33A38',
@@ -896,7 +898,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   handleError(error: any) {
-
+    this.toasterService.error(error)
   }
 
   /**
