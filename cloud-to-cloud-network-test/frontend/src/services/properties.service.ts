@@ -54,6 +54,8 @@ export class PropertiesService {
   // public GOOGLE_API_KEY: string = 'AIzaSyD9N5DDr-Lzla4dTHE2ZpysyxkMtZFBpUo'; // For Production key
 
   public CLOUD_REGION_TOOLTIP: string = "This Aviatrix cloud tool measures network connectivity data from a single selected source to multiple cloud destination regions. Use this tool to confidently plan your multi-region and multi-cloud deployments.";
+  public INVENTORY_GET_ERROR_MESSAGE: string = "Failed to get inventories.";
+  public SPEEDTEST_ERROR_MESSAGE: string = "We failed to fetch some data due to connectivity issues.Please retry again.";
   public isLoading: boolean = false;
   currentTool: string = null;
   currentToolName: string = null;

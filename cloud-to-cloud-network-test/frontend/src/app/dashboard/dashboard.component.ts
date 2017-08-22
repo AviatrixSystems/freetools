@@ -844,6 +844,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       // Stop Loader
       this.properties.isLoading = false;
     }, (error: any) =>{
+        this.handleError(this.properties.SPEEDTEST_ERROR_MESSAGE);
       // Stop Loader
         this.properties.isLoading = false;
     });
@@ -890,7 +891,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           this.dashboardModel.locations[key].push(obj);
         }
       },
-        (error: any) => this.handleError(error)
+        (error: any) => this.handleError(this.properties.INVENTORY_GET_ERROR_MESSAGE)
       );
       this.properties.isLoading = false;
     }
