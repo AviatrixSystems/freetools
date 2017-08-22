@@ -44,15 +44,16 @@ export class PropertiesService {
   public GCE_SOURCE_CLOUD_PIN_PATH = '/assets/source-gce.png';
   public AZURE_SOURCE_CLOUD_PIN_PATH = '/assets/source-azure.png';
 
-  public RIGHT_PANEL_TOOLTIP: string = "This Aviatrix cloud tool measures multi-cloud network connectivity data between multiple cloud providers and locations from a selected source cloud region. Use this data confidently plan multi-cloud deployments and to measure multi cloud network performance across cloud providers.";
-  public LATENCY_CHART_TOOLTIP: string = "Measures latency from source cloud region to selected destination cloud regions. This measurement of latency can be used to determine deployment of time sensitive applications.";
-  public THROUGHPUT_PANEL_TOOLTIP: string = " Measures throughput from source cloud region to selected destination cloud regions. This measurement can be used to determine deployment strategies for data intensive applications.";
+  public RIGHT_PANEL_TOOLTIP: string = "This multi-cloud network performance test tool allows you to measure the network quality between multiple cloud providers. Once you begin the test, select a cloud provider source region and multiple cloud destination regions. Destination regions can include multiple regions from multiple cloud providers.";
+  public LATENCY_CHART_TOOLTIP: string = "Measures latency from source cloud region to selected destination cloud regions. Use latency to determine deployment of latency sensitive applications.";
+  public THROUGHPUT_PANEL_TOOLTIP: string = "Measures throughput from source cloud region to selected destination cloud regions. Use throughput to determine deployment of data intensive applications.";
 
   public SHARE_POST: string ='Checkout the cool free cloud speed test from Aviatrix!';
 
   public GOOGLE_API_KEY: string = 'AIzaSyAAPCDwjWqAyGu01LSKytb4tQIjQSrKw30';  // For development
   // public GOOGLE_API_KEY: string = 'AIzaSyD9N5DDr-Lzla4dTHE2ZpysyxkMtZFBpUo'; // For Production key
 
+  public CLOUD_REGION_TOOLTIP: string = "This Aviatrix cloud tool measures network connectivity data from a single selected source to multiple cloud destination regions. Use this tool to confidently plan your multi-region and multi-cloud deployments.";
   public isLoading: boolean = false;
   currentTool: string = null;
   currentToolName: string = null;
