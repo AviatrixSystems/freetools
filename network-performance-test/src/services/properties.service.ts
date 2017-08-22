@@ -46,7 +46,7 @@ export class PropertiesService {
 
   public CALCULATING_TEXT = 'Calculating';
 
-  public START: string = 'Begin Speed Test';
+  public START: string = 'Restart Speed Test';
   public STOP: string = 'Stop Speed Test';
 
   public NA_LATITUDE: number = 46.0730555556;
@@ -75,6 +75,8 @@ export class PropertiesService {
   public AWS_DOWNLOAD_URL: string = 'https://aws.amazon.com/marketplace/seller-profile/ref=dtl_pcp_sold_by?id=ba8fdede-964b-475d-b679-0f9f899f6293';
   public AZURE_DOWNLOAD_URL: string = 'https://azure.microsoft.com/en-us/marketplace/partners/aviatrix-systems/aviatrix-cloud-services/';
   public DOWNLOAD_URL: string = 'http://aviatrix.com/download/';
+
+  public INVENTORY_GET_ERROR_MESSAGE: string = "Failed to get inventories.";
 
   currentTool: string = null;
   currentToolName: string = null;
