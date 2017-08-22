@@ -827,7 +827,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     // this.disabledStart = true;
     let latencySeries = [];
     let badwidthSeries = [];
-    this.dashboardService.getLatencyAndBandwidth(this.speedtestModel).subscribe((resp: any) =>{
+    this.dashboardService.getLatencyAndBandwidth(this.speedtestModel).timeout(3000).subscribe((resp: any) =>{
       let chartData = JSON.parse(resp);
       // console.log('chart: ', chartData);
       this.chartModel.chartData = chartData['data'];
@@ -877,7 +877,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     for (let key in this.dashboardModel.inventoryPath) {
       let path = this.dashboardModel.inventoryPath[key]
       this.locations[key] = [];
-      this.dashboardService.getInventory(path).subscribe((inventory: any) => {
+      this.dashboardService.getInventory(path).timeout(3000).subscribe((inventory: any) => {
         let data = JSON.parse(inventory);
         for (let index = 0; index < data.data.length; index++) {
           let obj = data.data[index];
