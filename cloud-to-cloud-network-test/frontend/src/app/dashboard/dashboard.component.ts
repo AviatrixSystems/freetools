@@ -873,7 +873,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
    * Get the inventory from s3
    */
   getInvetory() {
+
     this.properties.isLoading = true;
+    let regions_index = 0;
     for (let key in this.dashboardModel.inventoryPath) {
       let path = this.dashboardModel.inventoryPath[key]
       this.locations[key] = [];
@@ -885,10 +887,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           obj.isOpen = false;
           obj.iconUrl = this.getDestinationCloudPinPath(key);
           obj.logoUrl = this.getDestinationCloudLogoPath(key);
-          obj.color = this.chartColors[index];
+          obj.color = this.chartColors[regions_index];
           obj.isSelected = false;
           obj.cloudProvider = key;
           this.dashboardModel.locations[key].push(obj);
+          regions_index += 1;
         }
       },
         (error: any) => this.handleError(this.properties.INVENTORY_GET_ERROR_MESSAGE)
@@ -899,7 +902,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   handleError(error: any) {
-    this.toasterService.error(error)
+    this.toasterService.error(error);
   }
 
   /**
