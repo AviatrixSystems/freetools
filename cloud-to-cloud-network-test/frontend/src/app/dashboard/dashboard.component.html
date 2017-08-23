@@ -1,264 +1,289 @@
-
 <!-- Text on Dashboard image -->
-<div class="panel marquee short" id="network-white" style="margin-left: -15px; margin-right: -15px;">
-    <div class="content threecolumns tight">
-        <div class="column double" style="margin-left: -10px;">
-            <h4 class="uppercase wide semitight-top">Cloud To Cloud Network Performance&nbsp;Test</h4>
-        </div>
+<div class="panel marquee short" id="network-white">
+  <div class="content threecolumns tight">
+    <div class="column double" style="margin-left: 10px;">
+      <h4 class="uppercase wide semitight-top">Multi-Cloud Network Performance&nbsp;Test</h4>
     </div>
+  </div>
 </div>
 <!-- Loading Bar -->
 <!-- <ng2-slim-loading-bar [color]="'#e24301'"></ng2-slim-loading-bar> -->
 <!-- Left and Right Panel -->
-<div class="row mrg-top-15">
-    <!-- Left panel with map -->
-    <div class="col-md-7 pad-right-none">
-        <div class="card card-radious-none">
-            <div class="card-header">   
-                <div class="row">
-                    <div class="col-md-6">
-                        <h6 class="card-title card-title-margin">Cloud Regions</h6>
-                    </div>
-                </div>
-            </div>
-            <div class="card-block"  style="padding: 0px;"> 
-                <div id="map" style="height: 306px;"></div>
-            </div>
-        </div>
+<div class="row mrg-top-15 padding-left-right-15">
+  <div class="col-md-6 pad-right-none" *ngIf="!beginTest">
+    <div class="card card-radious-none" style="height:370px; overflow-y: auto;">
+      <!-- <div class="card-header cart-header-right-panel">               -->
+      <div class="center" style="padding:15px;">
+        <img src="/assets/cloud-01.svg" height="120" width="120" />
+        <p class="begin-text">
+          View recorded network performance between a public cloud region and one/more regions in AWS, Azure and/or Google Cloud.</p>
+        <button class="btn begin-test-btn outline-none" (click)="beginTest=!beginTest">Begin Test
+          <!-- <i class="fa fa-arrow-right fa-lg pull-right padding-left-10" aria-hidden="true"></i> -->
+          <img src="/assets/arrow-36x36-white.png" height="16" width="16" style="margin-left: 10px;" />
+        </button>
+      </div>
+      <!-- </div> -->
     </div>
-    <!-- End Left panel with map -->
-    <!-- Right panel -->
-    <div class="col-md-5">
-        <div class="card card-radious-none">
-            <div class="card-header cart-header-right-panel">
-                <!-- Right Panel tooltip and timestamp -->
-                <div class="row">
-                    <div class="col-md-9" style="padding-right: 0px;">
-                        <h6 class="card-title card-title-margin">{{properties.RIGHT_PANEL_HEADER}} <span>&nbsp;  <i class="fa fa-info-circle fa-lg info-color cursor-pointer" aria-hidden="true" mdTooltip="{{properties.RIGHT_PANEL_TOOLTIP}}"></i></span></h6>                 
-                    </div>
-                    <div class="col-md-3" style="text-align: right; margin-top: -4px;">
-                        <select class="form-control" style="margin-left: -40px; width: 135px; font-size: 14px;" [(ngModel)]="speedtestModel.timestamp" (ngModelChange)="ChangeTimestamp()" [disabled]="speedtestModel.destinationRegions.length < 1 || disabledStart">
-                            <option *ngFor="let range of dashboardModel.timeRanges" [value]="range.value"> {{ range.label }}</option>
-                        </select>
-                    </div>
-                </div>
-                <!-- End Right Panel tooltip and timestamp -->
-                <!-- Source, Destination, Test Tabs -->
-                <div class="row menu-tab-header">
-                    <div class="col-md-4" [ngClass]="{'selected-menu-tab': sourceTab, 'menu-tab': !sourceTab}" align="center" (click)="changeMenuTab(0)">
-                        Source
-                    </div>
-                    <div class="col-md-4" [ngClass]="{'selected-menu-tab': destinationTab, 'menu-tab': !destinationTab}" align="center" (click)="changeMenuTab(1)">
-                        Destination(s)
-                    </div>
-                    <div class="col-md-4" [ngClass]="{'selected-menu-tab': testTab, 'menu-tab': !testTab}" align="center" (click)="changeMenuTab(2)">
-                        Test
-                    </div>
-                </div> 
-                <!-- End Source, Destination, Test Tabs -->
-                <!-- Source Tab Content-->
-                <div align="center" *ngIf="sourceTab" style="overflow-y: auto; height: 217px">
-                    <div class="source-cloud-drop-down">Select a source cloud</div>
-                    <select class="form-control" placeholder="Source Cloud" [(ngModel)]="speedtestModel.sourceCloudProvider" (ngModelChange)="changeSourceCloudProvider()" style="margin-bottom: 15px; width: 185px;">
-                        <option value="" disabled selected>Select Cloud Provider</option>
-                        <option value="azure">Azure</option>
-                        <option value="aws">AWS</option>
-                        <option value="gce">GCE</option>
-                    </select>
-                    <div align="center" style="margin-bottom: 10px; font-weight: 500;">Select a source cloud region</div>
-                    <select class="form-control" placeholder="Source Cloud Region" [(ngModel)]="speedtestModel.sourceCloudRegion" (ngModelChange)="changeSourceRegion($event)" style="width: 185px;">
-                        <option value="" disabled selected>Select Cloud Region</option>
-                        <option *ngFor="let region of sourceCloudRegions" [value]="region.cloud_info.region">{{ region.label }}</option>
-                    </select>
-                </div>
-                <!-- End Source Tab Content-->
-                <!-- Destination Tab content -->
-                <div class="row" *ngIf="destinationTab" style="height: 207px; margin-top: 10px">
-                    <!-- List of cloud providers -->
-                    <div class="col-md-3" style="padding-left: 29px;">
-                        <div class="row">
-                            <button class="pull-left selected-azure-menu" *ngIf="destinationCloudProvider == 'azure'">| Azure</button>
-                            <button class="pull-left azure-menu" (click)="setDestinationCloudProvider('azure')" *ngIf="destinationCloudProvider != 'azure'">Azure</button> 
-                        </div>
-                        <div class="row">
-                            <button class="pull-left selected-aws-menu" *ngIf="destinationCloudProvider == 'aws'">| AWS</button>
-                            <button class="pull-left aws-menu" (click)="setDestinationCloudProvider('aws')" *ngIf="destinationCloudProvider != 'aws'">AWS</button> 
-                        </div>
-                        <div class="row">
-                            <button class="pull-left selected-aws-menu" *ngIf="destinationCloudProvider == 'gce'">| GCE</button>
-                            <button class="pull-left aws-menu" (click)="setDestinationCloudProvider('gce')" *ngIf="destinationCloudProvider != 'gce'">GCE</button> 
-                        </div>
-                    </div>
-                    <!-- End List of cloud providers -->
-                    <!-- List of Azure cloud provider -->
-                    <div class="col-md-9" *ngIf="destinationCloudProvider == 'azure'">
-                        <div class="form-group row" style="overflow-y: auto; height: 203px; margin-left: 15px; margin-right: 0px;" >
-                            <div class="col-md-12" *ngFor="let option of dashboardModel.azureRegions">
-                                <img src="/assets/ic_check_box_filled@2x.png" alt="Smiley face" width="22" height="22" style="margin-right: 5px;" (click)="updateCheckbox(option);" *ngIf="option.isSelected && (speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion)">
-                                <img src="/assets/ic_check_box_outline@2x.png" alt="Smiley face" width="22" height="22" style="margin-right: 5px;" (click)="updateCheckbox(option);" *ngIf="!option.isSelected && (speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion)">
-                                <label *ngIf="speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion" style="padding-top: 10px">
-                                    {{option.label}}
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End List of Azure cloud provider -->
-                    <!-- List of AWS cloud provider -->
-                    <div class="col-md-9" *ngIf="destinationCloudProvider == 'aws'">
-                        <div class="form-group row" style="overflow-y: auto; margin-left: 15px; height: 203px; margin-right: 0px;" >
-                            <div class="col-md-12" *ngFor="let option of dashboardModel.awsRegions">
-                                <img src="/assets/ic_check_box_filled@2x.png" alt="Smiley face" width="22" height="22" style="margin-right: 5px;" (click)="updateCheckbox(option);" *ngIf="option.isSelected && (speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion)">
-                                <img src="/assets/ic_check_box_outline@2x.png" alt="Smiley face" width="22" height="22" style="margin-right: 5px;" (click)="updateCheckbox(option);" *ngIf="!option.isSelected && (speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion)">
-                                <label *ngIf="speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion" style="padding-top: 10px">
-                                    {{option.label}}</label>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End List of AWS cloud provider -->
-                    <!-- List of GCE cloud provider -->
-                    <div class="col-md-9" *ngIf="destinationCloudProvider == 'gce'">
-                        <div class="form-group row" style="overflow-y: auto; margin-left: 15px; height: 203px; margin-right: 0px;" >
-                            <div class="col-md-12" *ngFor="let option of dashboardModel.gceRegions">
-                                <img src="/assets/ic_check_box_filled@2x.png" alt="Smiley face" width="22" height="22" style="margin-right: 5px;" (click)="updateCheckbox(option);" *ngIf="option.isSelected && (speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion)">
-                                <img src="/assets/ic_check_box_outline@2x.png" alt="Smiley face" width="22" height="22" style="margin-right: 5px;" (click)="updateCheckbox(option);" *ngIf="!option.isSelected && (speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion)">
-                                <label *ngIf="speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion" style="padding-top: 10px">
-                                    
-                                        {{option.label}}
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End List of GCE cloud provider -->
-                </div>
-                <!-- End Destination Tab content -->
-                <!-- Test Tab content -->
-                <div align="center" *ngIf="testTab">
-                    <!-- Analytics table header -->
-                    <table class="table table-striped" style="margin-top: 10px; margin-bottom: 0px;">
-                        <thead>
-                            <tr>
-                                <th width="35%"><span class="column-header" (click)="sortBy('region_name')">{{properties.RIGHT_PANEL_REGION_COLUMN_HEADER}} <i class="fa sort-style" 
-                                    [ngClass]="{'fa-sort': sortableColumn != 'region_name', 'fa-sort-asc': (sortableColumn == 'region_name' && !isDesc),                                        'fa-sort-desc': (sortableColumn == 'region_name' && isDesc) }"
-                                    aria-hidden="true"> </i>
-
-                                </span></th>
-
-                                <th width="30%" style="padding-left: 2px;"><span class="column-header" (click)="sortBy('latency')">{{properties.RIGHT_PANEL_LATENCY_COLUMN_HEADER}} <i class="fa sort-style" 
-                                    [ngClass]="{'fa-sort': sortableColumn != 'latency', 'fa-sort-asc': (sortableColumn == 'latency' && !isDesc),                                        'fa-sort-desc': (sortableColumn == 'latency' && isDesc) }"
-                                    aria-hidden="true"> </i></span></th>
-                                
-                                <th width="35%" style="padding-left: 0px;"><span class="column-header" (click)="sortBy('bandwidth')">{{properties.RIGHT_PANEL_THROUGHPUT_COLUMN_HEADER}} <i class="fa sort-style" 
-                                    [ngClass]="{'fa-sort': sortableColumn != 'bandwidth', 'fa-sort-asc': (sortableColumn == 'bandwidth' && !isDesc),                                        'fa-sort-desc': (sortableColumn == 'bandwidth' && isDesc) }"
-                                    aria-hidden="true"> </i></span></th>
-                            </tr>
-                        </thead>
-                    </table>
-                    <!-- End Analytics table header -->
-                    <!-- List of selected destination regions as per cloud provider -->
-                    <div style="overflow-y: auto; height: 160px">
-                        <table class="table table-striped" style="margin-top: 10px;">
-                            <tbody>
-                                <tr *ngIf="speedtestModel.destinationCloudRegions.azure.length > 0">
-                                    <th>Azure Provider</th> 
-                                </tr>
-                                <tr *ngFor="let region of speedtestModel.destinationCloudRegions.azure">
-                                    <td style="width:35%"><img src="/assets/ic_remove.png" alt="Smiley face" width="17" height="17" style="margin-right: 5px;" (click)="removeRegionFromDestination(region, 'azure');">{{region.region_name}}</td>
-                                    
-                                    <td style="width: 30%; padding-left: 15px" *ngIf="!region.latency">{{properties.NA_TEXT}}</td>
-                                    <td style="width: 30%; padding-left: 15px" *ngIf="region.latency">{{region.latency}}</td>
-                                    <td style="width: 35%; padding-left: 15px" *ngIf="!region.bandwidth">{{properties.NA_TEXT}}</td>
-                                    <td style="width: 35%; padding-left: 15px" *ngIf="region.bandwidth">{{region.bandwidth}}</td>
-                                </tr>
-                                <tr *ngIf="speedtestModel.destinationCloudRegions.aws.length > 0">
-                                    <th>AWS Provider</th>
-                                </tr>
-                                <tr *ngFor="let region of speedtestModel.destinationCloudRegions.aws">
-                                    <td style="width:35%"><img src="/assets/ic_remove.png" alt="Smiley face" width="17" height="17" style="margin-right: 5px;" (click)="removeRegionFromDestination(region, 'aws');">{{region.region_name}}</td>
-                                    
-                                    <td style="width: 30%; padding-left: 15px" *ngIf="!region.latency">{{properties.NA_TEXT}}</td>
-                                    <td style="width: 30%; padding-left: 15px" *ngIf="region.latency">{{region.latency}}</td>
-
-                                    <td style="width: 35%; padding-left: 15px" *ngIf="!region.bandwidth">{{properties.NA_TEXT}}</td>
-                                    <td style="width: 35%; padding-left: 15px" *ngIf="region.bandwidth">{{region.bandwidth}}</td>
-                                </tr>
-                                <tr *ngIf="speedtestModel.destinationCloudRegions.gce.length > 0">
-                                    <th>GCE Provider</th>
-                                </tr>
-                                <tr *ngFor="let region of speedtestModel.destinationCloudRegions.gce">
-                                    <td style="width:35%"><img src="/assets/ic_remove.png" alt="Smiley face" width="17" height="17" style="margin-right: 5px;" (click)="removeRegionFromDestination(region, 'gce');">{{region.region_name}}</td>
-                                    
-                                    <td style="width: 30%; padding-left: 15px" *ngIf="!region.latency">{{properties.NA_TEXT}}</td>
-                                    <td style="width: 30%; padding-left: 15px" *ngIf="region.latency">{{region.latency}}</td>
-                                    <td style="width: 35%; padding-left: 15px" *ngIf="!region.bandwidth">{{properties.NA_TEXT}}</td>
-                                    <td style="width: 35%; padding-left: 15px" *ngIf="region.bandwidth">{{region.bandwidth}}</td>
-                                </tr>
-                                <div *ngIf="speedtestModel.destinationRegions.length < 1" style="background-color: transparent; margin-top: 10px; text-align: center; font-weight: 300; text-transform: none; font-size: 16px;">
-                                    Click on back to select destination region to start test
-                                </div>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- List of selected destination regions as per cloud provider -->
-                </div>
-                <!-- Test Tab content -->
+  </div>
+  <!-- Right panel -->
+  <div class="col-md-6 pad-right-none" *ngIf="beginTest">
+    <div class="card card-radious-none" style="height:370px; overflow-y: auto;">
+      <div class="card-header cart-header-right-panel">
+        <!-- Right Panel tooltip and timestamp -->
+        <div class="row">
+          <div class="col-sm-7 padding-right-0">
+            <div class="card-title card-title-margin">{{properties.RIGHT_PANEL_HEADER}}&nbsp;<i class="fa fa-info-circle fa-lg info-color cursor-pointer" aria-hidden="true" mdTooltip="{{properties.RIGHT_PANEL_TOOLTIP}}"></i></div>
+          </div>
+          <div class="col-sm-5">
+            <div class="pull-right">
+              <i class="fa fa-clock-o fa-lg clock" aria-hidden="true"></i>
+              <md-select class="timestamp" [(ngModel)]="speedtestModel.timestamp" (ngModelChange)="changeTimestamp()">
+                <md-option *ngFor="let range of dashboardModel.timeRanges" [value]="range.value"> {{ range.label }}</md-option>
+              </md-select>
             </div>
-            <!-- Next and Back buttons -->
-            <div>
-                <button class="pull-left active-back-button" (click)="backTab();" *ngIf="!sourceTab"><i class="fa fa-angle-left" aria-hidden="true"></i> Back</button>
-                <button class="pull-left back-button" [disabled]="sourceTab" *ngIf="sourceTab"><i class="fa fa-angle-left" aria-hidden="true"></i> Back</button> 
-                <button class="{{validate() ? 'next_btn pull-right':'next_btn_disabled pull-right'}}"  (click)="nextTab();" [disabled]="!validate()" *ngIf="!testTab">Next <i class="fa fa-angle-right" aria-hidden="true"></i></button> 
-                <button class="pull-right btn btn-start" (click)="startTest();" [disabled]="speedtestModel.destinationRegions.length < 1" *ngIf="!isTestCompleted && !disabledStart && testTab">Begin Test&nbsp;&nbsp;<i class="fa fa-play" aria-hidden="true"></i></button>
-                <button class="btn btn-start" (click)="startTest();" [disabled]="speedtestModel.destinationRegions.length < 1" *ngIf="isTestCompleted || disabledStart && testTab">Restart Test&nbsp;&nbsp;<i class="fa fa-play" aria-hidden="true"></i></button>
+          </div>
+        </div>
+        <!-- End Right Panel tooltip and timestamp -->
+        <!-- Source, Destination, Test Tabs -->
+        <div class="row menu-tab-header">
+          <div class="col-4 col-sm-4 col-md-4 tab-btn" [ngClass]="{'selected-menu-tab': sourceTab, 'menu-tab': !sourceTab && !validationSourceTab(), 'completed-menu-tab': !sourceTab && validationSourceTab()}" align="center" (click)="changeMenuTab(0)"><span class="bubble"></span><span class="line"></span>Source
+          </div>
+          <div class="col-4 col-sm-4 col-md-4 tab-btn" [ngClass]="{'selected-menu-tab': destinationTab, 'menu-tab': !destinationTab && !validationDestnationTab(), 'completed-menu-tab': !destinationTab && validationDestnationTab(), 'incomplete-menu-tab': !validationDestnationTab() && testTab}" align="center" (click)="changeMenuTab(1)"><span class="bubble"></span><span class="line"></span>Destination(s)
+          </div>
+          <div class="col-4 col-sm-4 col-md-4 tab-btn" [ngClass]="{'selected-menu-tab': testTab, 'menu-tab': !testTab, 'incomplete-dest-menu-tab': !validationDestnationTab() && testTab}" align="center" (click)="changeMenuTab(2)"><span class="bubble"></span><span class="line"></span> Results
+          </div>
+        </div>
+        <!-- Source Tab Content-->
+        <div *ngIf="sourceTab" class="source-tab">
+          <div class="row margin-top-40">
+            <md-select class="drop-down" placeholder="Select Cloud Provider" [ngClass]="{'after-sselection-source-cloud': speedtestModel.sourceCloudProvider != '', 'before-sselection-source-cloud': speedtestModel.sourceCloudProvider == ''}" [(ngModel)]="speedtestModel.sourceCloudProvider" (change)="changeSourceCloudProvider()">
+              <md-option value="azure">Azure</md-option>
+              <md-option value="aws">AWS</md-option>
+              <md-option value="gce">GCE</md-option>
+            </md-select>
+          </div>
+          <div class="row margin-top-20">
+            <md-select class="drop-down" [ngClass]="{'after-selection-source-region': speedtestModel.sourceCloudRegion != '', 'before-selection-source-region': speedtestModel.sourceCloudRegion == ''}" placeholder="Select Cloud Region" [(ngModel)]="speedtestModel.sourceCloudRegion" (change)="changeSourceRegion()">
+              <md-option *ngFor="let region of sourceCloudRegions" [value]="region.cloud_info.region">{{ region.label }}</md-option>
+            </md-select>
+          </div>
+        </div>
+        <!-- End Source Tab Content-->
+        <!-- Destination Tab content -->
+        <div class="row height-170" *ngIf="destinationTab">
+          <div class="col-sm-12">
+            <div class="row destination-tab" align="center">
+              <div class="col-4 col-sm-4" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'azure', 'non-active-destination-menu': destinationCloudProvider != 'azure'}">
+                <span class="cursor-pointer" (click)="setDestinationCloudProvider('azure')">Azure</span>
+              </div>
+              <div class="col-4 col-sm-4" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'aws', 'non-active-destination-menu': destinationCloudProvider != 'aws'}">
+                <span class="cursor-pointer" (click)="setDestinationCloudProvider('aws')">AWS</span>
+              </div>
+              <div class="col-4 col-sm-4" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'gce', 'non-active-destination-menu': destinationCloudProvider != 'gce'}">
+                <span class="cursor-pointer" (click)="setDestinationCloudProvider('gce')">GCE</span>
+              </div>
             </div>
-            <!-- End Next and Back buttons -->
+            <div class="row destination-cloud-provider" *ngIf="destinationCloudProvider == 'azure'">
+              <img src="/assets/ic_check_box_filled@2x.png" width="22" height="22" class="margin-right-5 display-inline-text-icon" (click)="selectAndDeselectAllCloudRegions('azure');" *ngIf="selectedAllAzureRegion">
+              <img src="/assets/ic_check_box_outline@2x.png" width="22" height="22" class="margin-right-5 display-inline-text-icon" (click)="selectAndDeselectAllCloudRegions('azure');" *ngIf="!selectedAllAzureRegion">
+              <label (click)="selectAndDeselectAllCloudRegions('azure');" class="display-inline-text-icon" style="margin-top: 5px;">
+                Select All Azure Regions
+              </label>
+            </div>
+            <div class="row destination-cloud-provider" *ngIf="destinationCloudProvider == 'aws'">
+              <img src="/assets/ic_check_box_filled@2x.png" width="22" height="22" class="margin-right-5 display-inline-text-icon" (click)="selectAndDeselectAllCloudRegions('aws');" *ngIf="selectedAllAWSRegion">
+              <img src="/assets/ic_check_box_outline@2x.png" width="22" height="22" class="margin-right-5 display-inline-text-icon" (click)="selectAndDeselectAllCloudRegions('aws');" *ngIf="!selectedAllAWSRegion">
+              <label (click)="selectAndDeselectAllCloudRegions('aws');" class="display-inline-text-icon" style="margin-top: 5px;">
+                Select All AWS Regions
+              </label>
+            </div>
+            <div class="row destination-cloud-provider" *ngIf="destinationCloudProvider == 'gce'">
+              <img src="/assets/ic_check_box_filled@2x.png" width="22" height="22" class="margin-right-5 display-inline-text-icon" (click)="selectAndDeselectAllCloudRegions('gce');" *ngIf="selectedAllGCERegion">
+              <img src="/assets/ic_check_box_outline@2x.png" width="22" height="22" class="margin-right-5 display-inline-text-icon" (click)="selectAndDeselectAllCloudRegions('gce');" *ngIf="!selectedAllGCERegion">
+              <label (click)="selectAndDeselectAllCloudRegions('gce');" class="display-inline-text-icon" style="margin-top: 5px;">
+                Select All GCE Regions
+              </label>
+            </div>
+            <div class="row destination-region" *ngIf="destinationCloudProvider == 'azure'">
+              <template ngFor let-option [ngForOf]="dashboardModel.azureRegions" let-i="index">
+                <div class="col-sm-6 padding-0" *ngIf="speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion">
+                  <img src="/assets/ic_check_box_filled@2x.png" alt="Region" width="22" height="22" class="margin-right-5 display-inline-text-icon" (click)="updateCheckbox(option);" *ngIf="option.isSelected && (speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion)">
+                  <img src="/assets/ic_check_box_outline@2x.png" alt="Region" width="22" height="22" class="margin-right-5 display-inline-text-icon" (click)="updateCheckbox(option);" *ngIf="!option.isSelected && (speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion)">
+                  <label *ngIf="speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion" class="padding-top-10 display-inline-text-icon" (click)="updateCheckbox(option);">
+                    {{option.label}}
+                  </label>
+                </div>
+              </template>
+            </div>
+            <div class="row destination-region" *ngIf="destinationCloudProvider == 'aws'">
+              <template ngFor let-option [ngForOf]="dashboardModel.awsRegions" let-i="index">
+                <div class="col-md-6 padding-0" *ngIf="speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion">
+                  <img src="/assets/ic_check_box_filled@2x.png" alt="Region" width="22" height="22" class="margin-right-5 display-inline-text-icon" (click)="updateCheckbox(option);" *ngIf="option.isSelected && (speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion)">
+                  <img src="/assets/ic_check_box_outline@2x.png" alt="Region" width="22" height="22" class="margin-right-5 display-inline-text-icon" (click)="updateCheckbox(option);" *ngIf="!option.isSelected && (speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion)">
+                  <label *ngIf="speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion" class="padding-top-10 display-inline-text-icon" (click)="updateCheckbox(option);">
+                    {{option.label}}
+                  </label>
+                </div>
+              </template>
+            </div>
+            <div class="row destination-region" *ngIf="destinationCloudProvider == 'gce'">
+              <template ngFor let-option [ngForOf]="dashboardModel.gceRegions" let-i="index">
+                <div class="col-md-6 padding-0" *ngIf="speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion">
+                  <img src="/assets/ic_check_box_filled@2x.png" alt="Region" width="22" height="22" class="margin-right-5 display-inline-text-icon" (click)="updateCheckbox(option);" *ngIf="option.isSelected && (speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion)">
+                  <img src="/assets/ic_check_box_outline@2x.png" alt="Region" width="22" height="22" class="margin-right-5 display-inline-text-icon" (click)="updateCheckbox(option);" *ngIf="!option.isSelected && (speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion)">
+                  <label *ngIf="speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion" class="padding-top-10 display-inline-text-icon" (click)="updateCheckbox(option);">
+                    {{option.label}}
+                  </label>
+                </div>
+              </template>
+            </div>
+          </div>
+        </div>
+        <!-- End Destination Tab content -->
+        <!-- Test Tab content -->
+        <div *ngIf="testTab" class="row" style="margin-bottom: -5%;">
+          <div class="col-sm-12">
+            <div class="row test-source">
+              <div class="col-sm-5">
+                <span class="test-source-cloud-label">Source Provider:&nbsp;</span>
+                <span>
+                  <span class="color-a8a8a8" *ngIf="speedtestModel.sourceCloudProvider == 'aws'">AWS</span>
+                <span class="color-a8a8a8" *ngIf="speedtestModel.sourceCloudProvider == 'azure'">Azure</span>
+                <span class="color-a8a8a8" *ngIf="speedtestModel.sourceCloudProvider == 'gce'">GCE</span>
+                </span>
+              </div>
+              <div class="col-sm-7">
+                <span class="test-source-region-label">Source Region:&nbsp;</span>
+                <span class="color-a8a8a8">{{currentSourceRegion.region_name}}</span>
+              </div>
+            </div>
+            <!-- Analytics table header -->
+            <div class="row margin-none">
+              <table class="table table-striped region-table-header text-wrap">
+                <thead>
+                  <tr>
+                    <th colspan="2" width="53%">
+                      <span class="column-header" (click)="sortBy('region_name')">{{properties.RIGHT_PANEL_REGION_COLUMN_HEADER}} <i class="fa sort-style" [ngClass]="{'fa-sort': sortableColumn != 'region_name', 'fa-sort-asc': (sortableColumn == 'region_name' && !isDesc), 'fa-sort-desc': (sortableColumn == 'region_name' && isDesc) }" aria-hidden="true"> </i>
+                  </span>
+                    </th>
+                    <th width="23%" style="padding-left: 2px;">
+                      <span class="column-header" (click)="sortBy('latency')">{{properties.RIGHT_PANEL_LATENCY_COLUMN_HEADER}} <i class="fa sort-style" [ngClass]="{'fa-sort': sortableColumn != 'latency', 'fa-sort-asc': (sortableColumn == 'latency' && !isDesc), 'fa-sort-desc': (sortableColumn == 'latency' && isDesc) }" aria-hidden="true"> </i>
+                  </span>
+                    </th>
+                    <th width="24%" style="padding-left: 0px;">
+                      <span class="column-header" (click)="sortBy('bandwidth')">{{properties.RIGHT_PANEL_THROUGHPUT_COLUMN_HEADER}}
+                    <i class="fa sort-style" [ngClass]="{'fa-sort': sortableColumn != 'bandwidth', 'fa-sort-asc': (sortableColumn == 'bandwidth' && !isDesc), 'fa-sort-desc': (sortableColumn == 'bandwidth' && isDesc) }" aria-hidden="true"> </i>
+                  </span>
+                    </th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+            <!-- End Analytics table header -->
+            <!-- List of selected destination regions as per cloud provider -->
+            <div class="row destination-region-table margin-none" style="width:100%;">
+              <table class="table table-striped">
+                <tbody>
+                  <tr *ngFor="let region of speedtestModel.destinationRegions">
+                    <td style="width:7%"><img src="{{region.logoUrl}}" alt="Region" width="17" height="17"></td>
+                    <td class="text-wrap" style="width:46%;">{{region.region_name}}</td>
+                    <td style="width: 23%; padding-left: 15px">
+                      <span *ngIf="!region.latency"> {{properties.NA_TEXT}}</span>
+                      <span *ngIf="region.latency">{{region.latency}}</span>
+                    </td>
+                    <td style="width: 24%; padding-left: 15px">
+                      <span *ngIf="!region.bandwidth">{{properties.NA_TEXT}}
+                        <img src="/assets/ic_remove.png" class="pull-right" alt="Region" width="17" height="17" style="cursor: pointer;" (click)="removeRegionFromDestination(region, region.cloudProvider);">
+                    </span>
+                      <span *ngIf="region.bandwidth">{{region.bandwidth}}
+                        <img src="/assets/ic_remove.png" class="pull-right" alt="Region" width="17" height="17" style="cursor: pointer;" (click)="removeRegionFromDestination(region, region.cloudProvider);">
+                    </span>
+                    </td>
+                  </tr>
+                  <div class="empty-destination-label" *ngIf="speedtestModel.destinationRegions.length < 1">
+                    Click on destination(s) tab to select destination(s) region to start test
+                  </div>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- List of selected destination regions as per cloud provider -->
         </div>
         <!-- Test Tab content -->
+      </div>
+      <!-- Next and Back buttons -->
+      <div class="flow-buttons-bottom">
+        <a class="pull-left active-back-button" (click)="backTab();" *ngIf="destinationTab"><i class="fa fa-chevron-left padding-right-10" aria-hidden="true"></i> Previous</a>
+        <button class="{{validate() ? 'pull-right btn btn-start next-button-common':'btn next_btn_disabled pull-right next-button-common'}}" (click)="nextTab();" [disabled]="!validate()" *ngIf="!testTab">Next <i class="fa fa-chevron-right padding-left-10" aria-hidden="true"></i></button>
+        <!-- <button class="pull-right btn btn-start outline-none" (click)="startTest();" [disabled]="speedtestModel.destinationRegions.length < 1" *ngIf="!isTestCompleted && !disabledStart && testTab">Begin Test&nbsp;&nbsp;<i class="fa fa-play" aria-hidden="true"></i></button> -->
+        <button class="btn btn-start outline-none" (click)="startTest();" [disabled]="speedtestModel.destinationRegions.length < 1" *ngIf="testTab">Restart Test<i class="fa fa-play padding-left-10" aria-hidden="true"></i></button>
+      </div>
+      <!-- End Next and Back buttons -->
     </div>
-    <!-- End Right Panel -->
+    <!-- Test Tab content -->
+  </div>
+  <!-- End Right Panel -->
+  <!-- Left panel with map -->
+  <div class="col-md-6">
+    <div class="card card-radious-none" style="height:370px;">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-sm-7padding-right-0">
+            <div class="card-title card-title-margin">Cloud Regions &nbsp;
+              <i class="fa fa-info-circle fa-lg info-color cursor-pointer" aria-hidden="true" mdTooltip="{{properties.CLOUD_REGION_TOOLTIP}}"></i>
+            </div>
+          </div>
+          <!-- <div class="col-md-6">
+                  <div class="pull-right">
+                      <i class="fa fa-clock-o fa-lg clock" aria-hidden="true"></i>
+                      <select class="timestamp" [(ngModel)]="speedtestModel.timestamp" (ngModelChange)="changeTimestamp()">
+                          <option *ngFor="let range of dashboardModel.timeRanges" [value]="range.value"> {{ range.label }}</option>
+                      </select>
+                  </div>
+              </div> -->
+        </div>
+      </div>
+      <div class="card-block padding-0">
+        <div id="map" class="height-306"></div>
+      </div>
+    </div>
+  </div>
+  <!-- End Left panel with map -->
 </div>
 <!-- End Right and left panel -->
 <!-- Left and Right panel for latency and throughput graphs -->
-<div class="row mrg-bottom-15">
-    <!-- Left panel with latency grapg -->
-    <div class="col-md-6 pad-right-none">
-        <div class="card card-radious-none">
-            <div class="card-header">
-                <div class="row">
-                    <div class="col-md-9"><h6 class="card-title card-title-margin">{{properties.LATENCY_CHART_HEADER}} <span>&nbsp; <i class="fa fa-info-circle fa-lg info-color cursor-pointer" aria-hidden="true" mdTooltip="{{properties.LATENCY_CHART_TOOLTIP}}" mdTooltipPosition="right"></i></span></h6></div>
-                    <div class="col-md-3" *ngIf="chartLoaded">
-                        <select class="form-control" style="width: 135px; font-size: 14px;" [(ngModel)]="speedtestModel.timestamp" (ngModelChange)="ChangeTimestamp()" [disabled]="speedtestModel.destinationRegions.length < 1 || disabledStart">
-                            <option *ngFor="let range of dashboardModel.timeRanges" [value]="range.value"> {{ range.label }}</option>
-                        </select>    
-                    </div>
-                </div>
-            </div>
-            <div class="card-block" #latencyCard>
-                <chart [options]="latencyOptions" (load)="latencyInstance($event.context)"  *ngIf="latencyOptions !== null" class="chart-height"></chart>
-                <h6 *ngIf="!chartLoaded" style="margin-top: 0px; margin-bottom: 0px; font-weight: 300; text-transform: none;">Click on Begin Speed Test on the top of the page.</h6>
-            </div>
+<div class="row mrg-bottom-15 padding-left-right-15">
+  <!-- Left panel with latency grapg -->
+  <div class="col-md-6 pad-right-none">
+    <div class="card card-radious-none">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-9">
+            <h6 class="card-title card-title-margin">{{properties.LATENCY_CHART_HEADER}} <span>&nbsp; <i class="fa fa-info-circle fa-lg info-color cursor-pointer" aria-hidden="true" mdTooltip="{{properties.LATENCY_CHART_TOOLTIP}}" mdTooltipPosition="right"></i></span></h6></div>
         </div>
+      </div>
+      <div class="card-block" #latencyCard>
+        <chart [options]="latencyOptions" (load)="latencyInstance($event.context)" *ngIf="latencyOptions !== null" class="chart-height" [ngClass]="{'display-block': chartLoaded}"></chart>
+        <h6 class="chart-label" *ngIf="!chartLoaded">Select source and destination(s) to begin test.</h6>
+      </div>
     </div>
-    <!-- End Left panel with latency grapg -->
-    <!-- Right panel with throughput grapg -->
-    <div class="col-md-6">
-        <div class="card card-radious-none">
-             <div class="card-header">
-                <div class="row">
-                    <div class="col-md-9"><h6 class="card-title card-title-margin">{{properties.THROUGHPUT_CHART_HEADER}}  <span>&nbsp; <i class="fa fa-info-circle fa-lg info-color cursor-pointer" aria-hidden="true" mdTooltip="{{properties.THROUGHPUT_PANEL_TOOLTIP}}" mdTooltipPosition="right"></i></span></h6></div>
-                    <div class="col-md-3" *ngIf="chartLoaded">
-                        <select class="form-control" style="width: 135px; font-size: 14px;" [(ngModel)]="speedtestModel.timestamp" (ngModelChange)="ChangeTimestamp()" [disabled]="speedtestModel.destinationRegions.length < 1 || disabledStart">
-                            <option *ngFor="let range of dashboardModel.timeRanges" [value]="range.value"> {{ range.label }}</option>
-                        </select>    
-                    </div>
-                </div>
-
-            </div>
-            <div class="card-block">
-                <chart [options]="bandwidthOptions" (load)="bandwidthInstance($event.context)" *ngIf="bandwidthOptions !== null" class="chart-height"></chart>
-                 <h6 *ngIf="!chartLoaded" style="margin-top: 0px; margin-bottom: 0px; font-weight: 300; text-transform: none;">Click on Begin Speed Test on the top of the page.</h6>
-            </div>
+  </div>
+  <!-- End Left panel with latency grapg -->
+  <!-- Right panel with throughput grapg -->
+  <div class="col-md-6">
+    <div class="card card-radious-none">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-md-9">
+            <h6 class="card-title card-title-margin">{{properties.THROUGHPUT_CHART_HEADER}}  <span>&nbsp; <i class="fa fa-info-circle fa-lg info-color cursor-pointer" aria-hidden="true" mdTooltip="{{properties.THROUGHPUT_PANEL_TOOLTIP}}" mdTooltipPosition="right"></i></span></h6></div>
         </div>
+      </div>
+      <div class="card-block">
+        <chart [options]="bandwidthOptions" (load)="bandwidthInstance($event.context)" *ngIf="bandwidthOptions !== null" class="chart-height display-block" [ngClass]="{'display-block': chartLoaded}"></chart>
+        <h6 class="chart-label" *ngIf="!chartLoaded">Select source and destination(s) to begin test.</h6>
+      </div>
     </div>
-    <!-- End Left panel with latency grapg -->
+  </div>
+  <!-- End Left panel with latency grapg -->
 </div>
 <!-- End Left and Right panel for latency and throughput graphs -->
