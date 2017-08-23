@@ -3,9 +3,8 @@ import service
 from flask import Flask, request, Response
 from flask_cors import CORS, cross_origin
 from influxdb import InfluxDBClient
+from werkzeug.serving import run_simple
 import constants
-# from config.Config import (INFLUX_DB_HOST, INFLUX_DB_PORT, INFLUX_DB_USERNAME, INFLUX_DB_PASSWORD, INFLUX_DB_DBNAME)
-# import config
 
 
 app = Flask(__name__)
@@ -26,7 +25,11 @@ def get_speedtest():
     destination_regions = data.get('destination_regions', [])
     timestamp = data.get('timestamp', None)
     if not (cloud_id and source_region and destination_regions and timestamp):
-        return Response("Bad Request", status=500)
+        return Response("Bad Request", status=400)
+    if source_region in destination_regions:
+	return Response("Source region and destination region can not be same.", status=400)
+    if timestamp not in ['12h', '1d', '7d', '15d', '30d']:
+	return Response("Invalid time period.", status=400)
     latency_throughput = service.get_letency_throughput(cloud_id, source_region, destination_regions, timestamp,
                                                         influx_db_client)
     if latency_throughput:
@@ -52,4 +55,5 @@ def save_speedtest():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    from werkzeug.serving import run_simple
+    run_simple('0.0.0.0', 5000, app, use_reloader=True, threaded=True)
