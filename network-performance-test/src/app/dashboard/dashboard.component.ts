@@ -68,6 +68,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
   cloudPinPath: any;
   chartColors: any;
   userLocation: any;
+  isPopupOpen: boolean;
 
   TEST_MINUTES: number = 35;
   TEST_INTERVAL: number = 5000;
@@ -127,6 +128,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
      this.worstRegion = null;
      this.bestLatencyRegion = null;
      this.isTestCompleted = false;
+     this.isPopupOpen = false;
   }
 
   /**
@@ -137,10 +139,12 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
    this.slimLoadingBarService.complete();
    this.slimLoadingBarService.reset();
    this.slimLoadingBarService.progress = 0;
-   let config = new MdDialogConfig();
-   let dialogRef:MdDialogRef<ModalComponent> = this.dialog.open(ModalComponent, config);
-   dialogRef.componentInstance.bestLatencyRegion = this.bestLatencyRegion;
-   dialogRef.componentInstance.bestBandwidthRegion = this.bestBandwidthRegion;
+   if(this.bestLatencyRegion.latency != 0.00 && this.bestBandwidthRegion.bandwidth != 0.00) {
+     let config = new MdDialogConfig();
+     let dialogRef:MdDialogRef<ModalComponent> = this.dialog.open(ModalComponent, config);
+     dialogRef.componentInstance.bestLatencyRegion = this.bestLatencyRegion;
+     dialogRef.componentInstance.bestBandwidthRegion = this.bestBandwidthRegion;
+   }
   }
 
   /**
@@ -372,6 +376,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     // Disabling start button
     this.disabledStart = true;
     this.isTestCompleted = false;
+    this.isPopupOpen = false;
 
     // Reseting statistics.
     this.latency =  this.properties.NA_TEXT;
@@ -391,6 +396,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     for(let index = 0; index < this.locations.length; index++) {
       let object: any = this.locations[index];
       object.latencyCompleted = false;
+      object.bandwidthCompleted = false;
       object.latency = null;
       object.bandwidth = null;
       object.dashboardModel = new DashboardModel();
@@ -482,7 +488,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
             let speedBps: any = (bitsLoaded / duration).toFixed(2);
             let speedKbps: any = (speedBps / 1024).toFixed(2);
             let speedMbps = (speedKbps / 1024).toFixed(2);
-            if (obj.firstBandwidthPass) {
+            if (obj.firstBandwidthPass && !this.isPopupOpen) {
               obj.dashboardModel.bandwidth[obj.currentBandwidthIndex].value = parseFloat(speedMbps);
               this.bandwidthChart.series[index].data[obj.currentBandwidthIndex].update({"y": parseFloat(speedMbps)});
               obj.currentBandwidthIndex++;
@@ -514,12 +520,18 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
   getBandwidth(obj) {
     if (obj.dashboardModel.bandwidth.length > 0) {
       let _bandwidth:number = 0;
+      let _total_bandwidth_request = 0;
       for (let index = 0 ; index < obj.dashboardModel.bandwidth.length; index++) {
-        if(null != obj.dashboardModel.bandwidth[index].value) {
+        if(null != obj.dashboardModel.bandwidth[index].value && obj.dashboardModel.bandwidth[index].value != 0.00) {
           _bandwidth = _bandwidth + parseFloat(obj.dashboardModel.bandwidth[index].value);
+          _total_bandwidth_request += 1;
         }
       }
-     obj.bandwidth =  (_bandwidth / obj.dashboardModel.bandwidth.length).toFixed(2);
+      if(_total_bandwidth_request > 0) {
+        obj.bandwidth =  (_bandwidth / _total_bandwidth_request).toFixed(2);
+      } else {
+        obj.bandwidth = 0.00;
+      }
     }
   }
 
@@ -542,7 +554,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
         let pingStart = new Date();
         var cacheBuster = "?nnn=" + pingStart;
         download.onerror = function() {
-          if (obj.firstLatencyPass) {
+          if (obj.firstLatencyPass && !current.isPopupOpen) {
               let pingEnd = new Date();
               let ping: number = (pingEnd.getTime() - pingStart.getTime());
               obj.dashboardModel.latency[obj.currentLatencyIndex].value = Math.round(ping);
@@ -575,13 +587,18 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
   getLatency(obj) {
     if (obj.dashboardModel.latency.length > 0) {
       let _latency:number = 0;
+      let _total_Latency_request = 0;
       for (let index = 0 ; index < obj.dashboardModel.latency.length; index++) {
-        if(null != obj.dashboardModel.latency[index].value) {
+        if(null != obj.dashboardModel.latency[index].value && obj.dashboardModel.latency[index].value != 0.00) {
           _latency = _latency + parseFloat(obj.dashboardModel.latency[index].value);
+          _total_Latency_request += 1;
         }
       }
-
-     obj.latency =  (_latency / obj.dashboardModel.latency.length).toFixed(2);
+     if(_total_Latency_request) {
+       obj.latency =  (_latency / _total_Latency_request).toFixed(2);
+     } else {
+       obj.latency = 0.00;
+     }
     }
   }
 
@@ -685,6 +702,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
       this.isTestCompleted = true;
       this.getBestLatencyAndBandwidth();
       this.disabledStart = false;
+      this.isPopupOpen = true;
       this.openDialog();
     } else {
         setTimeout(() => this.isProcessCompleted(), 10);

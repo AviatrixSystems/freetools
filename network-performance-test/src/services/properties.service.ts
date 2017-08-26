@@ -69,8 +69,8 @@ export class PropertiesService {
 
   public SHARE_POST: string ='Checkout the cool free cloud speed test from Aviatrix!';
 
-  public GOOGLE_API_KEY: string = 'AIzaSyAAPCDwjWqAyGu01LSKytb4tQIjQSrKw30';  // For development
-  // public GOOGLE_API_KEY: string = 'AIzaSyD9N5DDr-Lzla4dTHE2ZpysyxkMtZFBpUo'; // For Production key
+  // public GOOGLE_API_KEY: string = 'AIzaSyAAPCDwjWqAyGu01LSKytb4tQIjQSrKw30';  // For development
+  public GOOGLE_API_KEY: string = 'AIzaSyD9N5DDr-Lzla4dTHE2ZpysyxkMtZFBpUo'; // For Production key
 
   public AWS_DOWNLOAD_URL: string = 'https://aws.amazon.com/marketplace/seller-profile/ref=dtl_pcp_sold_by?id=ba8fdede-964b-475d-b679-0f9f899f6293';
   public AZURE_DOWNLOAD_URL: string = 'https://azure.microsoft.com/en-us/marketplace/partners/aviatrix-systems/aviatrix-cloud-services/';

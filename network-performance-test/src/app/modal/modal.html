@@ -33,13 +33,15 @@
             <span class="font-size-12">Latency</span>
         </div>
         <div class="col-md-2 margin-left-minus-67" align="center">
-            <span class="font-size-18">{{bestLatencyRegion.bandwidth | number : '1.1-2' }} mbps</span>
+            <span class="font-size-18" *ngIf="bestLatencyRegion.bandwidth == 0.00">N/A</span>
+            <span class="font-size-18" *ngIf="bestLatencyRegion.bandwidth != 0.00">{{bestLatencyRegion.bandwidth | number : '1.1-2' }} mbps</span>
             <br>
             <span class="font-size-12">Throughput</span>
         </div>
         <div class="col-md-1"></div>
         <div class="col-md-3" align="center">
-            <span class="font-size-18">{{ bestBandwidthRegion.latency | number : '1.1-2' }} msec</span>
+            <span class="font-size-18" *ngIf="bestBandwidthRegion.latency == 0.00">N/A</span>
+            <span class="font-size-18" *ngIf="bestBandwidthRegion.latency != 0.00">{{ bestBandwidthRegion.latency | number : '1.1-2' }} msec</span>
             <br>
             <span class="font-size-12">Latency</span>
         </div>
