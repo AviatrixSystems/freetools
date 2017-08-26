@@ -50,8 +50,8 @@ export class PropertiesService {
 
   public SHARE_POST: string ='Checkout the cool free cloud speed test from Aviatrix!';
 
-  public GOOGLE_API_KEY: string = 'AIzaSyAAPCDwjWqAyGu01LSKytb4tQIjQSrKw30';  // For development
-  // public GOOGLE_API_KEY: string = 'AIzaSyD9N5DDr-Lzla4dTHE2ZpysyxkMtZFBpUo'; // For Production key
+  // public GOOGLE_API_KEY: string = 'AIzaSyAAPCDwjWqAyGu01LSKytb4tQIjQSrKw30';  // For development
+  public GOOGLE_API_KEY: string = 'AIzaSyD9N5DDr-Lzla4dTHE2ZpysyxkMtZFBpUo'; // For Production key
 
   public CLOUD_REGION_TOOLTIP: string = "This Aviatrix cloud tool measures network connectivity data from a single selected source to multiple cloud destination regions. Use this tool to confidently plan your multi-region and multi-cloud deployments.";
   public INVENTORY_GET_ERROR_MESSAGE: string = "Failed to get inventories.";
