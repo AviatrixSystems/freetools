@@ -69,6 +69,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
   chartColors: any;
   userLocation: any;
   isPopupOpen: boolean;
+  isTestStopped: boolean;
 
   TEST_MINUTES: number = 35;
   TEST_INTERVAL: number = 5000;
@@ -129,6 +130,8 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
      this.bestLatencyRegion = null;
      this.isTestCompleted = false;
      this.isPopupOpen = false;
+     this.isTestStopped = false;
+
   }
 
   /**
@@ -371,6 +374,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
    */
   startTest() {
     // Start progress bar
+    this.isTestStopped = false;
     this.beginTest = true;
     this.slimLoadingBarService.progress = 0;
     // Disabling start button
@@ -547,7 +551,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     let obj = this.locations[index];
     let current = this;
     if (this.getTimeDiffInSeconds(obj.pingStartTime, index) < this.TEST_MINUTES 
-        && this.disabledStart) {
+        && this.disabledStart && !current.isTestStopped) {
        setTimeout(() => this.setLatency(index), this.TEST_INTERVAL);
 
         var download = new Image() ;
@@ -611,7 +615,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     let obj = this.locations[index];
 
     if (this.getTimeDiffInSeconds(obj.pingStartTime, index) < this.TEST_MINUTES 
-        && this.disabledStart) {
+        && this.disabledStart && this.isTestStopped) {
        setTimeout(() => this.setResponseTime(index), this.TEST_INTERVAL);
        let pingStart = new Date();
        var cacheBuster = "?nnn=" + pingStart;
@@ -749,6 +753,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
    */
   stopTest() {
     // set progress bar as complete 
+    this.isTestStopped = true;
     this.slimLoadingBarService.progress = 0;
     this.slimLoadingBarService.complete();
     this.disabledStart = false;
@@ -983,6 +988,30 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
 
       // L.Polyline.Arc([self.userLocation.latitude, self.userLocation.longitude], [object.lat, object.lng], {color: object.color,  weight: 1,
       // vertices: 50}).addTo(map);
+    }
+  }
+
+  getBestlatencyregion() {
+    if(!this.bestLatencyRegion && !this.disabledStart) {
+      return this.properties.NA_TEXT;
+    } else if(!this.bestLatencyRegion && this.disabledStart) {
+      return this.properties.CALCULATING_TEXT;
+    } else if(this.bestLatencyRegion && !this.disabledStart && this.bestLatencyRegion.latency != 0.0) {
+      return this.bestLatencyRegion.region_name;
+    } else {
+      return this.properties.NA_TEXT;
+    }
+  }
+
+  getBestBandwidthregion() {
+    if(!this.bestBandwidthRegion && !this.disabledStart) {
+      return this.properties.NA_TEXT;
+    } else if(!this.bestBandwidthRegion && this.disabledStart) {
+      return this.properties.CALCULATING_TEXT;
+    } else if(this.bestBandwidthRegion && !this.disabledStart && this.bestBandwidthRegion.bandwidth != 0.0) {
+      return this.bestBandwidthRegion.region_name;
+    } else {
+      return this.properties.NA_TEXT;
     }
   }
 
