@@ -479,7 +479,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     var downloadSize = 2621440; //bytes
     let dashboard = this;
     if (this.getTimeDiffInSeconds(obj.pingStartTime, index) < this.TEST_MINUTES 
-        && this.disabledStart) {
+        && this.disabledStart && !this.isTestStopped) {
         obj.throughputCallIndex = obj.throughputCallIndex === undefined ? 0 : (obj.throughputCallIndex + 1);
       
         setTimeout(()=>this.setBandwith(index),this.TEST_INTERVAL);
@@ -493,16 +493,25 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
             let speedKbps: any = (speedBps / 1024).toFixed(2);
             let speedMbps = (speedKbps / 1024).toFixed(2);
             if (obj.firstBandwidthPass && !this.isPopupOpen) {
-              obj.dashboardModel.bandwidth[obj.currentBandwidthIndex].value = parseFloat(speedMbps);
-              this.bandwidthChart.series[index].data[obj.currentBandwidthIndex].update({"y": parseFloat(speedMbps)});
-              obj.currentBandwidthIndex++;
-              this.slimLoadingBarService.progress += this.progressFactor;
-              // console.log("Region: " + obj.region_name + " Current index: " + obj.currentBandwidthIndex + " call index: " + obj.throughputCallIndex);
-              if(obj.currentBandwidthIndex > 5) {
-                this.getBandwidth(obj);
-                obj.bandwidthCompleted = true;
-                setTimeout(() => this.isProcessCompleted(), 5);
+              if(!this.isTestStopped) {
+                obj.dashboardModel.bandwidth[obj.currentBandwidthIndex].value = parseFloat(speedMbps);
+                this.bandwidthChart.series[index].data[obj.currentBandwidthIndex].update({"y": parseFloat(speedMbps)});
+                obj.currentBandwidthIndex++;
+                this.slimLoadingBarService.progress += this.progressFactor;
+                // console.log("Region: " + obj.region_name + " Current index: " + obj.currentBandwidthIndex + " call index: " + obj.throughputCallIndex);
+                if(obj.currentBandwidthIndex > 5) {
+                  this.getBandwidth(obj);
+                  obj.bandwidthCompleted = true;
+                  setTimeout(() => this.isProcessCompleted(), 5);
+                }
+              } else {
+                if (!this.disabledStart) {
+                  this.getBandwidth(obj);
+                  obj.bandwidthCompleted = true;
+                  setTimeout(() => this.isProcessCompleted(), 5);
+                }
               }
+              
             } else {
               obj.firstBandwidthPass = true;
             }
@@ -559,15 +568,24 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
         var cacheBuster = "?nnn=" + pingStart;
         download.onerror = function() {
           if (obj.firstLatencyPass && !current.isPopupOpen) {
-              let pingEnd = new Date();
-              let ping: number = (pingEnd.getTime() - pingStart.getTime());
-              obj.dashboardModel.latency[obj.currentLatencyIndex].value = Math.round(ping);
-              current.latencyChart.series[index].data[obj.currentLatencyIndex].update({"y": Math.round(ping)});
-              obj.currentLatencyIndex++;
-              current.slimLoadingBarService.progress += current.progressFactor;
-              if (obj.currentLatencyIndex > 5) {
-                obj.latencyCompleted = true;
+              if(!current.isTestStopped) {
+                   let pingEnd = new Date();
+                let ping: number = (pingEnd.getTime() - pingStart.getTime());
+                obj.dashboardModel.latency[obj.currentLatencyIndex].value = Math.round(ping);
+                current.latencyChart.series[index].data[obj.currentLatencyIndex].update({"y": Math.round(ping)});
+                obj.currentLatencyIndex++;
+                current.slimLoadingBarService.progress += current.progressFactor;
+                if (obj.currentLatencyIndex > 5) {
+                  obj.latencyCompleted = true;
+                }
+              } else {
+                current.getLatency(obj);
+                 obj.latencyCompleted = true;
+                if(!current.disabledStart) {
+                  setTimeout(() => current.isProcessCompleted(), 5);
+                }
               }
+              
           } else {
               obj.firstLatencyPass = true;
           }
@@ -682,25 +700,25 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
    */
   isProcessCompleted() {
     let processCompleted: boolean = false;
-    for(let index = 0; index < this.locations.length; index++) {
-      let object: any = this.locations[index];
-      // console.log("Region: " + object.region_name + " Latency completed: " + object.latencyCompleted + " Th completed: " + object.bandwidthCompleted);
-      if(object.latencyCompleted) {
-        this.getLatency(object);
-      }
+      for(let index = 0; index < this.locations.length; index++) {
+        let object: any = this.locations[index];
+        // console.log("Region: " + object.region_name + " Latency completed: " + object.latencyCompleted + " Th completed: " + object.bandwidthCompleted);
+        if(object.latencyCompleted) {
+          this.getLatency(object);
+        }
 
-      if(object.bandwidthCompleted) {
-        this.getBandwidth(object);
-      }
+        if(object.bandwidthCompleted) {
+          this.getBandwidth(object);
+        }
 
-      if (object.latencyCompleted 
-          && object.bandwidthCompleted) {
-        processCompleted = true;
-      } else {
-        processCompleted = false;
-        break;
+        if (object.latencyCompleted 
+            && object.bandwidthCompleted) {
+          processCompleted = true;
+        } else {
+          processCompleted = false;
+          break;
+        }
       }
-    }
 
     if (processCompleted && !this.isTestCompleted) {
       this.isTestCompleted = true;
