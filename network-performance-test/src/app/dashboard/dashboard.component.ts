@@ -84,6 +84,17 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
   AZURE_CLOUD: boolean = false;
   GCE_CLOUD: boolean = false;
 
+  currentThroughputObj: any;
+  isgaugePopupOpen: boolean = false;
+  gaugeOptions: any;
+  locationsResponseObj: any = [];
+  gaugeChart: any;
+
+  gaugechartmessage: string
+
+  recievedPackets: any;
+  downloadingPackets: any;
+
   constructor(private http: Http,
               private dashboardService: DashboardService,
               public properties: PropertiesService,
@@ -114,6 +125,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
       this.latencyChart = null;
       this.responseTimeChart = null;
       this.bandwidthChart = null;
+      this.gaugeChart = null;
       this.dashboardModel = new DashboardModel();
   	  this.clouds = [
                 	    {value: '0', viewValue: 'All Cloud'},
@@ -131,7 +143,8 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
      this.isTestCompleted = false;
      this.isPopupOpen = false;
      this.isTestStopped = false;
-
+     this.recievedPackets = {}
+     this.downloadingPackets = {}
   }
 
   /**
@@ -175,6 +188,15 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
    */
   bandwidthInstance(chartInstance) {
     this.bandwidthChart = chartInstance;
+  }
+
+  /**
+   * bandwidth instance
+   * [bandwidthInstance description]
+   * @param {[type]} chartInstance [chart instance]
+   */
+  guagechartInstance(chartInstance) {
+    this.gaugeChart = chartInstance;
   }
 
   ngOnInit() {
@@ -388,14 +410,14 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     this.bandwidth = this.properties.NA_TEXT;
     this.bestLatencyRegion = null;
     this.bestBandwidthRegion = null;
+    this.isgaugePopupOpen = true;
 
     // Setting latency chart configuration
     let latencySeries: any = [];
 
     // Setting latency chart configuration
     let badwidthSeries: any = [];
-
-
+    let locationsResponseObj: any = []
     // Starting test for regions
     for(let index = 0; index < this.locations.length; index++) {
       let object: any = this.locations[index];
@@ -421,11 +443,13 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
       this.setDataPoint(object.dashboardModel.bandwidth, object);
       badwidthSeries.push(this.getSeriesData('spline', object.label, this.getChartData(object.dashboardModel.bandwidth)));
       setTimeout(()=>this.setBandwith(index),10);
-      
     }
 
     this.latencyOptions = this.getChartConfig('', this.properties.MILISECONDS, latencySeries, 'spline');
     this.bandwidthOptions = this.getChartConfig('', this.properties.MBPS, badwidthSeries, 'spline');
+    this.gaugeOptions = this.getGaugeChartConfig();
+
+
   }
 
   /**
@@ -470,6 +494,17 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
   }
 
   /**
+   * [updateGaugeChart description]
+   * @param {[percentage of chart completion]} value
+   */
+  updateGaugeChart(value) {
+    if(this.gaugeOptions){
+      var point = this.gaugeChart.series[0].points[0];
+      var newVal = value;
+      point.update(newVal);
+    }
+  }
+  /**
    * set bandwidth
    * [setBandwith description]
    * @param {[type]} index [index of region]
@@ -485,6 +520,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
         setTimeout(()=>this.setBandwith(index),this.TEST_INTERVAL);
         let pingStart = new Date();
         var cacheBuster = "?nnn=" + pingStart;
+        this.recievedPackets = obj;
         this.dashboardService.getBandwidth(obj.url + this.properties.BANDWIDTH_IMG + cacheBuster).subscribe((data:any ) =>{
             let pingEnd = new Date();
             let duration: number = ((pingEnd.getTime() - pingStart.getTime())/1000);
@@ -495,9 +531,11 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
             if (obj.firstBandwidthPass && !this.isPopupOpen) {
               if(!this.isTestStopped) {
                 obj.dashboardModel.bandwidth[obj.currentBandwidthIndex].value = parseFloat(speedMbps);
-                this.bandwidthChart.series[index].data[obj.currentBandwidthIndex].update({"y": parseFloat(speedMbps)});
+                this.bandwidthChart.series[index].data[obj.currentBandwidthIndex].update({"y": parseFloat(speedMbps)});                
                 obj.currentBandwidthIndex++;
                 this.slimLoadingBarService.progress += this.progressFactor;
+                this.downloadingPackets= obj;
+                this.updateGaugeChart(Math.round(this.slimLoadingBarService.progress));
                 // console.log("Region: " + obj.region_name + " Current index: " + obj.currentBandwidthIndex + " call index: " + obj.throughputCallIndex);
                 if(obj.currentBandwidthIndex > 5) {
                   this.getBandwidth(obj);
@@ -724,7 +762,8 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
       this.isTestCompleted = true;
       this.getBestLatencyAndBandwidth();
       this.disabledStart = false;
-      this.isPopupOpen = true;
+      this.isPopupOpen = true;      
+      this.isgaugePopupOpen = false;
       this.openDialog();
     } else {
         setTimeout(() => this.isProcessCompleted(), 10);
@@ -775,6 +814,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     this.slimLoadingBarService.progress = 0;
     this.slimLoadingBarService.complete();
     this.disabledStart = false;
+    this.isgaugePopupOpen = false;
   }
 
   /**
@@ -916,6 +956,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
                   enabled: true
               }
             }, false);
+
           } else {
             this.latencyChart.series[index].update({
               dataLabels: {
@@ -932,7 +973,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
         }
       }
       this.latencyChart.redraw();
-      this.bandwidthChart.redraw();    
+      this.bandwidthChart.redraw();
     }
   }
 
@@ -1192,6 +1233,88 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     }
     return null;
   }
+
+  /**
+   * [getGaugeChartConfig description]
+   */
+  getGaugeChartConfig(){    
+    const options = {
+        chart: {
+        type: 'solidgauge'
+        },
+        title: 'Calculating the Latency and thorughput' ,
+        pane: {
+            center: ['50%', '85%'],
+            size: '140%',
+            startAngle: -90,
+            endAngle: 90,
+            background: {
+                backgroundColor:  '#ffffff',
+                innerRadius: '80%',
+                outerRadius: '100%',
+                shape: 'arc',
+                borderWidth: 0
+
+            }
+        },
+        tooltip: {
+            enabled: false
+        },
+        options3d: {
+            enabled: true,},
+        // the value axis
+        yAxis: {
+               stops: [[1, '#e24301']],           
+               lineWidth: 0,
+               minorTickInterval: null,
+               tickAmount: 2,
+               tickPixelInterval: 400,
+               tickWidth: 0,               
+               minorTickLength: 0,
+               title: {
+                  y: -70
+               },
+               labels: {
+                  y: 16
+               },
+               min: 0,
+               max: 100,
+        },
+        plotOptions: {
+            solidgauge: {
+                dataLabels: {
+                    y: 5,
+                    borderWidth: 0,
+                    useHTML: true                    
+                }
+            }
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            name: 'Throughput',
+            innerRadius: '80%',
+            outerRadius: '100%',
+            data: [0],
+            dataLabels: {
+               format: '<div style="position: relative; top: 0px; width: 200px; height: 100px; background-color: #ddd;'+
+  'border-radius: 200px 200px 0 0; text-align: center; font-weight:100; font-family: Roboto, "Helvetica Neue", sans-serif;"><div style="position: absolute; left:0px; right:0px; bottom:10px;"> <div style="font-size:35px;"> {y} % </div><div style="font-size:18px;">Completed</div></div></div>'
+            },
+            tooltip: {
+                valueSuffix: 'mbps'
+            }
+        }]
+
+      }
+      return options;
+    }
+
+  closePopup(){
+    this.gaugeOptions = null;
+    this.isgaugePopupOpen = false;
+  }
+
 
 }
 

@@ -1,4 +1,4 @@
-<ng2-slim-loading-bar [color]="'#e24301'"></ng2-slim-loading-bar>
+<!-- <ng2-slim-loading-bar [color]="'#e24301'"></ng2-slim-loading-bar> -->
 <div class="row mrg-top-15">
 <!-- Begin Test -->
   <div class="col-sm-6 pad-right-none" *ngIf="!beginTest">
@@ -100,7 +100,7 @@
         </div>
       </div>
       <div class="flow-buttons-bottom">
-        <button class="btn btn-stop pull-right" (click)="stopTest();" [disabled]="!disabledStart" *ngIf="disabledStart"> <i class="fa fa-stop" aria-hidden="true"></i>&nbsp;&nbsp;{{properties.STOP}}</button>
+        <!-- <button class="btn btn-stop pull-right" (click)="stopTest();" [disabled]="!disabledStart" *ngIf="disabledStart"> <i class="fa fa-stop" aria-hidden="true"></i>&nbsp;&nbsp;{{properties.STOP}}</button> -->
         <button class="btn btn-start pull-right" (click)="startTest();" [disabled]="disabledStart" *ngIf="!disabledStart"><i class="fa fa-play" aria-hidden="true"></i>&nbsp;&nbsp;{{properties.START}}</button>
       </div>
     </div>
@@ -167,3 +167,42 @@
   </div>
   <!-- End of Throughput Chart Panel -->
 </div>
+
+<!-- Modal dialog -->
+<div *ngIf="isgaugePopupOpen">
+  <div class="md-overlay-container overlay">
+    <div id="mat-overlay-0" class="mat-overlay-pane dialog-position">
+      <div class="dialog-size">
+        <div class="dialog-header">
+          <div *ngIf="AWS_CLOUD">
+            <b>AWS Network Performance Test</b>
+          </div>
+          <div *ngIf="AZURE_CLOUD">
+            <b>Azure Network Performance Test</b>
+          </div>
+          <div *ngIf="GCE_CLOUD">
+            <b>GCE Network Performance Test</b>
+          </div>
+        </div>
+        <div style="text-align:center; padding:15px;">
+          <h6>Calculating Latency and Throughput</h6>
+          <div class="row">
+            <chart [options]="gaugeOptions" (load)="guagechartInstance($event.context)" class="chart-height display-block padding-left-30"></chart>
+          </div>
+          <div class="row padding-left-30 center">
+            <!-- <div class="col-md-6 right-latency-panel-border" *ngIf="recievedPackets" [style.border-left-color]="recievedPackets && recievedPackets != !recievedPackets ? recievedPackets.color : '#ffffff' ">
+              <div *ngIf="recievedPackets && recievedPackets.region_name"> Recieved Packets from ({{recievedPackets.region_name}})</div>
+            </div>
+            <div class="col-md-6 right-latency-panel-border" *ngIf="downloadingPackets" [style.border-left-color]="downloadingPackets && downloadingPackets.bandwidth != 0.0 ? downloadingPackets.color : '#ffffff' ">
+              <div *ngIf="downloadingPackets && downloadingPackets.region_name"> Downloading Packets from({{downloadingPackets.region_name}})</div>
+            </div> -->
+            <div class="col-md-12">
+              <div *ngIf="recievedPackets && recievedPackets.region_name"> Recieved Packets from ({{recievedPackets.region_name}})</div>        
+              <div *ngIf="downloadingPackets && downloadingPackets.region_name"> Downloading Packets from({{downloadingPackets.region_name}})</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Modal dialog -->

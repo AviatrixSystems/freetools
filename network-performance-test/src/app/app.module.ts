@@ -53,7 +53,7 @@ export function highchartsFactory() {
     HttpModule,
     AppRoutingModule,
     MaterialModule,
-    ChartModule,
+    ChartModule.forRoot(require('highcharts'),require('highcharts/highcharts-more'),require('highcharts/modules/solid-gauge')),
     PopoverModule,
     StarRatingModule,
     ShareButtonsModule.forRoot(),
