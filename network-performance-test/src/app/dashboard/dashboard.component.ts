@@ -498,12 +498,12 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
       // Setting up bandwidth(throughput)
       this.setDataPoint(object.dashboardModel.bandwidth, object);
       badwidthSeries.push(this.getSeriesData('spline', object.label, this.getChartData(object.dashboardModel.bandwidth)));
-      // setTimeout(()=>this.setBandwith(index),10);
+      setTimeout(()=>this.setBandwith(index),10);
       
     }
 
-    // this.latencyOptions = this.getChartConfig('', this.properties.MILISECONDS, latencySeries, 'spline');
-    // this.bandwidthOptions = this.getChartConfig('', this.properties.MBPS, badwidthSeries, 'spline');
+    this.latencyOptions = this.getChartConfig('', this.properties.MILISECONDS, latencySeries, 'spline');
+    this.bandwidthOptions = this.getChartConfig('', this.properties.MBPS, badwidthSeries, 'spline');
     this.impl_set_latency();
   }
 
@@ -752,7 +752,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
                   let ping: number = (pingEnd.getTime() - pingStart.getTime());
                   console.log('Region: ' + obj.region_name + 'Fn Index: ' + index  + ' Current index: ' + obj.currentLatencyIndex + ' Latency: ' + Math.round(ping));
                   obj.dashboardModel.latency[obj.currentLatencyIndex].value = Math.round(ping);
-                  // current.latencyChart.series[index].data[obj.currentLatencyIndex].update({"y": Math.round(ping)});
+                  current.latencyChart.series[index].data[obj.currentLatencyIndex].update({"y": Math.round(ping)});
                   if (obj.currentLatencyIndex > 5) {
                     obj.latencyCompleted = true;
                   }
