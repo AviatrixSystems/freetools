@@ -8,6 +8,8 @@ import { DashboardService, PropertiesService } from '../../services';
 import { MdDialog, MdDialogRef, MdDialogConfig } from '@angular/material';
 import {SlimLoadingBarService} from 'ng2-slim-loading-bar';
 import { ToastrService } from 'toastr-ng2';
+import * as $ from 'jquery';
+
 
 import { CLOUD_TOOL, AWS_INVENTORY_PATH, AZURE_INVENTORY_PATH, GCE_INVENTORY_PATH} from '../app-config';
 declare var jQuery:any;
@@ -17,6 +19,8 @@ declare const L: any;
 declare const google: any;
 
 declare const AmCharts: any;
+
+declare const Ping: any
 
 @Component({
   selector: 'app-dashboard',
@@ -71,8 +75,12 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
   isPopupOpen: boolean;
   isTestStopped: boolean;
 
+  testStartTime: any;
+
   TEST_MINUTES: number = 35;
+  TEST_MINUTES_LATENCY: number = 25;
   TEST_INTERVAL: number = 5000;
+  counter: number = 0;
 
   public zoom = 15;
   public opacity = 1.0;
@@ -139,10 +147,13 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
    */
   openDialog() {
    // set progress bar as complete 
+
    this.slimLoadingBarService.complete();
    this.slimLoadingBarService.reset();
    this.slimLoadingBarService.progress = 0;
    if(this.bestLatencyRegion.latency != 0.00 && this.bestBandwidthRegion.bandwidth != 0.00) {
+     console.log('Best Latency Region: ' + this.bestLatencyRegion.region_name);
+    console.log('Best Latency Region: ' + this.bestBandwidthRegion.region_name);
      let config = new MdDialogConfig();
      let dialogRef:MdDialogRef<ModalComponent> = this.dialog.open(ModalComponent, config);
      dialogRef.componentInstance.bestLatencyRegion = this.bestLatencyRegion;
@@ -178,6 +189,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
   }
 
   ngOnInit() {
+
   }
 
   /**
@@ -214,6 +226,9 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     }, (error: any) => {
       self.getInvetory();
     });
+
+
+    
   }
 
   /**
@@ -368,12 +383,73 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
          date.getHours(), date.getMinutes(), date.getSeconds()), value];
   }
 
+
+  setLatencyAndBandwidthMockData() {
+      let latData = [
+[{"value": 628}, {"value": 365}, {"value": 445}, {"value": 379}, {"value": 438}, {"value": 32023}],
+[{"value": 341}, {"value": 281}, {"value": 343}, {"value": 264}, {"value": 320}, {"value": 30889}],
+[{"value": 125}, {"value": 120}, {"value": 282}, {"value": 97}, {"value": 148}, {"value": 289}],
+[{"value": 280}, {"value": 209}, {"value": 276}, {"value": 227}, {"value": 275}, {"value": 10856}],
+[{"value": 359}, {"value": 301}, {"value": 364}, {"value": 314}, {"value": 372}, {"value": 25829}],
+[{"value": 647}, {"value": 394}, {"value": 481}, {"value": 1059}, {"value": 430}, {"value": 31912}],
+[{"value": 647}, {"value": 402}, {"value": 472}, {"value": 417}, {"value": 436}, {"value": 34775}],
+[{"value": 499}, {"value": 284}, {"value": 312}, {"value": 330}, {"value": 363}, {"value": 23742}],
+[{"value": 336}, {"value": 292}, {"value": 311}, {"value": 311}, {"value": 372}, {"value": 22715}],
+[{"value": 634}, {"value": 469}, {"value": 446}, {"value": 484}, {"value": 479}, {"value": 35691}],
+[{"value": 116}, {"value": 97}, {"value": 149}, {"value": 99}, {"value": 187}, {"value": 275}],
+[{"value": 819}, {"value": 621}, {"value": 644}, {"value": 601}, {"value": 36784}, {"value": 32660}],
+[{"value": 742}, {"value": 449}, {"value": 506}, {"value": 426}, {"value": 418}, {"value": 31659}],
+[{"value": 773}, {"value": 527}, {"value": 506}, {"value": 441}, {"value": 416}, {"value": 27577}]
+      ];
+      let bandData = [
+      [{"value": 0.35}, {"value": 0.37}, {"value": 0.36}, {"value": 0.38}, {"value": 0.39}, {"value": 0.35}],
+[{"value": 0.4}, {"value": 0.35}, {"value": 0.43}, {"value": 0.38}, {"value": 0.47}, {"value": 0.52}],
+[{"value": 1.06},{"value": 0.95}, {"value": 0.83}, {"value": 0.98}, {"value": 0.86}, {"value": 0.77}],
+[{"value": 0.57}, {"value": 0.51}, {"value": 0.54}, {"value": 0.44}, {"value": 0.52}, {"value": 0.47}],
+[{"value": 0.4}, {"value": 0.43}, {"value": 0.45}, {"value": 0.48}, {"value": 0.39}, {"value": 0.51}],
+[{"value": 0.36}, {"value": 0.36}, {"value": 0.4}, {"value": 0.36}, {"value": 0.41}, {"value": 0.34}],
+[{"value": 0.34}, {"value": 0.37}, {"value": 0.39}, {"value": 0.39}, {"value": 0.4}, {"value": 0.36}],
+[{"value": 0.42}, {"value": 0.4}, {"value": 0.41}, {"value": 0.48}, {"value": 0.43}, {"value": 0.45}],
+[{"value": 0.48}, {"value": 0.41}, {"value": 0.44}, {"value": 0.52}, {"value": 0.44}, {"value": 0.43}],
+[{"value": 0.36}, {"value": 0.39}, {"value": 0.3}, {"value": 0.42}, {"value": 0.37}, {"value": 0.38}],
+[{"value": 5.14}, {"value": 4.31}, {"value": 3.68}, {"value": 1.73}, {"value": 1.57}, {"value": 1.43}],
+[{"value": 0.33}, {"value": 0.4}, {"value": 0.31}, {"value": 0.44}, {"value": 0.38}, {"value": 0.4}],
+[{"value": 0.39}, {"value": 0.41}, {"value": 0.32}, {"value": 0.4}, {"value": 0.42}, {"value": 0.35}],
+[{"value": 0.38}, {"value": 0.36}, {"value": 0.47}, {"value": 0.42}, {"value": 0.36}, {"value": 0.35}]
+      ]
+      for(let index = 0; index < this.locations.length; index++) {
+        let object: any = this.locations[index];
+        object.latencyCompleted = true;
+        object.bandwidthCompleted = true;
+        object.latency = null;
+        object.bandwidth = null;
+        object.dashboardModel = new DashboardModel();
+        object.dashboardModel.latency = latData[index];
+        object.dashboardModel.bandwidth = bandData[index]
+    }
+  }
+
+  testAverageLatencyBandwidth() {
+    this.setLatencyAndBandwidthMockData();
+    for(let index = 0; index < this.locations.length; index++) { 
+      this.getLatency(this.locations[index]);
+      this.getBandwidth(this.locations[index]);
+      console.log('Region: ' + this.locations[index]['region_name'] + ' Latency: ' + this.locations[index]['latency'] + ' Bandwidth: ' + this.locations[index]['bandwidth'])
+    }
+    this.isTestCompleted = true;
+      this.getBestLatencyAndBandwidth();
+      this.disabledStart = false;
+      this.isPopupOpen = true;
+      this.openDialog();
+  }
+
   /**
    * Starts test for calculating the statistics
    * [startTest description]
    */
   startTest() {
     // Start progress bar
+    
     this.isTestStopped = false;
     this.beginTest = true;
     this.slimLoadingBarService.progress = 0;
@@ -388,6 +464,8 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     this.bandwidth = this.properties.NA_TEXT;
     this.bestLatencyRegion = null;
     this.bestBandwidthRegion = null;
+
+    this.testStartTime = new Date();
 
     // Setting latency chart configuration
     let latencySeries: any = [];
@@ -415,17 +493,37 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
       // Setting up latency chart
       this.setDataPoint(object.dashboardModel.latency, object);
       latencySeries.push(this.getSeriesData('spline', object.label, this.getChartData(object.dashboardModel.latency)));
-      setTimeout(()=>this.setLatency(index),10);
+      // setTimeout(()=>this.setLatency(index),10);
 
       // Setting up bandwidth(throughput)
       this.setDataPoint(object.dashboardModel.bandwidth, object);
       badwidthSeries.push(this.getSeriesData('spline', object.label, this.getChartData(object.dashboardModel.bandwidth)));
-      setTimeout(()=>this.setBandwith(index),10);
+      // setTimeout(()=>this.setBandwith(index),10);
       
     }
 
-    this.latencyOptions = this.getChartConfig('', this.properties.MILISECONDS, latencySeries, 'spline');
-    this.bandwidthOptions = this.getChartConfig('', this.properties.MBPS, badwidthSeries, 'spline');
+    // this.latencyOptions = this.getChartConfig('', this.properties.MILISECONDS, latencySeries, 'spline');
+    // this.bandwidthOptions = this.getChartConfig('', this.properties.MBPS, badwidthSeries, 'spline');
+    this.impl_set_latency();
+  }
+
+  impl_set_latency() {
+    console.log('In implement' + this.counter + ' Test start time ' +  this.testStartTime + ' Current Time ' + new Date());
+
+     if (this.getTimeDiffInSeconds(this.testStartTime, 0) < this.TEST_MINUTES && this.counter <= 4) {
+        setTimeout(() =>this.impl_set_latency(), this.TEST_INTERVAL);
+     } else {
+       for(let index = 0; index < this.locations.length; index++) {
+          let obj = this.locations[index];
+          obj.latencyCompleted = true;
+          this.getLatency(obj);
+       }
+       if(!this.disabledStart) {
+          setTimeout(() => this.isProcessCompleted(), 5);
+        }
+     }
+    this.counter += 1;
+    this.setLatency(0);
   }
 
   /**
@@ -492,8 +590,10 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
             let speedBps: any = (bitsLoaded / duration).toFixed(2);
             let speedKbps: any = (speedBps / 1024).toFixed(2);
             let speedMbps = (speedKbps / 1024).toFixed(2);
+           
             if (obj.firstBandwidthPass && !this.isPopupOpen) {
               if(!this.isTestStopped) {
+                console.log('Region: ' + obj.region_name + ' index: ' + obj.currentBandwidthIndex + ' Bandwidth: ' + parseFloat(speedMbps));
                 obj.dashboardModel.bandwidth[obj.currentBandwidthIndex].value = parseFloat(speedMbps);
                 this.bandwidthChart.series[index].data[obj.currentBandwidthIndex].update({"y": parseFloat(speedMbps)});
                 obj.currentBandwidthIndex++;
@@ -542,6 +642,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
       }
       if(_total_bandwidth_request > 0) {
         obj.bandwidth =  (_bandwidth / _total_bandwidth_request).toFixed(2);
+        // console.log('Region: ' + obj.region_name + ' Average: ' + obj.bandwidth);
       } else {
         obj.bandwidth = 0.00;
       }
@@ -557,48 +658,131 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
    * @param {any} index [index of region]
    */
   setLatency(index: any) {
+    if(index >= this.locations.length) {
+      return;
+    } else {
+
+    }
     let obj = this.locations[index];
     let current = this;
-    if (this.getTimeDiffInSeconds(obj.pingStartTime, index) < this.TEST_MINUTES 
-        && this.disabledStart && !current.isTestStopped) {
-       setTimeout(() => this.setLatency(index), this.TEST_INTERVAL);
+    // if (this.getTimeDiffInSeconds(obj.pingStartTime, index) < this.TEST_MINUTES 
+    //     && this.disabledStart && !current.isTestStopped) {
+       // setTimeout(() => this.setLatency(index), this.TEST_INTERVAL);
 
         var download = new Image() ;
         let pingStart = new Date();
         var cacheBuster = "?nnn=" + pingStart;
-        download.onerror = function() {
-          if (obj.firstLatencyPass && !current.isPopupOpen) {
-              if(!current.isTestStopped) {
-                   let pingEnd = new Date();
-                let ping: number = (pingEnd.getTime() - pingStart.getTime());
-                obj.dashboardModel.latency[obj.currentLatencyIndex].value = Math.round(ping);
-                current.latencyChart.series[index].data[obj.currentLatencyIndex].update({"y": Math.round(ping)});
-                obj.currentLatencyIndex++;
-                current.slimLoadingBarService.progress += current.progressFactor;
-                if (obj.currentLatencyIndex > 5) {
-                  obj.latencyCompleted = true;
-                }
-              } else {
-                current.getLatency(obj);
-                 obj.latencyCompleted = true;
-                if(!current.disabledStart) {
-                  setTimeout(() => current.isProcessCompleted(), 5);
-                }
-              }
-              
-          } else {
-              obj.firstLatencyPass = true;
-          }
-        }
-        download.src = obj.url +'ping'+ cacheBuster ;
+        var cachebuster = Math.round(new Date().getTime() / 1000);
+        // let ping = new Ping();
+        // ping.ping(obj.url, function(error, delta) {
+        //     console.log(obj['public_ip'] + ' Ping time was ' + String(delta) + ' ms');
+        //     if (obj.firstLatencyPass && !current.isPopupOpen) {
+        //       if(!current.isTestStopped) {
+        //         obj.dashboardModel.latency[obj.currentLatencyIndex].value = delta;
+        //         current.latencyChart.series[index].data[obj.currentLatencyIndex].update({"y": delta});
+        //         obj.currentLatencyIndex++;
+        //         if (obj.currentLatencyIndex > 5) {
+        //           obj.latencyCompleted = true;
+        //         } else {
+        //           current.getLatency(obj);
+        //           obj.latencyCompleted = true;
+        //           if(!current.disabledStart) {
+        //             setTimeout(() => current.isProcessCompleted(), 5);
+        //           }
+        //         }
+        //       }
+        //     } else {
+        //       obj.firstLatencyPass = true;
+        //     }
+        // });
+        // let url = obj['url'] + 'ping' + cacheBuster;
+        // var ajaxSizeRequest = $.ajax({
+        //     type: "HEAD",
+        //     async: true,
+        //     url: url,
+        //     crossDomain : true,
+        //     error: function(message){
+        //       var pingStart = new Date();
+        //       var cacheBuster = "?nnn=" + pingStart;
+        //       url = obj['url'] + 'ping' + cacheBuster;
+        //       ajaxSizeRequest = $.ajax({
+        //           type: "GET",
+        //           async: true,
+        //           crossDomain : true,
+        //           url: url,
+        //           error: function(message){
+        //             if (obj.firstLatencyPass && !current.isPopupOpen) {
+        //               if(!current.isTestStopped) {
+        //                 let pingEnd = new Date();
+        //                 let ping: number = (pingEnd.getTime() - pingStart.getTime());
+        //                 console.log('Region: ' + obj.region_name + ' index: ' + obj.currentBandwidthIndex + ' Latency: ' + Math.round(ping));
+        //                 // clearTimeout(obj.timeout);
+        //                 obj.dashboardModel.latency[obj.currentLatencyIndex].value = Math.round(ping);
+        //                 current.latencyChart.series[index].data[obj.currentLatencyIndex].update({"y": Math.round(ping)});
+        //                 obj.currentLatencyIndex++;
+        //                 current.slimLoadingBarService.progress += current.progressFactor;
+        //                 if (obj.currentLatencyIndex > 5) {
+        //                   obj.latencyCompleted = true;
+        //                 }
+        //               } else {
+        //                 current.getLatency(obj);
+        //                  obj.latencyCompleted = true;
+        //                 if(!current.disabledStart) {
+        //                   setTimeout(() => current.isProcessCompleted(), 5);
+        //                 }
+        //               }
+                      
+        //             } else {
+        //               obj.firstLatencyPass = true;
+        //             }
+        //           }
+        //       });
+        //     }
+        // });
 
-    } else {
-       this.getLatency(obj);
-       obj.latencyCompleted = true;
-      if(!this.disabledStart) {
-        setTimeout(() => this.isProcessCompleted(), 5);
-      }
-    }
+
+        download.onerror = function() {
+          let pingStart = new Date();
+          var cacheBuster = "?nnn=" + pingStart;
+          var cachebuster = Math.round(new Date().getTime() / 1000);
+          download.onerror = function() {
+            // if (obj.firstLatencyPass && !current.isPopupOpen) {
+                if(!current.isTestStopped) {
+                  let pingEnd = new Date();
+                  let ping: number = (pingEnd.getTime() - pingStart.getTime());
+                  console.log('Region: ' + obj.region_name + 'Fn Index: ' + index  + ' Current index: ' + obj.currentLatencyIndex + ' Latency: ' + Math.round(ping));
+                  obj.dashboardModel.latency[obj.currentLatencyIndex].value = Math.round(ping);
+                  // current.latencyChart.series[index].data[obj.currentLatencyIndex].update({"y": Math.round(ping)});
+                  if (obj.currentLatencyIndex > 5) {
+                    obj.latencyCompleted = true;
+                  }
+                  obj.currentLatencyIndex++;
+                  current.setLatency(index + 1);
+                } else {
+                  current.getLatency(obj);
+                   obj.latencyCompleted = true;
+                  if(!current.disabledStart) {
+                    setTimeout(() => current.isProcessCompleted(), 5);
+                  }
+                }
+                
+            // } else {
+            //     obj.firstLatencyPass = true;
+            // }
+          }
+          download.src = obj.url +'ping' + cacheBuster;
+        }
+        download.src = obj.url +'ping' + cacheBuster ;
+        // download.src = 'http://dynamodb.eu-central-1.amazonaws.com/ping' + cacheBuster;
+        // download.src = 'https://s3-ap-northeast-1.amazonaws.com/dynamodb-local-tokyo/release' + cacheBuster;
+
+    // } else {
+    //    this.getLatency(obj);
+    //    obj.latencyCompleted = true;
+    //   if(!this.disabledStart) {
+    //     setTimeout(() => this.isProcessCompleted(), 5);
+    //   }
+    // }
   }
 
   /**
@@ -618,6 +802,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
       }
      if(_total_Latency_request) {
        obj.latency =  (_latency / _total_Latency_request).toFixed(2);
+       // console.log('Region: ' + obj.region_name + ' Average: ' + obj.latency);
      } else {
        obj.latency = 0.00;
      }
@@ -673,12 +858,15 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
    * [getBestLatencyAndBandwidth description]
    */
   getBestLatencyAndBandwidth() {
+    // this.bestLatencyRegion = null;
+    // this.bestBandwidthRegion = null;
     for (let index = 0; index < this.locations.length; index++) {
       let object: any = this.locations[index];
       if (this.bestLatencyRegion === null) {
         this.bestLatencyRegion = object;
       } else {
         if(parseFloat(object.latency) < parseFloat(this.bestLatencyRegion.latency)) {
+
           this.bestLatencyRegion = object;
         }
 
@@ -692,6 +880,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
         }
       }
     }
+
   }
 
   /**
@@ -739,6 +928,60 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
 
     this.dashboardService.getInventory(this.inventoryPath).subscribe((inventory: any) => {
         this.inventory = JSON.parse(inventory);
+  //       this.inventory = {
+  // "data": [{
+  //   "name": "us-east-aviatrix-agent-do-not-stop",
+  //   "region_name": "US East (N. Virginia)",
+  //   "id": "i-0374d84b889c2bfef",
+  //   "dns_name": "ec2-34-205-20-24.compute-1.amazonaws.com",
+  //   "public_ip": "34.205.20.24",
+  //   "cloud_info": {
+  //     "region": "us-east-1",
+  //     "availability_zone": "us-east-1b"
+  //   },
+  //   "url": "http://34.205.20.24/",
+  //   "lat": 38.13,
+  //   "lng": -78.45
+  // }, {
+  //   "name": "us-west-n-california-aviatrix-agent-do-not-stop",
+  //   "region_name": "US West (N. California)",
+  //   "id": "i-0133c4f0168ed5dc5",
+  //   "dns_name": "ec2-54-193-21-66.us-west-1.compute.amazonaws.com",
+  //   "public_ip": "54.193.21.66",
+  //   "cloud_info": {
+  //     "region": "us-west-1",
+  //     "availability_zone": "us-west-1b"
+  //   },
+  //   "url": "http://54.193.21.66/",
+  //   "lat": 40.0,
+  //   "lng": -120.0
+  // }, {
+  //   "name": "us-west-oregon-aviatrix-agent-do-not-stop",
+  //   "region_name": "US West (Oregon)",
+  //   "id": " i-0f3085457d11b2d13 ",
+  //   "dns_name": "ec2-35-164-38-119.us-west-2.compute.amazonaws.com",
+  //   "public_ip": "35.164.38.119",
+  //   "cloud_info": {
+  //     "region": "us-west-2",
+  //     "availability_zone": "us-west-2c"
+  //   },
+  //   "url": "http://35.164.38.119/",
+  //   "lat": 46.15,
+  //   "lng": -123.88
+  // }, {
+  //   "name": "asia pasific-mumbai-aviatrix-agent-do-not-stop",
+  //   "region_name": "Asia Pacific (Mumbai)",
+  //   "id": "i-0363b5251c578d682",
+  //   "dns_name": "ec2-52-66-184-152.ap-south-1.compute.amazonaws.com",
+  //   "public_ip": "52.66.184.152",
+  //   "cloud_info": {
+  //     "region": "ap-south-1",
+  //     "availability_zone": "ap-south-1b"
+  //   },
+  //   "url": "http://52.66.184.152/",
+  //   "lat": 19.228825,
+  //   "lng": 72.854118
+  // }]}
         for(let index = 0; index < this.inventory.data.length; index++) {
          let obj = this.inventory.data[index];
          obj.label = obj.region_name;
@@ -748,7 +991,12 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
          obj.color = this.chartColors[index];
          this.locations.push(obj);
         }
-
+        // let ping = new Ping();
+        // for(let i = 0;  i < this.locations.length; i++) {
+        //   ping.ping(this.locations[i]['public_ip'], function(error, delta) {
+        //     console.log(' Ping time was ' + String(delta) + ' ms');
+        //   });
+        // }
         let totalRegions = this.locations.length * 12;
         this.progressFactor = 100/totalRegions;
 
