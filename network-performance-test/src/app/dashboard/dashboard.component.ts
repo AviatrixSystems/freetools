@@ -717,26 +717,20 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
         var cacheBuster = "?nnn=" + pingStart;
         var cachebuster = Math.floor(new Date().getTime() / 1000);
         let ping = new Ping();
-        ping.ping(obj.url, function(error, delta) {
-            console.log(obj['public_ip'] + ' Ping time was ' + String(delta) + ' ms');
-            if (obj.firstLatencyPass && !current.isPopupOpen) {
+        ping.ping(obj.url, function(error, delta1) {
+          ping.ping(obj.url, function(error, delta2) {
+            // console.log(obj['public_ip'] + ' Ping time was ' + String(delta) + ' ms');
               if(!current.isTestStopped) {
-                obj.dashboardModel.latency[obj.currentLatencyIndex].value = delta;
-                current.latencyChart.series[index].data[obj.currentLatencyIndex].update({"y": delta});
+                let max = delta1 < delta2 ? delta1:delta2;
+                obj.dashboardModel.latency[obj.currentLatencyIndex].value = max;
+                current.latencyChart.series[index].data[obj.currentLatencyIndex].update({"y": max});
                 obj.currentLatencyIndex++;
                 if (obj.currentLatencyIndex > 5) {
                   obj.latencyCompleted = true;
-                } else {
-                  current.getLatency(obj);
-                  obj.latencyCompleted = true;
-                  if(!current.disabledStart) {
-                    setTimeout(() => current.isProcessCompleted(), 5);
-                  }
-                }
-              }
-            } else {
-              obj.firstLatencyPass = true;
-            }
+                } 
+                current.setLatency(index + 1);
+            } 
+          });
         });
         // let url = obj['url'] + 'ping' + cacheBuster;
         // var ajaxSizeRequest = $.ajax({
@@ -784,36 +778,36 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
         // });
 
 
-        download.onerror = function() {
-          let pingStart = new Date();
-          var cacheBuster = "?nnn=" + pingStart;
-          var cachebuster = Math.floor(new Date().getTime() / 1000);
-          download.onerror = function() {
-            // if (obj.firstLatencyPass && !current.isPopupOpen) {
-                if(!current.isTestStopped) {
-                  let pingEnd = new Date();
-                  let ping: number = (pingEnd.getTime() - pingStart.getTime());
-                  // console.log('Url: ' + obj.url + ' StartTime: ' + pingStart + ' EndTime: ' + pingEnd + ' diff: ' + ping);
-                  // console.log('Region: ' + obj.region_name + 'Fn Index: ' + index  + ' Current index: ' + obj.currentLatencyIndex + ' Latency: ' + Math.round(ping));
-                  obj.dashboardModel.latency[obj.currentLatencyIndex].value = Math.floor(ping);
-                  current.latencyChart.series[index].data[obj.currentLatencyIndex].update({"y": Math.floor(ping)});
-                  if (obj.currentLatencyIndex >= 5) {
-                    obj.latencyCompleted = true;
-                  }
-                  obj.currentLatencyIndex++;
-                  current.setLatency(index + 1);
-                } else {
-                  current.getLatency(obj);
-                   obj.latencyCompleted = true;
-                  if(!current.disabledStart) {
-                    setTimeout(() => current.isProcessCompleted(), 5);
-                  }
-                }
+        // download.onerror = function() {
+        //   let pingStart = new Date();
+        //   var cacheBuster = "?nnn=" + pingStart;
+        //   var cachebuster = Math.floor(new Date().getTime() / 1000);
+        //   download.onerror = function() {
+        //     // if (obj.firstLatencyPass && !current.isPopupOpen) {
+        //         if(!current.isTestStopped) {
+        //           let pingEnd = new Date();
+        //           let ping: number = (pingEnd.getTime() - pingStart.getTime());
+        //           // console.log('Url: ' + obj.url + ' StartTime: ' + pingStart + ' EndTime: ' + pingEnd + ' diff: ' + ping);
+        //           // console.log('Region: ' + obj.region_name + 'Fn Index: ' + index  + ' Current index: ' + obj.currentLatencyIndex + ' Latency: ' + Math.round(ping));
+        //           obj.dashboardModel.latency[obj.currentLatencyIndex].value = Math.floor(ping);
+        //           current.latencyChart.series[index].data[obj.currentLatencyIndex].update({"y": Math.floor(ping)});
+        //           if (obj.currentLatencyIndex >= 5) {
+        //             obj.latencyCompleted = true;
+        //           }
+        //           obj.currentLatencyIndex++;
+        //           current.setLatency(index + 1);
+        //         } else {
+        //           current.getLatency(obj);
+        //            obj.latencyCompleted = true;
+        //           if(!current.disabledStart) {
+        //             setTimeout(() => current.isProcessCompleted(), 5);
+        //           }
+        //         }
                 
-          }
-          download.src = obj.url +'ping' + cacheBuster;
-        }
-        download.src = obj.url +'ping' + cacheBuster ;
+        //   }
+        //   download.src = obj.url +'ping' + cacheBuster;
+        // }
+        // download.src = obj.url +'ping' + cacheBuster ;
   }
 
   /**
