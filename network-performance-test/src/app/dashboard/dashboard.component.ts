@@ -480,7 +480,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     for(let index = 0; index < this.locations.length; index++) {
       let object: any = this.locations[index];
       object.latencyCompleted = false;
-      object.bandwidthCompleted = true;
+      object.bandwidthCompleted = false;
       object.latency = null;
       object.bandwidth = null;
       object.dashboardModel = new DashboardModel();
@@ -507,7 +507,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     this.latencyOptions = this.getChartConfig('', this.properties.MILISECONDS, latencySeries, 'spline');
     this.bandwidthOptions = this.getChartConfig('', this.properties.MBPS, badwidthSeries, 'spline');
     this.impl_set_latency();
-    // this.impl_set_throughput();
+    this.impl_set_throughput();
   }
 
   impl_set_latency() {
@@ -516,16 +516,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
      if (this.getTimeDiffInSeconds(this.testStartTime, 0) < this.TEST_MINUTES && this.counter <= 4) {
         setTimeout(() =>this.impl_set_latency(), this.TEST_INTERVAL);
      } else {
-       // for(let index = 0; index < this.locations.length; index++) {
-       //    let obj = this.locations[index];
-       //    obj.latencyCompleted = true;
-       //    this.getLatency(obj);
-       //    setTimeout(()=>this.setBandwith(index),10);
-       // }
        setTimeout(() => this.isProcessCompleted(), 5);
-       // if(!this.disabledStart) {
-       //    setTimeout(() => this.isProcessCompleted(), 5);
-       //  }
      }
     this.counter += 1;
     this.setLatency(0);
@@ -533,15 +524,9 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
 
   impl_set_throughput() {
     // console.log('B In implement' + this.bandwidthcounter + ' Test start time ' +  this.testStartTime + ' Current Time ' + new Date());
-    if (this.getTimeDiffInSeconds(this.testStartTime, 0) < this.TEST_MINUTES && this.bandwidthcounter <= 1) {
+    if (this.getTimeDiffInSeconds(this.testStartTime, 0) < this.TEST_MINUTES && this.bandwidthcounter <= 0) {
         setTimeout(() =>this.impl_set_throughput(), 10000);
      } else {
-       // for(let index = 0; index < this.locations.length; index++) {
-       //    let obj = this.locations[index];
-       //    if()
-       //    obj.bandwidthCompleted = true;
-       //    this.getBandwidth(obj);
-       // }
        if(!this.disabledStart) {
           setTimeout(() => this.isProcessCompleted(), 5);
         }
@@ -569,12 +554,12 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
   } 
 
   setDataPointBandwodth(data, obj) {
-    for (var index = 0; index < 3; index++) {
+    for (var index = 0; index < 2; index++) {
       if (index == 0) {
         data.push({'time': new Date(), 'value': null});
       } else {
         let date = new Date()
-        date.setSeconds(obj.pingStartTime.getSeconds() + (index * 10));
+        date.setSeconds(obj.pingStartTime.getSeconds() + (index * 15));
         data.push({'time': date, 'value': null});
       }
     }
@@ -637,7 +622,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
                 this.bandwidthChart.series[index].data[obj.currentBandwidthIndex].update({"y": parseFloat(speedMbps)});
                 obj.currentBandwidthIndex++;
                 this.slimLoadingBarService.progress += this.progressFactor;
-                if(obj.currentBandwidthIndex > 2) {
+                if(obj.currentBandwidthIndex > 1) {
                   this.getBandwidth(obj);
                   obj.bandwidthCompleted = true;
                   setTimeout(() => this.isProcessCompleted(), 5);
@@ -924,13 +909,9 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
           this.getLatency(object);
         }
 
-        // if(object.bandwidthCompleted) {
-        //   this.getBandwidth(object);
-        // }
-
-        if (object.latencyCompleted) {
-          processCompleted = true;
-        } 
+        if(object.bandwidthCompleted) {
+          this.getBandwidth(object);
+        }
 
         if (object.latencyCompleted 
             && object.bandwidthCompleted) {
@@ -1086,42 +1067,42 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     }
 
 
-    // if (marker.bandwidthCompleted && marker.bandwidth) {
-    //   bandwith = marker.bandwidth;
-    // } else if(marker.dashboardModel && marker.dashboardModel.bandwidth
-    //           && marker.dashboardModel.bandwidth.length > 0 && marker.currentBandwidthIndex > 0) {
-    //   bandwith = marker.dashboardModel.bandwidth[marker.currentBandwidthIndex - 1].value;
-    // }
+    if (marker.bandwidthCompleted && marker.bandwidth) {
+      bandwith = marker.bandwidth;
+    } else if(marker.dashboardModel && marker.dashboardModel.bandwidth
+              && marker.dashboardModel.bandwidth.length > 0 && marker.currentBandwidthIndex > 0) {
+      bandwith = marker.dashboardModel.bandwidth[marker.currentBandwidthIndex - 1].value;
+    }
 
     let content = "";
 
-    // if(latency == "" && bandwith == "") {
-    //   content = "<strong>" + marker.region_name +"</strong>";
-    // } else {
-    //   content = '<table class="table table-bordered" width="100%">' +
-    //                 '<thead>' + 
-    //                   '<tr> <th style="text-align: center; border-top: none" colspan="2">'+ marker.region_name +'</th></tr>' +
-    //                   '<tr> <th style="text-align: center">'+ "Latency <br> (msec)"+'</th> <th style="text-align: center">'+ 'Throughput <br> (mbps)' +'</th></tr>' +
-    //                 '</thead>' +
-    //                 '<tbody>' +
-    //                   '<tr><td style="text-align: center;">'+(latency == "" ? this.properties.NA_TEXT : latency) +'</td> <td style="text-align: center;">' + (bandwith == "" ? this.properties.NA_TEXT : bandwith) +'</td></tr>' +
-    //                 '</tbody>' +
-    //               '</table>';
-    // }
-
-    if(latency == "") {
+    if(latency == "" && bandwith == "") {
       content = "<strong>" + marker.region_name +"</strong>";
     } else {
       content = '<table class="table table-bordered" width="100%">' +
                     '<thead>' + 
-                      '<tr> <th style="text-align: center; border-top: none">'+ marker.region_name +'</th></tr>' +
-                      '<tr> <th style="text-align: center">'+ "Latency <br> (msec)"+'</th></tr>' +
+                      '<tr> <th style="text-align: center; border-top: none" colspan="2">'+ marker.region_name +'</th></tr>' +
+                      '<tr> <th style="text-align: center">'+ "Latency <br> (msec)"+'</th> <th style="text-align: center">'+ 'Throughput <br> (mbps)' +'</th></tr>' +
                     '</thead>' +
                     '<tbody>' +
-                      '<tr><td style="text-align: center;">'+(latency == "" ? this.properties.NA_TEXT : latency) +'</td></tr>' +
+                      '<tr><td style="text-align: center;">'+(latency == "" ? this.properties.NA_TEXT : latency) +'</td> <td style="text-align: center;">' + (bandwith == "" ? this.properties.NA_TEXT : bandwith) +'</td></tr>' +
                     '</tbody>' +
                   '</table>';
     }
+
+    // if(latency == "") {
+    //   content = "<strong>" + marker.region_name +"</strong>";
+    // } else {
+    //   content = '<table class="table table-bordered" width="100%">' +
+    //                 '<thead>' + 
+    //                   '<tr> <th style="text-align: center; border-top: none">'+ marker.region_name +'</th></tr>' +
+    //                   '<tr> <th style="text-align: center">'+ "Latency <br> (msec)"+'</th></tr>' +
+    //                 '</thead>' +
+    //                 '<tbody>' +
+    //                   '<tr><td style="text-align: center;">'+(latency == "" ? this.properties.NA_TEXT : latency) +'</td></tr>' +
+    //                 '</tbody>' +
+    //               '</table>';
+    // }
     
     return content;
   }
@@ -1203,12 +1184,12 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
         if(this.latencyChart.series[index].name !== marker.label && hide) {
           this.latencyChart.series[index].setVisible(false, false);
 
-          // if (this.bandwidthChart && this.bandwidthChart.series) {
-          //   this.bandwidthChart.series[index].setVisible(false, false);
-          // }
+          if (this.bandwidthChart && this.bandwidthChart.series) {
+            this.bandwidthChart.series[index].setVisible(false, false);
+          }
         } else {
           this.latencyChart.series[index].setVisible(true, false);
-          // this.bandwidthChart.series[index].setVisible(true, false);
+          this.bandwidthChart.series[index].setVisible(true, false);
           if(hide) {
             this.latencyChart.series[index].update({
               dataLabels: {
@@ -1216,11 +1197,11 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
               }
             }, false);
 
-            // this.bandwidthChart.series[index].update({
-            //   dataLabels: {
-            //       enabled: true
-            //   }
-            // }, false);
+            this.bandwidthChart.series[index].update({
+              dataLabels: {
+                  enabled: true
+              }
+            }, false);
           } else {
             this.latencyChart.series[index].update({
               dataLabels: {
@@ -1228,16 +1209,16 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
               }
             }, false);
 
-            // this.bandwidthChart.series[index].update({
-            //   dataLabels: {
-            //       enabled: false
-            //   }
-            // }, false);
+            this.bandwidthChart.series[index].update({
+              dataLabels: {
+                  enabled: false
+              }
+            }, false);
           }
         }
       }
       this.latencyChart.redraw();
-      // this.bandwidthChart.redraw();    
+      this.bandwidthChart.redraw();    
     }
   }
 
