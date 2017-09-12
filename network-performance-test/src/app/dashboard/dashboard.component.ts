@@ -935,7 +935,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
         }
 
         // lat.push(obj.dashboardModel.latency[5].value);
-        console.log('Region: ' + obj.region_name, 'Value: ' + lat);
+        console.log(obj.region_name + '\t' + lat);
       }
 
       this.isTestCompleted = true;
