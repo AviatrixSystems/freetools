@@ -74,7 +74,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
   userLocation: any;
   isPopupOpen: boolean;
   isTestStopped: boolean;
-
+  timeout = [];
   testStartTime: any;
 
   TEST_MINUTES: number = 35;
@@ -449,6 +449,9 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
    * [startTest description]
    */
   startTest() {
+    for(let i=0; i < this.timeout.length; i++) {
+      clearTimeout(this.timeout[i]);
+    }
     // Start progress bar
     this.counter = 0;
     this.bandwidthcounter = 0;
@@ -514,7 +517,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     // console.log('L In implement' + this.counter + ' Test start time ' +  this.testStartTime + ' Current Time ' + new Date());
 
      if (this.getTimeDiffInSeconds(this.testStartTime, 0) < this.TEST_MINUTES && this.counter <= 4) {
-        setTimeout(() =>this.impl_set_latency(), this.TEST_INTERVAL);
+        this.timeout.push(setTimeout(() =>this.impl_set_latency(), this.TEST_INTERVAL));
      } else {
        setTimeout(() => this.isProcessCompleted(), 5);
      }
@@ -535,7 +538,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     // this.setBandwith(0);
     for(let index = 0; index < this.locations.length; index++) {
       let object: any = this.locations[index];
-      setTimeout(()=>this.setBandwith(index),10);
+      this.timeout.push(setTimeout(()=>this.setBandwith(index),10));
      }
 
   }
@@ -609,7 +612,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
         && this.disabledStart && !this.isTestStopped) {
         obj.throughputCallIndex = obj.throughputCallIndex === undefined ? 0 : (obj.throughputCallIndex + 1);
       
-        setTimeout(()=>this.setBandwith(index), 15000);
+        this.timeout.push(setTimeout(()=>this.setBandwith(index), 15000));
         let pingStart = new Date();
         var cacheBuster = "?nnn=" + pingStart;
         this.dashboardService.getBandwidth(obj.url + this.properties.BANDWIDTH_IMG + cacheBuster).subscribe((data:any ) =>{
