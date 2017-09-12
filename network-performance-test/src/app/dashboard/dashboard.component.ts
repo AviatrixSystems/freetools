@@ -927,11 +927,15 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
         let obj = this.locations[i];
         let lat = [];
         lat.push(obj.pingStartTime.getHours() + ':' + obj.pingStartTime.getMinutes() + ':' + obj.pingStartTime.getSeconds() + '\t');
-        for(let j=0; j < obj.dashboardModel.latency.length - 1; j++) {
+        for(let j=0; j < obj.dashboardModel.latency.length; j++) {
           lat.push(obj.dashboardModel.latency[j].value + '\t');
         }
-        lat.push(obj.dashboardModel.latency[5].value);
-        console.log('Region: ' + obj.region_name, 'Lat: ' + lat);
+        for(let j=0; j < obj.dashboardModel.bandwidth.length; j++) {
+          lat.push(obj.dashboardModel.bandwidth[j].value + '\t');
+        }
+
+        // lat.push(obj.dashboardModel.latency[5].value);
+        console.log('Region: ' + obj.region_name, 'Value: ' + lat);
       }
 
       this.isTestCompleted = true;
