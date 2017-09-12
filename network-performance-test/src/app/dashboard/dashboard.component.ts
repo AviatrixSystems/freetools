@@ -74,6 +74,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
   userLocation: any;
   isPopupOpen: boolean;
   isTestStopped: boolean;
+  timeout = [];
 
   testStartTime: any;
 
@@ -449,6 +450,9 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
    * [startTest description]
    */
   startTest() {
+    for (var i=0; i<this.timeout.length; i++) {
+      clearTimeout(this.timeout[i]);
+    }
     // Start progress bar
     this.counter = 0;
     this.bandwidthcounter = 0;
@@ -514,7 +518,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     // console.log('L In implement' + this.counter + ' Test start time ' +  this.testStartTime + ' Current Time ' + new Date());
 
      if (this.getTimeDiffInSeconds(this.testStartTime, 0) < this.TEST_MINUTES && this.counter <= 4) {
-        setTimeout(() =>this.impl_set_latency(), this.TEST_INTERVAL);
+        this.timeout.push(setTimeout(() =>this.impl_set_latency(), this.TEST_INTERVAL));
      } else {
        // for(let index = 0; index < this.locations.length; index++) {
        //    let obj = this.locations[index];
