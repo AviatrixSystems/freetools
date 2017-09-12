@@ -524,15 +524,20 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
 
   impl_set_throughput() {
     // console.log('B In implement' + this.bandwidthcounter + ' Test start time ' +  this.testStartTime + ' Current Time ' + new Date());
-    if (this.getTimeDiffInSeconds(this.testStartTime, 0) < this.TEST_MINUTES && this.bandwidthcounter <= 0) {
-        setTimeout(() =>this.impl_set_throughput(), 10000);
-     } else {
-       if(!this.disabledStart) {
-          setTimeout(() => this.isProcessCompleted(), 5);
-        }
+    // if (this.getTimeDiffInSeconds(this.testStartTime, 0) < this.TEST_MINUTES && this.bandwidthcounter <= 0) {
+    //     setTimeout(() =>this.impl_set_throughput(), 10000);
+    //  } else {
+    //    if(!this.disabledStart) {
+    //       setTimeout(() => this.isProcessCompleted(), 5);
+    //     }
+    //  }
+    // this.bandwidthcounter += 1;
+    // this.setBandwith(0);
+    for(let index = 0; index < this.locations.length; index++) {
+      let object: any = this.locations[index];
+      setTimeout(()=>this.setBandwith(index),10);
      }
-    this.bandwidthcounter += 1;
-    this.setBandwith(0);
+
   }
 
   /**
@@ -600,11 +605,11 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     let obj = this.locations[index];
     var downloadSize = 2621440; //bytes
     let dashboard = this;
-    // if (this.getTimeDiffInSeconds(obj.pingStartTime, index) < this.TEST_MINUTES 
-    //     && this.disabledStart && !this.isTestStopped) {
+    if (this.getTimeDiffInSeconds(obj.pingStartTime, index) < this.TEST_MINUTES 
+        && this.disabledStart && !this.isTestStopped) {
         obj.throughputCallIndex = obj.throughputCallIndex === undefined ? 0 : (obj.throughputCallIndex + 1);
       
-        // setTimeout(()=>this.setBandwith(index),this.TEST_INTERVAL);
+        setTimeout(()=>this.setBandwith(index), 15000);
         let pingStart = new Date();
         var cacheBuster = "?nnn=" + pingStart;
         this.dashboardService.getBandwidth(obj.url + this.properties.BANDWIDTH_IMG + cacheBuster).subscribe((data:any ) =>{
@@ -627,7 +632,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
                   obj.bandwidthCompleted = true;
                   setTimeout(() => this.isProcessCompleted(), 5);
                 }
-                this.setBandwith(index + 1);
+                // this.setBandwith(index + 1);
                 // console.log("Region: " + obj.region_name + " Current index: " + obj.currentBandwidthIndex + " call index: " + obj.throughputCallIndex);
                 // if(obj.currentBandwidthIndex > 5) {
                 //   this.getBandwidth(obj);
@@ -646,13 +651,13 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
             //   obj.firstBandwidthPass = true;
             // }
         });
-      // } else {
-      //     if (!this.disabledStart) {
-      //       this.getBandwidth(obj);
-      //       obj.bandwidthCompleted = true;
-      //       setTimeout(() => this.isProcessCompleted(), 5);
-      //     }
-      //   }
+      } else {
+          if (!this.disabledStart) {
+            this.getBandwidth(obj);
+            obj.bandwidthCompleted = true;
+            setTimeout(() => this.isProcessCompleted(), 5);
+          }
+        }
   }
 
   /**
