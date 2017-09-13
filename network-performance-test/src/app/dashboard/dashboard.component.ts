@@ -77,7 +77,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
   timeout = [];
   testStartTime: any;
 
-  TEST_MINUTES: number = 35;
+  TEST_MINUTES: number = 50;
   TEST_MINUTES_LATENCY: number = 25;
   TEST_INTERVAL: number = 5000;
   bandwidthcounter: number = 0;
@@ -510,7 +510,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     this.latencyOptions = this.getChartConfig('', this.properties.MILISECONDS, latencySeries, 'spline');
     this.bandwidthOptions = this.getChartConfig('', this.properties.MBPS, badwidthSeries, 'spline');
     this.impl_set_latency();
-    this.impl_set_throughput();
+    // this.impl_set_throughput();
   }
 
   impl_set_latency() {
@@ -519,27 +519,28 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
      if (this.getTimeDiffInSeconds(this.testStartTime, 0) < this.TEST_MINUTES && this.counter <= 4) {
         this.timeout.push(setTimeout(() =>this.impl_set_latency(), this.TEST_INTERVAL));
      } else {
-       setTimeout(() => this.isProcessCompleted(), 5);
+       setTimeout(() => this.isLatencyCompleted(), 5);
      }
     this.counter += 1;
     this.setLatency(0);
   }
 
   impl_set_throughput() {
-    // console.log('B In implement' + this.bandwidthcounter + ' Test start time ' +  this.testStartTime + ' Current Time ' + new Date());
-    // if (this.getTimeDiffInSeconds(this.testStartTime, 0) < this.TEST_MINUTES && this.bandwidthcounter <= 0) {
-    //     setTimeout(() =>this.impl_set_throughput(), 10000);
-    //  } else {
-    //    if(!this.disabledStart) {
-    //       setTimeout(() => this.isProcessCompleted(), 5);
-    //     }
-    //  }
+    for(let i=0; i < this.timeout.length; i++) {
+      clearTimeout(this.timeout[i]);
+    }
+    if (this.bandwidthcounter <= 1) {
+        // this.timeout.push(setTimeout(() =>this.impl_set_throughput(), 15000));
+        this.setBandwith(0);
+     } else {
+       setTimeout(() => this.isBandwidthCompleted(), 5);
+     }
     // this.bandwidthcounter += 1;
     // this.setBandwith(0);
-    for(let index = 0; index < this.locations.length; index++) {
-      let object: any = this.locations[index];
-      this.timeout.push(setTimeout(()=>this.setBandwith(index),10));
-     }
+    // for(let index = 0; index < this.locations.length; index++) {
+    //   let object: any = this.locations[index];
+    //   this.setBandwith(index);
+    //  }
 
   }
 
@@ -562,12 +563,14 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
   } 
 
   setDataPointBandwodth(data, obj) {
-    for (var index = 0; index < 2; index++) {
-      if (index == 0) {
-        data.push({'time': new Date(), 'value': null});
+    for (var index = 6; index < 8; index++) {
+      if (index == 6) {
+        let date = new Date()
+        date.setSeconds(obj.pingStartTime.getSeconds() + (index * 5));
+        data.push({'time': date, 'value': null});
       } else {
         let date = new Date()
-        date.setSeconds(obj.pingStartTime.getSeconds() + (index * 15));
+        date.setSeconds(obj.pingStartTime.getSeconds() + ((index * 5) + 10));
         data.push({'time': date, 'value': null});
       }
     }
@@ -603,21 +606,26 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
    */
   setBandwith(index) {
     if(index >= this.locations.length) {
+      this.bandwidthcounter += 1;
+      if(this.bandwidthcounter <= 1) {
+        this.impl_set_throughput();
+      }
       return;
     } 
     let obj = this.locations[index];
-    var downloadSize = 2621440; //bytes
+    var downloadSize = 90200; //bytes
     let dashboard = this;
-    if (this.getTimeDiffInSeconds(obj.pingStartTime, index) < this.TEST_MINUTES 
-        && this.disabledStart && !this.isTestStopped) {
-        obj.throughputCallIndex = obj.throughputCallIndex === undefined ? 0 : (obj.throughputCallIndex + 1);
+    // if (this.getTimeDiffInSeconds(obj.pingStartTime, index) < this.TEST_MINUTES 
+    //     && this.disabledStart && !this.isTestStopped) {
+    //     obj.throughputCallIndex = obj.throughputCallIndex === undefined ? 0 : (obj.throughputCallIndex + 1);
       
-        this.timeout.push(setTimeout(()=>this.setBandwith(index), 15000));
+    //     this.timeout.push(setTimeout(()=>this.setBandwith(index), 15000));
         let pingStart = new Date();
         var cacheBuster = "?nnn=" + pingStart;
         this.dashboardService.getBandwidth(obj.url + this.properties.BANDWIDTH_IMG + cacheBuster).subscribe((data:any ) =>{
             let pingEnd = new Date();
             let duration: number = ((pingEnd.getTime() - pingStart.getTime())/1000);
+            console.log('Region: ' + obj.cloud_info.region + 'dur: ' + duration);
             let bitsLoaded = downloadSize * 8;
             let speedBps: any = (bitsLoaded / duration).toFixed(2);
             let speedKbps: any = (speedBps / 1024).toFixed(2);
@@ -633,9 +641,9 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
                 if(obj.currentBandwidthIndex > 1) {
                   this.getBandwidth(obj);
                   obj.bandwidthCompleted = true;
-                  setTimeout(() => this.isProcessCompleted(), 5);
+                  setTimeout(() => this.isBandwidthCompleted(), 5);
                 }
-                // this.setBandwith(index + 1);
+                this.setBandwith(index + 1);
                 // console.log("Region: " + obj.region_name + " Current index: " + obj.currentBandwidthIndex + " call index: " + obj.throughputCallIndex);
                 // if(obj.currentBandwidthIndex > 5) {
                 //   this.getBandwidth(obj);
@@ -646,7 +654,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
                 if (!this.disabledStart) {
                   this.getBandwidth(obj);
                   obj.bandwidthCompleted = true;
-                  setTimeout(() => this.isProcessCompleted(), 5);
+                  setTimeout(() => this.isBandwidthCompleted(), 5);
                 }
               }
               
@@ -654,13 +662,13 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
             //   obj.firstBandwidthPass = true;
             // }
         });
-      } else {
-          if (!this.disabledStart) {
-            this.getBandwidth(obj);
-            obj.bandwidthCompleted = true;
-            setTimeout(() => this.isProcessCompleted(), 5);
-          }
-        }
+      // } else {
+      //     if (!this.disabledStart) {
+      //       this.getBandwidth(obj);
+      //       obj.bandwidthCompleted = true;
+      //       setTimeout(() => this.isBandwidthCompleted(), 5);
+      //     }
+      //   }
   }
 
   /**
@@ -905,7 +913,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
    * return true if process is completed else return false
    * [isProcessCompleted description]
    */
-  isProcessCompleted() {
+  isLatencyCompleted() {
     // if(!this.isPopupOpen) {
     //   setTimeout(() => this.isProcessCompleted(), 10);
     // }
@@ -917,12 +925,34 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
           this.getLatency(object);
         }
 
+        if (object.latencyCompleted) {
+          processCompleted = true;
+        } else {
+          processCompleted = false;
+          break;
+        }
+      }
+
+    if (processCompleted && !this.isTestCompleted) {
+      this.impl_set_throughput();
+    } else {
+        setTimeout(() => this.isLatencyCompleted(), 10);
+    }
+  }
+
+
+  isBandwidthCompleted() {
+    // if(!this.isPopupOpen) {
+    //   setTimeout(() => this.isProcessCompleted(), 10);
+    // }
+    let processCompleted: boolean = false;
+      for(let index = 0; index < this.locations.length; index++) {
+        let object: any = this.locations[index];
         if(object.bandwidthCompleted) {
           this.getBandwidth(object);
         }
 
-        if (object.latencyCompleted 
-            && object.bandwidthCompleted) {
+        if (object.bandwidthCompleted) {
           processCompleted = true;
         } else {
           processCompleted = false;
@@ -941,8 +971,6 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
         for(let j=0; j < obj.dashboardModel.bandwidth.length; j++) {
           lat.push(obj.dashboardModel.bandwidth[j].value + '\t');
         }
-
-        // lat.push(obj.dashboardModel.latency[5].value);
         console.log(obj.region_name + '\t' + lat);
       }
 
@@ -952,7 +980,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
       this.isPopupOpen = true;
       this.openDialog();
     } else {
-        setTimeout(() => this.isProcessCompleted(), 10);
+        setTimeout(() => this.isBandwidthCompleted(), 10);
     }
   }
 
