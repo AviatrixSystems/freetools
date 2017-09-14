@@ -529,18 +529,18 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     for(let i=0; i < this.timeout.length; i++) {
       clearTimeout(this.timeout[i]);
     }
-    if (this.bandwidthcounter <= 1) {
-        // this.timeout.push(setTimeout(() =>this.impl_set_throughput(), 15000));
-        this.setBandwith(0);
-     } else {
-       setTimeout(() => this.isBandwidthCompleted(), 5);
-     }
+    // if (this.bandwidthcounter <= 1) {
+    //     // this.timeout.push(setTimeout(() =>this.impl_set_throughput(), 15000));
+    //     this.setBandwith(0);
+    //  } else {
+    //    setTimeout(() => this.isBandwidthCompleted(), 5);
+    //  }
     // this.bandwidthcounter += 1;
     // this.setBandwith(0);
-    // for(let index = 0; index < this.locations.length; index++) {
-    //   let object: any = this.locations[index];
-    //   this.setBandwith(index);
-    //  }
+    for(let index = 0; index < this.locations.length; index++) {
+      let object: any = this.locations[index];
+      this.setBandwith(index);
+     }
 
   }
 
@@ -605,21 +605,21 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
    * @param {[type]} index [index of region]
    */
   setBandwith(index) {
-    if(index >= this.locations.length) {
-      this.bandwidthcounter += 1;
-      if(this.bandwidthcounter <= 1) {
-        this.impl_set_throughput();
-      }
-      return;
-    } 
+    // if(index >= this.locations.length) {
+    //   this.bandwidthcounter += 1;
+    //   if(this.bandwidthcounter <= 1) {
+    //     this.impl_set_throughput();
+    //   }
+    //   return;
+    // } 
     let obj = this.locations[index];
     var downloadSize = 90200; //bytes
     let dashboard = this;
-    // if (this.getTimeDiffInSeconds(obj.pingStartTime, index) < this.TEST_MINUTES 
-    //     && this.disabledStart && !this.isTestStopped) {
-    //     obj.throughputCallIndex = obj.throughputCallIndex === undefined ? 0 : (obj.throughputCallIndex + 1);
+    if (this.getTimeDiffInSeconds(obj.pingStartTime, index) < this.TEST_MINUTES 
+        && this.disabledStart && !this.isTestStopped) {
+        obj.throughputCallIndex = obj.throughputCallIndex === undefined ? 0 : (obj.throughputCallIndex + 1);
       
-    //     this.timeout.push(setTimeout(()=>this.setBandwith(index), 15000));
+        this.timeout.push(setTimeout(()=>this.setBandwith(index), 15000));
         let pingStart = new Date();
         var cacheBuster = "?nnn=" + pingStart;
         this.dashboardService.getBandwidth(obj.url + this.properties.BANDWIDTH_IMG + cacheBuster).subscribe((data:any ) =>{
@@ -643,7 +643,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
                   obj.bandwidthCompleted = true;
                   setTimeout(() => this.isBandwidthCompleted(), 5);
                 }
-                this.setBandwith(index + 1);
+                // this.setBandwith(index + 1);
                 // console.log("Region: " + obj.region_name + " Current index: " + obj.currentBandwidthIndex + " call index: " + obj.throughputCallIndex);
                 // if(obj.currentBandwidthIndex > 5) {
                 //   this.getBandwidth(obj);
@@ -662,13 +662,13 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
             //   obj.firstBandwidthPass = true;
             // }
         });
-      // } else {
-      //     if (!this.disabledStart) {
-      //       this.getBandwidth(obj);
-      //       obj.bandwidthCompleted = true;
-      //       setTimeout(() => this.isBandwidthCompleted(), 5);
-      //     }
-      //   }
+      } else {
+          if (!this.disabledStart) {
+            this.getBandwidth(obj);
+            obj.bandwidthCompleted = true;
+            setTimeout(() => this.isBandwidthCompleted(), 5);
+          }
+        }
   }
 
   /**
