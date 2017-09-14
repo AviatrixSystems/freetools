@@ -52,7 +52,7 @@ export class PropertiesService {
   public NA_LATITUDE: number = 46.0730555556;
   public NA_LONGITUDE: number = -100.546666667;
 
-  public BANDWIDTH_IMG: string = 'clouds-05.jpeg';
+  public BANDWIDTH_IMG: string = 'clouds-06.jpeg';
   public RESPONSE_TIME_HTML: string = 'test.html';
 
   public AWS_CLOUD_PIN_PATH = '/assets/aws_pin.png';

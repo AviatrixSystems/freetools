@@ -77,7 +77,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
   timeout = [];
   testStartTime: any;
 
-  TEST_MINUTES: number = 50;
+  TEST_MINUTES: number =30;
   TEST_MINUTES_LATENCY: number = 25;
   TEST_INTERVAL: number = 5000;
   bandwidthcounter: number = 0;
