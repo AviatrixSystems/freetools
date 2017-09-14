@@ -496,8 +496,8 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
       object.pingStartTime = new Date();
 
       // Setting up latency chart
-      this.setDataPoint(object.dashboardModel.latency, object);
-      latencySeries.push(this.getSeriesData('spline', object.label, this.getChartData(object.dashboardModel.latency)));
+      // this.setDataPoint(object.dashboardModel.latency, object);
+      // latencySeries.push(this.getSeriesData('spline', object.label, this.getChartData(object.dashboardModel.latency)));
       // setTimeout(()=>this.setLatency(index),10);
 
       // Setting up bandwidth(throughput)
@@ -509,8 +509,8 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
 
     this.latencyOptions = this.getChartConfig('', this.properties.MILISECONDS, latencySeries, 'spline');
     this.bandwidthOptions = this.getChartConfig('', this.properties.MBPS, badwidthSeries, 'spline');
-    this.impl_set_latency();
-    // this.impl_set_throughput();
+    // this.impl_set_latency();
+    this.impl_set_throughput();
   }
 
   impl_set_latency() {
@@ -526,17 +526,9 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
   }
 
   impl_set_throughput() {
-    for(let i=0; i < this.timeout.length; i++) {
-      clearTimeout(this.timeout[i]);
-    }
-    // if (this.bandwidthcounter <= 1) {
-    //     // this.timeout.push(setTimeout(() =>this.impl_set_throughput(), 15000));
-    //     this.setBandwith(0);
-    //  } else {
-    //    setTimeout(() => this.isBandwidthCompleted(), 5);
-    //  }
-    // this.bandwidthcounter += 1;
-    // this.setBandwith(0);
+    // for(let i=0; i < this.timeout.length; i++) {
+    //   clearTimeout(this.timeout[i]);
+    // }
     for(let index = 0; index < this.locations.length; index++) {
       let object: any = this.locations[index];
       this.setBandwith(index);
@@ -563,8 +555,8 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
   } 
 
   setDataPointBandwodth(data, obj) {
-    for (var index = 6; index < 8; index++) {
-      if (index == 6) {
+    for (var index = 0; index < 2; index++) {
+      if (index == 0) {
         let date = new Date()
         date.setSeconds(obj.pingStartTime.getSeconds() + (index * 5));
         data.push({'time': date, 'value': null});
@@ -965,9 +957,9 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
         let obj = this.locations[i];
         let lat = [];
         lat.push(obj.pingStartTime.getHours() + ':' + obj.pingStartTime.getMinutes() + ':' + obj.pingStartTime.getSeconds() + '\t');
-        for(let j=0; j < obj.dashboardModel.latency.length; j++) {
-          lat.push(obj.dashboardModel.latency[j].value + '\t');
-        }
+        // for(let j=0; j < obj.dashboardModel.latency.length; j++) {
+        //   lat.push(obj.dashboardModel.latency[j].value + '\t');
+        // }
         for(let j=0; j < obj.dashboardModel.bandwidth.length; j++) {
           lat.push(obj.dashboardModel.bandwidth[j].value + '\t');
         }
