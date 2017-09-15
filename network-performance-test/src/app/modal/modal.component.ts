@@ -17,14 +17,12 @@ declare const MktoForms2: any;
 // Modal component
 export class ModalComponent {
   bestLatencyRegion: any;
-  bestBandwidthRegion: any;
   isSurveyFormOpen: boolean = false;
 
   /**
    * constructor Modal component
    */
-  constructor(public dialogRef: MdDialogRef<ModalComponent>) {
-  }
+  constructor(public dialogRef: MdDialogRef<ModalComponent>) {}
 
   /**
    * display survey form

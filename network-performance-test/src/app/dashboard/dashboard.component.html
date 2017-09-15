@@ -7,17 +7,17 @@
         <div *ngIf="AWS_CLOUD">
           <img src="/assets/aws_icon.svg" height="120" width="45%"/>
           <p class="begin-text">
-            Test latency and throughput from your data center to AWS regions. Identify the best cloud regions to deploy your apps and data.</p>
+            Test latency from your data center to AWS regions. Identify the best cloud regions to deploy your apps and data.</p>
         </div>
         <div *ngIf="AZURE_CLOUD">
           <img src="/assets/azure_icon.svg" height="120" width="45%"/>
           <p class="begin-text">
-            Test latency and throughput from your data center to Azure regions. Identify the best cloud regions to deploy your apps and data.</p>
+            Test latency from your data center to Azure regions. Identify the best cloud regions to deploy your apps and data.</p>
         </div>
         <div *ngIf="GCE_CLOUD">
           <img src="/assets/gce_icon.svg" height="120" width="45%"/>
           <p class="begin-text">
-            Test latency and throughput from your data center to GCE regions. Identify the best cloud regions to deploy your apps and data.</p>
+            Test latency from your data center to GCE regions. Identify the best cloud regions to deploy your apps and data.</p>
         </div>
         <button class="btn begin-test-btn outline-none" (click)="startTest();">Begin Test
           <img src="/assets/arrow-36x36-white.png" height="16" width="16" style="margin-left: 10px;" />
@@ -46,11 +46,6 @@
             <br>
             <span style="font-size: 12px;">Best region for latency sensitive apps</span>
           </div>
-          <!-- <div class="col-sm-6 right-stat-panel right-throughput-panel-border" [style.border-left-color]="bestBandwidthRegion && bestBandwidthRegion.bandwidth != 0.0 ? bestBandwidthRegion.color : '#03bca1' ">
-          <span>{{getBestBandwidthregion()}}</span>
-            <br>
-            <span style="font-size: 12px;">Best region for data intensive apps</span>
-          </div> -->
         </div>
         <div class="height-155">
           <table class="table table-striped" style="margin-bottom: 0px; background-color: #f8f8f8;">
@@ -67,12 +62,6 @@
                         </i>
                     </span>
                 </th>
-                <!-- <th width="35%" class="padding-left-none">
-                    <span class="column-header" (click)="sortBy('bandwidth')">{{properties.RIGHT_PANEL_THROUGHPUT_COLUMN_HEADER}} 
-                        <i class="fa sort-style" [ngClass]="{'fa-sort': sortableColumn != 'bandwidth', 'fa-sort-asc': (sortableColumn == 'bandwidth' && isDesc), 'fa-sort-desc': (sortableColumn == 'bandwidth' && isDesc) }" aria-hidden="true">
-                        </i>
-                    </span>
-                </th> -->
               </tr>
             </thead>
           </table>
@@ -84,9 +73,6 @@
                   <td class="padding-left-5 width-30" *ngIf="!region.latency && !disabledStart">{{properties.NA_TEXT}}</td>
                   <td class="padding-left-5" width="30%" *ngIf="!region.latency && disabledStart">{{readLatestLatency(region)}}</td>
                   <td class="padding-left-5" width="30%" *ngIf="region.latency">{{region.latency}}</td>
-                  <!-- <td class="padding-left-5" width="35%" *ngIf="!region.bandwidth && !disabledStart">{{properties.NA_TEXT}}</td>
-                  <td class="padding-left-10" width="35%" *ngIf="region.bandwidth">{{region.bandwidth}}</td>
-                  <td class="padding-left-10" width="35%" *ngIf="!region.bandwidth && disabledStart">{{readLatestThroughput(region)}}</td> -->
                 </tr>
               </tbody>
             </table>
@@ -141,23 +127,4 @@
     </div>
   </div>
   <!--End of Latency Chart Panel -->
-  <!-- Thoughput Chart Panel -->
-  <!-- <div class="col-sm-6">
-    <div class="card card-radious-none">
-      <div class="card-header">
-        <div class="row">
-          <div class="col-sm-9">
-            <h6 class="card-title card-title-margin">{{properties.THROUGHPUT_CHART_HEADER}}  <span>&nbsp; <i class="fa fa-info-circle fa-lg info-color cursor-pointer" aria-hidden="true" mdTooltip="{{properties.THROUGHPUT_PANEL_TOOLTIP}}" mdTooltipPosition="right"></i></span></h6></div>
-          <div class="col-sm-3 text-align-right">
-            <img class="loader-style" src="../assets/loader.gif" *ngIf="disabledStart">
-          </div>
-        </div>
-      </div>
-      <div class="card-block">
-        <chart [options]="bandwidthOptions" (load)="bandwidthInstance($event.context)" *ngIf="bandwidthOptions !== null" class="chart-height display-block"></chart>
-        <h6 *ngIf="bandwidthOptions === null" style="margin-top: 0px; margin-bottom: 0px; font-weight: 300; text-transform: none;">Click on Begin Speed Test on the top of the page.</h6>
-      </div>
-    </div>
-  </div> -->
-  <!-- End of Throughput Chart Panel -->
 </div>
