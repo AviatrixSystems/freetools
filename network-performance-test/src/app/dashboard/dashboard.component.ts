@@ -149,17 +149,10 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
    */
   openDialog() {
    // set progress bar as complete 
-
-   this.slimLoadingBarService.complete();
-   this.slimLoadingBarService.reset();
-   this.slimLoadingBarService.progress = 0;
-   if(this.bestLatencyRegion.latency != 0.00 && this.bestBandwidthRegion.bandwidth != 0.00) {
-     // console.log('Best Latency Region: ' + this.bestLatencyRegion.region_name);
-    // console.log('Best Latency Region: ' + this.bestBandwidthRegion.region_name);
+   if(this.bestLatencyRegion.latency != 0.00) {
      let config = new MdDialogConfig();
      let dialogRef:MdDialogRef<ModalComponent> = this.dialog.open(ModalComponent, config);
      dialogRef.componentInstance.bestLatencyRegion = this.bestLatencyRegion;
-     dialogRef.componentInstance.bestBandwidthRegion = this.bestBandwidthRegion;
    }
   }
 
@@ -479,7 +472,6 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     // Setting latency chart configuration
     let badwidthSeries: any = [];
 
-
     // Starting test for regions
     for(let index = 0; index < this.locations.length; index++) {
       let object: any = this.locations[index];
@@ -499,37 +491,17 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
       // Setting up latency chart
       this.setDataPoint(object.dashboardModel.latency, object);
       latencySeries.push(this.getSeriesData('spline', object.label, this.getChartData(object.dashboardModel.latency)));
-      // setTimeout(()=>this.setLatency(index),10);
-
-      // Setting up bandwidth(throughput)
-      this.setDataPointBandwodth(object.dashboardModel.bandwidth, object);
-      badwidthSeries.push(this.getSeriesData('spline', object.label, this.getChartData(object.dashboardModel.bandwidth)));
-      // setTimeout(()=>this.setBandwith(index),10);
-      
     }
-
     this.latencyOptions = this.getChartConfig('', this.properties.MILISECONDS, latencySeries, 'spline');
     this.bandwidthOptions = this.getChartConfig('', this.properties.MBPS, badwidthSeries, 'spline');
     this.impl_set_latency();
-    // this.impl_set_throughput();
   }
 
   impl_set_latency() {
-    // console.log('L In implement' + this.counter + ' Test start time ' +  this.testStartTime + ' Current Time ' + new Date());
-
      if (this.getTimeDiffInSeconds(this.testStartTime, 0) < this.TEST_MINUTES && this.counter <= 4) {
         this.timeout.push(setTimeout(() =>this.impl_set_latency(), this.TEST_INTERVAL));
      } else {
-       // for(let index = 0; index < this.locations.length; index++) {
-       //    let obj = this.locations[index];
-       //    obj.latencyCompleted = true;
-       //    this.getLatency(obj);
-       //    setTimeout(()=>this.setBandwith(index),10);
-       // }
        setTimeout(() => this.isProcessCompleted(), 5);
-       // if(!this.disabledStart) {
-       //    setTimeout(() => this.isProcessCompleted(), 5);
-       //  }
      }
     this.counter += 1;
     this.setLatency(0);
