@@ -69,6 +69,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
   isPopupOpen: boolean;
   isTestStopped: boolean;
   timeout = [];
+  visibleSortOption: boolean;
 
   testStartTime: any;
 
@@ -130,6 +131,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
      this.isTestCompleted = false;
      this.isPopupOpen = false;
      this.isTestStopped = false;
+     this.visibleSortOption = false;
 
   }
 
@@ -137,6 +139,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
    * Open modal to show best latency
    */
   openDialog() {
+    this.visibleSortOption = true;
    // set progress bar as complete 
    if(this.bestLatencyRegion.latency != 0.00) {
      // set progress bar as complete
@@ -430,6 +433,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
       clearTimeout(this.timeout[i]);
     }
     // Start progress bar
+    this.visibleSortOption = false;
     this.counter = 0;
     this.isTestStopped = false;
     this.beginTest = true;
@@ -709,11 +713,12 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
    * [getBestLatency description]
    */
   getBestLatencyAndBandwidth() {
+    this.bestLatencyRegion === null;
     for (let index = 0; index < this.locations.length; index++) {
       let object: any = this.locations[index];
-      if (this.bestLatencyRegion === null) {
+      if (this.bestLatencyRegion === null && object.latency) {
         this.bestLatencyRegion = object;
-      } else {
+      } else if(this.bestLatencyRegion !== null && object.latency) {
         if(parseFloat(object.latency) < parseFloat(this.bestLatencyRegion.latency)) {
           this.bestLatencyRegion = object;
         }
@@ -807,10 +812,19 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
    */
   stopTest() {
     // set progress bar as complete 
+    this.visibleSortOption = true;
     this.isTestStopped = true;
     this.slimLoadingBarService.progress = 0;
     this.slimLoadingBarService.complete();
     this.disabledStart = false;
+    for(let index = 0; index < this.locations.length; index++) {
+      this.getLatency(this.locations[index]);
+    }
+    this.getBestLatencyAndBandwidth();
+    if(this.bestLatencyRegion) {
+      this.openDialog();
+    }
+    
   }
 
   /**

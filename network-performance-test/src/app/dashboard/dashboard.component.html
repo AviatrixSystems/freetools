@@ -51,15 +51,19 @@
           <table class="table table-striped" style="margin-bottom: 0px; background-color: #f8f8f8;">
             <thead>
               <tr>
-                <th width="35%">
-                    <span class="column-header" (click)="sortBy('region_name')">{{properties.RIGHT_PANEL_REGION_COLUMN_HEADER}} 
+                <th width="75%">
+                    <span class="column-header" *ngIf="visibleSortOption" (click)="sortBy('region_name')">{{properties.RIGHT_PANEL_REGION_COLUMN_HEADER}} 
                         <i class="fa sort-style" [ngClass]="{'fa-sort': sortableColumn != 'region_name', 'fa-sort-asc': (sortableColumn == 'region_name' && !isDesc), 'fa-sort-desc': (sortableColumn == 'region_name' && isDesc) }" aria-hidden="true"> </i>
                     </span>
+                    <span class="column-header" *ngIf="!visibleSortOption">{{properties.RIGHT_PANEL_REGION_COLUMN_HEADER}} 
+                    </span>
                 </th>
-                <th width="30%" class="padding-left-2">
-                    <span class="column-header" (click)="sortBy('latency')">{{properties.RIGHT_PANEL_LATENCY_COLUMN_HEADER}} 
+                <th width="25%" class="padding-left-2">
+                    <span class="column-header" *ngIf="visibleSortOption" (click)="sortBy('latency')">{{properties.RIGHT_PANEL_LATENCY_COLUMN_HEADER}} 
                         <i class="fa sort-style" [ngClass]="{'fa-sort': sortableColumn != 'latency', 'fa-sort-asc': (sortableColumn == 'latency' && isDesc), 'fa-sort-desc': (sortableColumn == 'latency' && isDesc) }" aria-hidden="true">
                         </i>
+                    </span>
+                    <span class="column-header" *ngIf="!visibleSortOption">{{properties.RIGHT_PANEL_LATENCY_COLUMN_HEADER}} 
                     </span>
                 </th>
               </tr>
@@ -69,10 +73,10 @@
             <table class="table table-striped">
               <tbody>
                 <tr *ngFor="let region of locations">
-                  <td width="35%">{{region.region_name}}</td>
-                  <td class="padding-left-5 width-30" *ngIf="!region.latency && !disabledStart">{{properties.NA_TEXT}}</td>
-                  <td class="padding-left-5" width="30%" *ngIf="!region.latency && disabledStart">{{readLatestLatency(region)}}</td>
-                  <td class="padding-left-5" width="30%" *ngIf="region.latency">{{region.latency}}</td>
+                  <td width="75%">{{region.region_name}}</td>
+                  <td class="padding-left-15 width-30" *ngIf="!region.latency && !disabledStart">{{properties.NA_TEXT}}</td>
+                  <td class="padding-left-15" width="25%" *ngIf="!region.latency && disabledStart">{{readLatestLatency(region)}}</td>
+                  <td class="padding-left-15" width="25%" *ngIf="region.latency">{{region.latency}}</td>
                 </tr>
               </tbody>
             </table>
@@ -94,10 +98,6 @@
           <div class="col-sm-6">
             <h6 class="card-title card-title-margin">{{leftPanelHeader}}</h6>
           </div>
-          <!-- <div class="col-sm-6">
-                        <button class="btn btn-stop" (click)="stopTest();" [disabled]="!disabledStart" *ngIf="disabledStart"> <i class="fa fa-stop" aria-hidden="true"></i>&nbsp;&nbsp;{{properties.STOP}}</button>
-                        <button class="btn btn-start" (click)="startTest();" [disabled]="disabledStart" *ngIf="!disabledStart"><i class="fa fa-play" aria-hidden="true"></i>&nbsp;&nbsp;{{properties.START}}</button>
-                    </div> -->
         </div>
       </div>
       <div class="card-block padding-none">
