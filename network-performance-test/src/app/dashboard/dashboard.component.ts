@@ -140,19 +140,22 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
    */
   openDialog() {
     this.visibleSortOption = true;
-   // set progress bar as complete 
-   if(this.bestLatencyRegion.latency != 0.00) {
-     // set progress bar as complete
-     this.slimLoadingBarService.complete();
+    this.slimLoadingBarService.complete();
      this.slimLoadingBarService.reset();
      this.slimLoadingBarService.progress = 0;
-     if(this.bestLatencyRegion.latency != 0.00) {
-       // console.log('Best Latency Region: ' + this.bestLatencyRegion.region_name);
-       let config = new MdDialogConfig();
-       let dialogRef:MdDialogRef<ModalComponent> = this.dialog.open(ModalComponent, config);
-       dialogRef.componentInstance.bestLatencyRegion = this.bestLatencyRegion;
-     }
-   }
+     this.sortBy('latency')
+   // set progress bar as complete 
+   // if(this.bestLatencyRegion.latency != 0.00) {
+   //   // set progress bar as complete
+   //   this.slimLoadingBarService.complete();
+   //   this.slimLoadingBarService.reset();
+   //   this.slimLoadingBarService.progress = 0;
+   //   if(this.bestLatencyRegion.latency != 0.00) {
+   //     let config = new MdDialogConfig();
+   //     let dialogRef:MdDialogRef<ModalComponent> = this.dialog.open(ModalComponent, config);
+   //     dialogRef.componentInstance.bestLatencyRegion = this.bestLatencyRegion;
+   //   }
+   // }
   }
 
   /**
@@ -200,6 +203,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
               if (status == google.maps.GeocoderStatus.OK) {
                   if (results[1]) {
                       self.userLocation.address = results[1].formatted_address;
+                      self.startTest();
                   }
               }
         });
@@ -864,7 +868,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
       content = '<table class="table table-bordered" width="100%">' +
                     '<thead>' + 
                       '<tr> <th style="text-align: center; border-top: none">'+ marker.region_name +'</th></tr>' +
-                      '<tr> <th style="text-align: center">'+ "Latency <br> (msec)"+'</th></tr>' +
+                      '<tr> <th style="text-align: center">'+ "Latency (msec)"+'</th></tr>' +
                     '</thead>' +
                     '<tbody>' +
                       '<tr><td style="text-align: center;">'+(latency == "" ? this.properties.NA_TEXT : latency) +'</td></tr>' +
