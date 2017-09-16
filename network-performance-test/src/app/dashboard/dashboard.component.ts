@@ -557,6 +557,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
               if(!current.isTestStopped) {
                 let max = delta1 < delta2 ? delta1:delta2;
                 obj.dashboardModel.latency[obj.currentLatencyIndex].value = max;
+                current.slimLoadingBarService.progress += current.progressFactor;
                 current.latencyChart.series[index].data[obj.currentLatencyIndex].update({"y": max});
                 obj.currentLatencyIndex++;
                 if (obj.currentLatencyIndex > 5) {
@@ -795,7 +796,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
         //     console.log(' Ping time was ' + String(delta) + ' ms');
         //   });
         // }
-        let totalRegions = this.locations.length * 12;
+        let totalRegions = this.locations.length * 6;
         this.progressFactor = 100/totalRegions;
 
         // this.generateMap();
