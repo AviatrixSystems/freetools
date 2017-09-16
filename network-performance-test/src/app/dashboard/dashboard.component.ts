@@ -143,6 +143,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     this.slimLoadingBarService.complete();
      this.slimLoadingBarService.reset();
      this.slimLoadingBarService.progress = 0;
+     this.isDesc = false;
      this.sortBy('latency')
    // set progress bar as complete 
    // if(this.bestLatencyRegion.latency != 0.00) {
@@ -910,22 +911,32 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
        let aProp = null;
        let bProp = null;
        if(property != 'region_name') {
-         aProp = parseFloat(a[property]);
-         bProp = parseFloat(b[property]);
+         if(a[property] != 0.0) {
+           aProp = parseFloat(a[property]);
+         } else {
+           aProp = null;
+         }
+         if(b[property] != 0.0) {
+           bProp = parseFloat(b[property]);
+         } else {
+           bProp = null;
+         }
        } else {
          aProp = a[property];
          bProp = b[property];
        }
 
-        if(aProp < bProp) {
-            return -1 * direction;
-        }
-        else if( aProp > bProp) {
+       if(aProp === null && bProp) {
             return 1 * direction;
-        }
-        else{
+       } else if(bProp === null && aProp) {
+            return -1 * direction;
+       } else if(aProp < bProp) {
+            return -1 * direction;
+       } else if(aProp > bProp) {
+            return 1 * direction;
+       } else{
             return 0;
-        }
+       }
     });
   }
 
