@@ -7,7 +7,7 @@
 }
 
 .test-card-height {
-  height: 281px;
+ // height: 281px;
 }
 
 .card-title-margin {
@@ -203,7 +203,7 @@ a:hover {
 }
 
 .margin-bottom-25 {
-  margin-bottom: 25px !important;
+  margin-bottom: 10px !important;
 }
 
 .padding-right-none {
@@ -258,7 +258,7 @@ a:hover {
 
 .stat-table-overlay {
   overflow-y: auto !important;
-  height: 135px !important;
+  //height: 135px !important;
 }
 
 .padding-left-15 {
@@ -312,7 +312,8 @@ a:hover {
 }
 
 .height-155 {
-  height: 155px;
+  height: 578px;
+  overflow-y: auto;
 }
 
 .padding-left-5 {
@@ -330,7 +331,7 @@ a:hover {
 }
 @media (max-width: 768px){
   .stat-table-overlay {
-      overflow-y: auto !important;
+     // overflow-y: auto !important;
       height: auto !important;
     }
 }
