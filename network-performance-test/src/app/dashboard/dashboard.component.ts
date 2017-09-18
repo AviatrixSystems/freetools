@@ -1148,7 +1148,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
       "theme": "light",
       "dataProvider": {
         "map": "worldLow",
-        "zoomLevel": 1.4,
+        "zoomLevel": 1.1,
         "lines": lines,
         "images": images
       },
