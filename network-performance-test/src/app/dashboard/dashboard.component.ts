@@ -145,18 +145,13 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
      this.slimLoadingBarService.progress = 0;
      this.isDesc = false;
      this.sortBy('latency')
-   // set progress bar as complete 
-   // if(this.bestLatencyRegion.latency != 0.00) {
-   //   // set progress bar as complete
-   //   this.slimLoadingBarService.complete();
-   //   this.slimLoadingBarService.reset();
-   //   this.slimLoadingBarService.progress = 0;
-   //   if(this.bestLatencyRegion.latency != 0.00) {
-   //     let config = new MdDialogConfig();
-   //     let dialogRef:MdDialogRef<ModalComponent> = this.dialog.open(ModalComponent, config);
-   //     dialogRef.componentInstance.bestLatencyRegion = this.bestLatencyRegion;
-   //   }
-   // }
+   if(this.bestLatencyRegion.latency != 0.00) {
+     if(this.bestLatencyRegion.latency != 0.00) {
+       let config = new MdDialogConfig();
+       let dialogRef:MdDialogRef<ModalComponent> = this.dialog.open(ModalComponent, config);
+       dialogRef.componentInstance.bestLatencyRegion = this.bestLatencyRegion;
+     }
+   }
   }
 
   /**
@@ -204,7 +199,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
               if (status == google.maps.GeocoderStatus.OK) {
                   if (results[1]) {
                       self.userLocation.address = results[1].formatted_address;
-                      self.startTest();
+                      self.isInventoryLoaded();
                   }
               }
         });
@@ -216,11 +211,15 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     }, (error: any) => {
       self.getInvetory();
     });
-
-
-    
   }
 
+  isInventoryLoaded() {
+    if(this.locations && this.locations.length > 0) {
+      this.startTest();
+    } else {
+      setTimeout(()=>this.isInventoryLoaded(), 10);
+    }
+  }
   /**
    * Initialize left panel header
    * [initLeftPanelHeader description]

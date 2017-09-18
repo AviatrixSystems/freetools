@@ -1,4 +1,4 @@
-<ng2-slim-loading-bar [color]="'#e24301'"></ng2-slim-loading-bar>
+<ng2-slim-loading-bar [color]="'#188BF7'"></ng2-slim-loading-bar>
 <div class="row mrg-top-15">
   <!-- Connectivity Network Panel -->
   <div class="col-sm-6 pad-right-none">
@@ -16,7 +16,7 @@
       <div class="card-block test-card-height padding-top-none">
         <div class="row margin-bottom-25 margin-left-none">
           <div id="bestRegionBorder" class="col-sm-12 right-stat-panel right-latency-panel-border" [style.border-left-color]="bestLatencyRegion && bestLatencyRegion.latency != 0.0 ? bestLatencyRegion.color : '#26db68' ">
-            <span>{{getBestlatencyregion()}}</span>
+            <span style="font-weight: 500;">{{getBestlatencyregion()}}</span>
             <br>
             <span style="font-size: 12px;">Best region for latency sensitive apps</span>
           </div>
