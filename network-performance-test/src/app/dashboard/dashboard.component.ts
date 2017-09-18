@@ -284,11 +284,12 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
    * @param {[any]} name      [name of series]
    * @param {[any]} data      [list of data]
    */
-  getSeriesData(chartType: any, name: any, data: any) {
+  getSeriesData(chartType: any, name: any, data: any, color: any) {
     return {
               type:   chartType,
               name:   name,
               data:   data,
+              color: color,
               dataLabels : {
                     enabled : false
               },
@@ -317,7 +318,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
                       }
            },
           title :   { text :   title },
-          colors: this.chartColors,
+          // colors: this.chartColors,
           global :   {
             useUTC :   false,
           },
@@ -473,7 +474,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
 
       // Setting up latency chart
       this.setDataPoint(object.dashboardModel.latency, object);
-      latencySeries.push(this.getSeriesData('spline', object.label, this.getChartData(object.dashboardModel.latency)));
+      latencySeries.push(this.getSeriesData('spline', object.label, this.getChartData(object.dashboardModel.latency), object.color));
       // setTimeout(()=>this.setLatency(index),10);
     }
     this.latencyOptions = this.getChartConfig('', this.properties.MILISECONDS, latencySeries, 'spline');
@@ -542,37 +543,35 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     } 
     let obj = this.locations[index];
     let current = this;
-    // if (this.getTimeDiffInSeconds(obj.pingStartTime, index) < this.TEST_MINUTES 
-    //     && this.disabledStart && !current.isTestStopped) {
-       // setTimeout(() => this.setLatency(index), this.TEST_INTERVAL);
-
-        var download = new Image() ;
-        let pingStart = new Date();
-        var cacheBuster = "?nnn=" + pingStart;
-        var cachebuster = Math.floor(new Date().getTime() / 1000);
-        let ping = new Ping();
-        ping.ping(obj.url, function(error, delta1) {
-          ping.ping(obj.url, function(error, delta2) {
-            // console.log(obj['public_ip'] + ' Ping time was ' + String(delta) + ' ms');
-              if(!current.isTestStopped) {
-                let max = delta1 < delta2 ? delta1:delta2;
-                if(obj.dashboardModel && obj.dashboardModel.latency){
-                  obj.dashboardModel.latency[obj.currentLatencyIndex].value = max;
-                }
-                current.slimLoadingBarService.progress += current.progressFactor;
-                if(current.latencyChart.series[index] && current.latencyChart.series[index].data)
-                {
-                  current.latencyChart.series[index].data[obj.currentLatencyIndex].update({"y": max});
-                }
-                obj.currentLatencyIndex++;
-                if (obj.currentLatencyIndex > 5) {
-                  obj.latencyCompleted = true;
-                } 
-                current.setLatency(index + 1);
+    var download = new Image() ;
+    let pingStart = new Date();
+    var cacheBuster = "?nnn=" + pingStart;
+    var cachebuster = Math.floor(new Date().getTime() / 1000);
+    let ping = new Ping();
+    ping.ping(obj.url, function(error, delta1) {
+      pingStart = new Date();
+      ping.ping(obj.url, function(error, delta2) {
+          if(!current.isTestStopped) {
+            let max = delta1 < delta2 ? delta1:delta2;
+            if(obj.dashboardModel && obj.dashboardModel.latency){
+              obj.dashboardModel.latency[obj.currentLatencyIndex].value = max;
+            }
+            current.slimLoadingBarService.progress += current.progressFactor;
+            if(current.latencyChart.series[index] && current.latencyChart.series[index].data)
+            {
+              current.latencyChart.series[index].data[obj.currentLatencyIndex].update({"y": max});
+            }
+            obj.currentLatencyIndex++;
+            if (obj.currentLatencyIndex > 5) {
+              obj.latencyCompleted = true;
             } 
-          });
-        });
+            current.setLatency(index + 1);
+        } 
+      });
+    });
+
         // let url = obj['url'] + 'ping' + cacheBuster;
+
         // var ajaxSizeRequest = $.ajax({
         //     type: "HEAD",
         //     async: true,
@@ -617,20 +616,23 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
         //     }
         // });
 
-
+        // pingStart = new Date();
         // download.onerror = function() {
-        //   let pingStart = new Date();
-        //   var cacheBuster = "?nnn=" + pingStart;
-        //   var cachebuster = Math.floor(new Date().getTime() / 1000);
+        //   let pingEnd = new Date();
+        //   let ping1: number = (pingEnd.getTime() - pingStart.getTime());
+        //   pingStart = new Date();
+        //   cacheBuster = "?nnn=" + pingStart;
+        //   cachebuster = Math.floor(new Date().getTime() / 1000);
+        //   pingStart = new Date();
         //   download.onerror = function() {
         //     // if (obj.firstLatencyPass && !current.isPopupOpen) {
         //         if(!current.isTestStopped) {
         //           let pingEnd = new Date();
-        //           let ping: number = (pingEnd.getTime() - pingStart.getTime());
-        //           // console.log('Url: ' + obj.url + ' StartTime: ' + pingStart + ' EndTime: ' + pingEnd + ' diff: ' + ping);
-        //           // console.log('Region: ' + obj.region_name + 'Fn Index: ' + index  + ' Current index: ' + obj.currentLatencyIndex + ' Latency: ' + Math.round(ping));
-        //           obj.dashboardModel.latency[obj.currentLatencyIndex].value = Math.floor(ping);
-        //           current.latencyChart.series[index].data[obj.currentLatencyIndex].update({"y": Math.floor(ping)});
+        //           let ping2: number = (pingEnd.getTime() - pingStart.getTime());
+        //           let max = ping1 < ping2 ? ping1:ping2;
+        //           current.slimLoadingBarService.progress += current.progressFactor;
+        //           obj.dashboardModel.latency[obj.currentLatencyIndex].value = Math.floor(max);
+        //           current.latencyChart.series[index].data[obj.currentLatencyIndex].update({"y": Math.floor(max)});
         //           if (obj.currentLatencyIndex >= 5) {
         //             obj.latencyCompleted = true;
         //           }
