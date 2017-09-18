@@ -34,7 +34,7 @@
                 </th>
                 <th width="25%" class="padding-left-2">
                     <span class="column-header" *ngIf="visibleSortOption" (click)="sortBy('latency')">{{properties.RIGHT_PANEL_LATENCY_COLUMN_HEADER}} 
-                        <i class="fa sort-style" [ngClass]="{'fa-sort': sortableColumn != 'latency', 'fa-sort-asc': (sortableColumn == 'latency' && isDesc), 'fa-sort-desc': (sortableColumn == 'latency' && isDesc) }" aria-hidden="true">
+                        <i class="fa sort-style" [ngClass]="{'fa-sort': sortableColumn != 'latency', 'fa-sort-asc': (sortableColumn == 'latency' && isDesc), 'fa-sort-desc': (sortableColumn == 'latency' && !isDesc) }" aria-hidden="true">
                         </i>
                     </span>
                     <span class="column-header" *ngIf="!visibleSortOption">{{properties.RIGHT_PANEL_LATENCY_COLUMN_HEADER}} 
