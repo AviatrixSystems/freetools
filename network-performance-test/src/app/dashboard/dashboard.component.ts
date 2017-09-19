@@ -22,6 +22,16 @@ declare const AmCharts: any;
 
 declare const Ping: any
 
+/**
+ * @brief      Component declairation
+ *
+ * @param      selector       The selector
+ * @param      templateUrl    The template url
+ * @param      styleUrls      The style urls
+ * @param      viewProviders  The view providers
+ *
+ * @return      View for the network performance tool
+ */
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -30,8 +40,8 @@ declare const Ping: any
   encapsulation: ViewEncapsulation.None
 })
 
-// Dashboard Component
-export class DashboardComponent implements OnInit, AfterViewInit  {
+/**  Class for Dashboard Component */
+export class DashboardComponent implements AfterViewInit  {
   clouds: any;
   @Input() tool: string;
   progressFactor: number = 0;
@@ -88,13 +98,24 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
   AZURE_CLOUD: boolean = false;
   GCE_CLOUD: boolean = false;
 
+  /**
+   * Declare all required parameters and providers
+   * @param {Http}                  private http                   http service
+   * @param {DashboardService}      private dashboardService       API integration service
+   * @param {PropertiesService}     public  properties             externalies properties
+   * @param {MdDialog}              public  dialog                 dialog popup
+   * @param {SlimLoadingBarService} private slimLoadingBarService  progress bar
+   * @param {ToastrService}         public  toasterService         toster popup
+   */
   constructor(private http: Http,
               private dashboardService: DashboardService,
               public properties: PropertiesService,
               public dialog: MdDialog,
               private slimLoadingBarService: SlimLoadingBarService,
               public toasterService: ToastrService) {
-      
+      /**
+       * Chart colors
+       */
       this.chartColors = ['#2196F3', '#F44336', '#FF609E', '#14936C', '#00FF4F', '#A99000',
       '#E8C21A', '#673AB7', '#3D495A', '#536DFE', '#C3429B', '#C33A38',
       '#02BCA1', '#25DB67', '#6F9900', '#E69500', '#D792F1', '#83A1CD',
@@ -161,8 +182,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
    //     let dialogRef:MdDialogRef<ModalComponent> = this.dialog.open(ModalComponent, config);
    //     dialogRef.componentInstance.bestLatencyRegion = this.bestLatencyRegion;
    //   }
-   // }
-  
+   // }  
    this.toasterService.success(this.properties.TEST_SUCCESS_MESSAGE);
   }
 
@@ -182,10 +202,6 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
    */
   responseTimeInstance(chartInstance) {
     this.responseTimeChart = chartInstance;
-  }
-
-  ngOnInit() {
-
   }
 
   /**
@@ -277,7 +293,6 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
          let obj = this.inventory.data[index];
          current.locations.push(obj);
        }
-       
     })
   }
 
@@ -371,7 +386,6 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
       metricData.push([Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(),
       date.getHours(), date.getMinutes(), date.getSeconds()), yVal]);
     }
-
     return metricData;
   }
 
@@ -385,39 +399,41 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
          date.getHours(), date.getMinutes(), date.getSeconds()), value];
   }
 
-
+  /**
+   * Set Latency And Bandwidth MockData 
+   */
   setLatencyAndBandwidthMockData() {
       let latData = [
-[{"value": 628}, {"value": 365}, {"value": 445}, {"value": 379}, {"value": 438}, {"value": 32023}],
-[{"value": 341}, {"value": 281}, {"value": 343}, {"value": 264}, {"value": 320}, {"value": 30889}],
-[{"value": 125}, {"value": 120}, {"value": 282}, {"value": 97}, {"value": 148}, {"value": 289}],
-[{"value": 280}, {"value": 209}, {"value": 276}, {"value": 227}, {"value": 275}, {"value": 10856}],
-[{"value": 359}, {"value": 301}, {"value": 364}, {"value": 314}, {"value": 372}, {"value": 25829}],
-[{"value": 647}, {"value": 394}, {"value": 481}, {"value": 1059}, {"value": 430}, {"value": 31912}],
-[{"value": 647}, {"value": 402}, {"value": 472}, {"value": 417}, {"value": 436}, {"value": 34775}],
-[{"value": 499}, {"value": 284}, {"value": 312}, {"value": 330}, {"value": 363}, {"value": 23742}],
-[{"value": 336}, {"value": 292}, {"value": 311}, {"value": 311}, {"value": 372}, {"value": 22715}],
-[{"value": 634}, {"value": 469}, {"value": 446}, {"value": 484}, {"value": 479}, {"value": 35691}],
-[{"value": 116}, {"value": 97}, {"value": 149}, {"value": 99}, {"value": 187}, {"value": 275}],
-[{"value": 819}, {"value": 621}, {"value": 644}, {"value": 601}, {"value": 36784}, {"value": 32660}],
-[{"value": 742}, {"value": 449}, {"value": 506}, {"value": 426}, {"value": 418}, {"value": 31659}],
-[{"value": 773}, {"value": 527}, {"value": 506}, {"value": 441}, {"value": 416}, {"value": 27577}]
+        [{"value": 628}, {"value": 365}, {"value": 445}, {"value": 379}, {"value": 438}, {"value": 32023}],
+        [{"value": 341}, {"value": 281}, {"value": 343}, {"value": 264}, {"value": 320}, {"value": 30889}],
+        [{"value": 125}, {"value": 120}, {"value": 282}, {"value": 97}, {"value": 148}, {"value": 289}],
+        [{"value": 280}, {"value": 209}, {"value": 276}, {"value": 227}, {"value": 275}, {"value": 10856}],
+        [{"value": 359}, {"value": 301}, {"value": 364}, {"value": 314}, {"value": 372}, {"value": 25829}],
+        [{"value": 647}, {"value": 394}, {"value": 481}, {"value": 1059}, {"value": 430}, {"value": 31912}],
+        [{"value": 647}, {"value": 402}, {"value": 472}, {"value": 417}, {"value": 436}, {"value": 34775}],
+        [{"value": 499}, {"value": 284}, {"value": 312}, {"value": 330}, {"value": 363}, {"value": 23742}],
+        [{"value": 336}, {"value": 292}, {"value": 311}, {"value": 311}, {"value": 372}, {"value": 22715}],
+        [{"value": 634}, {"value": 469}, {"value": 446}, {"value": 484}, {"value": 479}, {"value": 35691}],
+        [{"value": 116}, {"value": 97}, {"value": 149}, {"value": 99}, {"value": 187}, {"value": 275}],
+        [{"value": 819}, {"value": 621}, {"value": 644}, {"value": 601}, {"value": 36784}, {"value": 32660}],
+        [{"value": 742}, {"value": 449}, {"value": 506}, {"value": 426}, {"value": 418}, {"value": 31659}],
+        [{"value": 773}, {"value": 527}, {"value": 506}, {"value": 441}, {"value": 416}, {"value": 27577}]
       ];
       let bandData = [
-      [{"value": 0.35}, {"value": 0.37}, {"value": 0.36}, {"value": 0.38}, {"value": 0.39}, {"value": 0.35}],
-[{"value": 0.4}, {"value": 0.35}, {"value": 0.43}, {"value": 0.38}, {"value": 0.47}, {"value": 0.52}],
-[{"value": 1.06},{"value": 0.95}, {"value": 0.83}, {"value": 0.98}, {"value": 0.86}, {"value": 0.77}],
-[{"value": 0.57}, {"value": 0.51}, {"value": 0.54}, {"value": 0.44}, {"value": 0.52}, {"value": 0.47}],
-[{"value": 0.4}, {"value": 0.43}, {"value": 0.45}, {"value": 0.48}, {"value": 0.39}, {"value": 0.51}],
-[{"value": 0.36}, {"value": 0.36}, {"value": 0.4}, {"value": 0.36}, {"value": 0.41}, {"value": 0.34}],
-[{"value": 0.34}, {"value": 0.37}, {"value": 0.39}, {"value": 0.39}, {"value": 0.4}, {"value": 0.36}],
-[{"value": 0.42}, {"value": 0.4}, {"value": 0.41}, {"value": 0.48}, {"value": 0.43}, {"value": 0.45}],
-[{"value": 0.48}, {"value": 0.41}, {"value": 0.44}, {"value": 0.52}, {"value": 0.44}, {"value": 0.43}],
-[{"value": 0.36}, {"value": 0.39}, {"value": 0.3}, {"value": 0.42}, {"value": 0.37}, {"value": 0.38}],
-[{"value": 5.14}, {"value": 4.31}, {"value": 3.68}, {"value": 1.73}, {"value": 1.57}, {"value": 1.43}],
-[{"value": 0.33}, {"value": 0.4}, {"value": 0.31}, {"value": 0.44}, {"value": 0.38}, {"value": 0.4}],
-[{"value": 0.39}, {"value": 0.41}, {"value": 0.32}, {"value": 0.4}, {"value": 0.42}, {"value": 0.35}],
-[{"value": 0.38}, {"value": 0.36}, {"value": 0.47}, {"value": 0.42}, {"value": 0.36}, {"value": 0.35}]
+        [{"value": 0.35}, {"value": 0.37}, {"value": 0.36}, {"value": 0.38}, {"value": 0.39}, {"value": 0.35}],
+        [{"value": 0.4}, {"value": 0.35}, {"value": 0.43}, {"value": 0.38}, {"value": 0.47}, {"value": 0.52}],
+        [{"value": 1.06},{"value": 0.95}, {"value": 0.83}, {"value": 0.98}, {"value": 0.86}, {"value": 0.77}],
+        [{"value": 0.57}, {"value": 0.51}, {"value": 0.54}, {"value": 0.44}, {"value": 0.52}, {"value": 0.47}],
+        [{"value": 0.4}, {"value": 0.43}, {"value": 0.45}, {"value": 0.48}, {"value": 0.39}, {"value": 0.51}],
+        [{"value": 0.36}, {"value": 0.36}, {"value": 0.4}, {"value": 0.36}, {"value": 0.41}, {"value": 0.34}],
+        [{"value": 0.34}, {"value": 0.37}, {"value": 0.39}, {"value": 0.39}, {"value": 0.4}, {"value": 0.36}],
+        [{"value": 0.42}, {"value": 0.4}, {"value": 0.41}, {"value": 0.48}, {"value": 0.43}, {"value": 0.45}],
+        [{"value": 0.48}, {"value": 0.41}, {"value": 0.44}, {"value": 0.52}, {"value": 0.44}, {"value": 0.43}],
+        [{"value": 0.36}, {"value": 0.39}, {"value": 0.3}, {"value": 0.42}, {"value": 0.37}, {"value": 0.38}],
+        [{"value": 5.14}, {"value": 4.31}, {"value": 3.68}, {"value": 1.73}, {"value": 1.57}, {"value": 1.43}],
+        [{"value": 0.33}, {"value": 0.4}, {"value": 0.31}, {"value": 0.44}, {"value": 0.38}, {"value": 0.4}],
+        [{"value": 0.39}, {"value": 0.41}, {"value": 0.32}, {"value": 0.4}, {"value": 0.42}, {"value": 0.35}],
+        [{"value": 0.38}, {"value": 0.36}, {"value": 0.47}, {"value": 0.42}, {"value": 0.36}, {"value": 0.35}]
       ]
       for(let index = 0; index < this.locations.length; index++) {
         let object: any = this.locations[index];
@@ -428,6 +444,9 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
     }
   }
 
+  /**
+   * Test Average Latency
+   */
   testAverageLatencyBandwidth() {
     this.setLatencyAndBandwidthMockData();
     for(let index = 0; index < this.locations.length; index++) { 
@@ -727,7 +746,6 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
           _responseTime = _responseTime + parseFloat(obj.dashboardModel.responseTime[index].value);
         }
       }
-
      obj.responseTime =  (_responseTime / obj.dashboardModel.responseTime.length).toFixed(2);
     }
   }
@@ -746,7 +764,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
         if(parseFloat(object.latency) < parseFloat(this.bestLatencyRegion.latency)) {
           this.bestLatencyRegion = object;
         }
-      }      
+      }
     }
   }
 
@@ -1057,7 +1075,6 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
       var polyline = L.polyline([[self.userLocation.latitude, self.userLocation.longitude], [object.lat, object.lng]], {color: object.color, weight: 1}).addTo(map);
       polyline.addTo(map);
 
-
       // L.Polyline.Arc([self.userLocation.latitude, self.userLocation.longitude], [object.lat, object.lng], {color: object.color,  weight: 1,
       // vertices: 50}).addTo(map);
     }
@@ -1244,5 +1261,3 @@ interface marker {
   label?: string;
   draggable: boolean;
 }
-
-
