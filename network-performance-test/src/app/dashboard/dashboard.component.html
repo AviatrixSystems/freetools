@@ -26,18 +26,18 @@
             <thead>
               <tr>
                 <th width="75%">
-                    <span class="column-header" *ngIf="visibleSortOption" (click)="sortBy('region_name')">{{properties.RIGHT_PANEL_REGION_COLUMN_HEADER}} 
+                  <span class="column-header" *ngIf="visibleSortOption" (click)="sortBy('region_name')">{{properties.RIGHT_PANEL_REGION_COLUMN_HEADER}} 
                         <i class="fa sort-style" [ngClass]="{'fa-sort': sortableColumn != 'region_name', 'fa-sort-asc': (sortableColumn == 'region_name' && !isDesc), 'fa-sort-desc': (sortableColumn == 'region_name' && isDesc) }" aria-hidden="true"> </i>
                     </span>
-                    <span class="column-header" *ngIf="!visibleSortOption">{{properties.RIGHT_PANEL_REGION_COLUMN_HEADER}} 
+                  <span class="column-header" *ngIf="!visibleSortOption">{{properties.RIGHT_PANEL_REGION_COLUMN_HEADER}} 
                     </span>
                 </th>
                 <th width="25%" class="padding-left-2">
-                    <span class="column-header" *ngIf="visibleSortOption" (click)="sortBy('latency')">{{properties.RIGHT_PANEL_LATENCY_COLUMN_HEADER}} 
+                  <span class="column-header" *ngIf="visibleSortOption" (click)="sortBy('latency')">{{properties.RIGHT_PANEL_LATENCY_COLUMN_HEADER}} 
                         <i class="fa sort-style" [ngClass]="{'fa-sort': sortableColumn != 'latency', 'fa-sort-asc': (sortableColumn == 'latency' && isDesc), 'fa-sort-desc': (sortableColumn == 'latency' && !isDesc) }" aria-hidden="true">
                         </i>
                     </span>
-                    <span class="column-header" *ngIf="!visibleSortOption">{{properties.RIGHT_PANEL_LATENCY_COLUMN_HEADER}} 
+                  <span class="column-header" *ngIf="!visibleSortOption">{{properties.RIGHT_PANEL_LATENCY_COLUMN_HEADER}} 
                     </span>
                 </th>
               </tr>
@@ -64,7 +64,7 @@
     </div>
   </div>
   <!-- End of Connectivity Network Panel -->
-  <!-- Aws Region Panel -->
+  <!-- Region and Chart Panel -->
   <div class="col-sm-6">
     <div class="card card-radious-none height-365">
       <div class="card-header">
@@ -94,5 +94,5 @@
       </div>
     </div>
   </div>
-  <!-- End of Aws Region Panel -->
+  <!-- End of Region ad Chart Panel -->
 </div>

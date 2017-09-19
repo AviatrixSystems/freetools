@@ -7,7 +7,7 @@
 }
 
 .test-card-height {
- // height: 281px;
+  // height: 281px;
 }
 
 .card-title-margin {
@@ -257,8 +257,7 @@ a:hover {
 }
 
 .stat-table-overlay {
-  overflow-y: auto !important;
-  //height: 135px !important;
+  overflow-y: auto !important; //height: 135px !important;
 }
 
 .padding-left-15 {
@@ -324,19 +323,20 @@ a:hover {
   padding-left: 10px !important;
 }
 
-@media (max-width: 768px){
+@media (max-width: 768px) {
   .height-155 {
     height: auto !important;
   }
 }
-@media (max-width: 768px){
+
+@media (max-width: 768px) {
   .stat-table-overlay {
-     // overflow-y: auto !important;
-      height: auto !important;
-    }
+    // overflow-y: auto !important;
+    height: auto !important;
+  }
 }
 
-@media (max-width: 768px){
+@media (max-width: 768px) {
   .test-card-height {
     height: auto !important;
   }
@@ -346,32 +346,39 @@ a:hover {
   height: 4px !important;
   margin-left: -15px;
 }
+
 .height-365 {
   height: 365px;
 }
 
 .toast-bottom-full-width {
-    bottom: 0;    
-    width: 50%;
-    margin-right: 25%;;
+  bottom: 0;
+  width: 50%;
+  margin-right: 25%;
+  ;
 }
+
 .table-header-containt {
   margin-bottom: 0px;
   background-color: #f8f8f8;
 }
+
 .latency-chart-data-not-avialable-text {
   margin-top: 0px;
   margin-bottom: 0px;
   font-weight: 300;
   text-transform: none;
 }
+
 .left-full-panel {
-  height:746px;
+  height: 746px;
   overflow-y: auto;
 }
+
 .font-weight-500 {
   font-weight: 500;
 }
+
 .text-12 {
   font-size: 12px;
 }
