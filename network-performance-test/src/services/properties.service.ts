@@ -23,7 +23,7 @@ export class PropertiesService {
 
   public LEFT_PANEL_AWS_REGION: string  = 'AWS REGIONS';
   public LEFT_PANEL_AZURE_REGION: string  = 'AZURE REGIONS';
-  public LEFT_PANEL_GCE_REGION: string  = 'GCE REGIONS';
+  public LEFT_PANEL_GCE_REGION: string  = 'Google Cloud REGIONS';
 
   // Dashboard
   public RIGHT_PANEL_HEADER: string = 'Network Connectivity to Cloud';
@@ -77,6 +77,8 @@ export class PropertiesService {
   public DOWNLOAD_URL: string = 'http://aviatrix.com/download/';
 
   public INVENTORY_GET_ERROR_MESSAGE: string = "Failed to get inventories.";
+
+  public TEST_SUCCESS_MESSAGE: string = 'Congratulations! Your network performance test results are now available.';
 
   currentTool: string = null;
   currentToolName: string = null;

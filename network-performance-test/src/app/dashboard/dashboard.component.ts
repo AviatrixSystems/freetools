@@ -155,13 +155,15 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
      this.slimLoadingBarService.progress = 0;
      this.isDesc = false;
      this.sortBy('latency')
-   if(this.bestLatencyRegion.latency != 0.00) {
-     if(this.bestLatencyRegion.latency != 0.00) {
-       let config = new MdDialogConfig();
-       let dialogRef:MdDialogRef<ModalComponent> = this.dialog.open(ModalComponent, config);
-       dialogRef.componentInstance.bestLatencyRegion = this.bestLatencyRegion;
-     }
-   }
+   // if(this.bestLatencyRegion.latency != 0.00) {
+   //   if(this.bestLatencyRegion.latency != 0.00) {
+   //     let config = new MdDialogConfig();
+   //     let dialogRef:MdDialogRef<ModalComponent> = this.dialog.open(ModalComponent, config);
+   //     dialogRef.componentInstance.bestLatencyRegion = this.bestLatencyRegion;
+   //   }
+   // }
+  
+   this.toasterService.success(this.properties.TEST_SUCCESS_MESSAGE);
   }
 
   /**
@@ -777,7 +779,7 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
           lat.push(obj.dashboardModel.latency[j].value + '\t');
         }
         lat.push(obj.dashboardModel.latency[5].value);
-        console.log('Region: ' + obj.region_name, 'Lat: ' + lat);
+        // console.log('Region: ' + obj.region_name, 'Lat: ' + lat);
       }
 
       this.isTestCompleted = true;
