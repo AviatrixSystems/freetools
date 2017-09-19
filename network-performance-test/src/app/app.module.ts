@@ -58,7 +58,7 @@ export function highchartsFactory() {
     StarRatingModule,
     ShareButtonsModule.forRoot(),
     SlimLoadingBarModule.forRoot(),
-    ToastrModule.forRoot({timeOut: 10000, positionClass: 'toast-bottom-full-width', closeButton: true}),
+    ToastrModule.forRoot({timeOut: 3000, positionClass: 'toast-bottom-full-width', closeButton: true}),
   ],
   entryComponents: [ModalComponent],
   providers: [
