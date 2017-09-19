@@ -563,14 +563,14 @@ export class DashboardComponent implements OnInit, AfterViewInit  {
       ping.ping(obj.url, function(error, delta2) {
           if(!current.isTestStopped) {
             let max = delta1 < delta2 ? delta1:delta2;
-            if(obj.dashboardModel && obj.dashboardModel.latency){
+            // if(obj && obj.dashboardModel && obj.dashboardModel.latency){
               obj.dashboardModel.latency[obj.currentLatencyIndex].value = max;
-            }
+            // }
             current.slimLoadingBarService.progress += current.progressFactor;
-            if(current.latencyChart.series[index] && current.latencyChart.series[index].data)
-            {
+            // if(current.latencyChart && current.latencyChart.series[index] && current.latencyChart.series[index].data)
+            // {
               current.latencyChart.series[index].data[obj.currentLatencyIndex].update({"y": max});
-            }
+            // }
             obj.currentLatencyIndex++;
             if (obj.currentLatencyIndex > 5) {
               obj.latencyCompleted = true;
