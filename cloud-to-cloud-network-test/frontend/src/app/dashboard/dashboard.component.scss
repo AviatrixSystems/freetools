@@ -45,7 +45,7 @@
 }
 
 .chart-height {
-  height: 300px !important;
+  height: 290px !important;
 }
 
 .info-color {
@@ -430,7 +430,7 @@ a:hover {
 
 .source-tab {
   overflow-y: auto;
-  height: 167px;
+  height: 300px;
   overflow-x: hidden;
 }
 
@@ -448,12 +448,12 @@ a:hover {
 }
 
 .height-162 {
-  height: 160px;
+  //height: 160px;
 }
 
 .destination-tab {
   margin: 0px;
-  //height: 33px;
+  height: 33px;
   font-weight: 500;
 }
 
@@ -474,7 +474,7 @@ a:hover {
   margin: 0px;
   //margin-top: 10px;
   overflow-y: auto;
-  height: 119px;
+  height: 250px;
 }
 
 .padding-top-10 {
@@ -519,7 +519,7 @@ a:hover {
 
 .destination-region-table {
   overflow-y: auto;
-  height: 128px;
+  height: 500px;
 }
 
 .margin-right-7 {
@@ -782,4 +782,37 @@ a:hover {
 .margin-none {
   margin-left: 0px;
   margin-right: 0px;
+}
+.height-365 {
+  height: 365px;
+}
+.height-645 {
+  height: 94.5%;
+}
+
+.margin-top-7percent{
+  margin-top: 10%;
+}
+.height-746 {
+  height: 96%;
+  overflow-y: auto;
+}
+.height-300 {
+  margin-left: 1px;
+  height: 500 px;
+  overflow-y: auto;
+}
+
+@media (max-width: 768px){
+  .height-300 {
+    height: auto !important;
+    overflow-y: auto !important;
+  }
+}
+@media (max-width: 768px){
+  .height-645 {
+    height: auto !important;    
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 }
