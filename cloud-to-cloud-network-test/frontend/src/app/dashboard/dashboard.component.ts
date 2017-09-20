@@ -840,6 +840,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.bandwidthOptions = this.getChartConfig('', this.properties.MBPS, badwidthSeries, 'spline');
       this.isTestCompleted = true;
       // this.disabledStart = false;
+      this.isDesc = false;
+      this.sortBy('latency');
       this.chartLoaded = true;
       // Stop Loader
       this.properties.isLoading = false;
