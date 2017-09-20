@@ -11,7 +11,7 @@
 <!-- Left and Right Panel -->
 <div class="row mrg-top-15 padding-left-right-15">
   <div class="col-md-6 pad-right-none" *ngIf="!beginTest">
-    <div class="card card-radious-none height-645">
+    <div class="card card-radious-none height-94percent">
       <!-- <div class="card-header cart-header-right-panel">               -->
       <div class="center" style="padding:15px;">
         <img src="/assets/cloud-01.svg" height="120" width="120" />
@@ -27,8 +27,8 @@
   </div>
   <!-- Right panel -->
   <div class="col-md-6 pad-right-none" *ngIf="beginTest">
-    <div class="card card-radious-none"  [ngClass]="{'height-645': (sourceTab || destinationTab) && !latencyOptions, 'height-746': (testTab || sourceTab || destinationTab) && latencyOptions}">
-      <div class="card-header cart-header-right-panel height-645" >
+    <div class="card card-radious-none"  [ngClass]="{'height-94percent': (sourceTab || destinationTab) && !chartLoaded, 'height-96percent': (testTab || sourceTab || destinationTab) && chartLoaded}">
+      <div class="card-header cart-header-right-panel height-94percent" >
         <!-- Right Panel tooltip and timestamp -->
         <div class="row">
           <div class="col-sm-7 padding-right-0">
@@ -104,7 +104,7 @@
                 Select All Google Cloud Regions
               </label>
             </div>
-            <div class="row" [ngClass]="{'row destination-region': (sourceTab || destinationTab) && !latencyOptions, 'destination-region-after-test': (testTab || sourceTab || destinationTab) && latencyOptions}" *ngIf="destinationCloudProvider == 'azure'">
+            <div class="row" [ngClass]="{'destination-region': (sourceTab || destinationTab) && !chartLoaded, 'destination-region-after-test': (testTab || sourceTab || destinationTab) && chartLoaded}" *ngIf="destinationCloudProvider == 'azure'">
               <template ngFor let-option [ngForOf]="dashboardModel.azureRegions" let-i="index">
                 <div class="col-sm-6 padding-0" *ngIf="speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion">
                   <img src="/assets/ic_check_box_filled@2x.png" alt="Region" width="22" height="22" class="margin-right-5 display-inline-text-icon" (click)="updateCheckbox(option);" *ngIf="option.isSelected && (speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion)">
@@ -115,7 +115,7 @@
                 </div>
               </template>
             </div>
-            <div class="" [ngClass]="{'row destination-region': (sourceTab || destinationTab) && !latencyOptions, 'destination-region-after-test': (testTab || sourceTab || destinationTab) && latencyOptions}" *ngIf="destinationCloudProvider == 'aws'">
+            <div class="" [ngClass]="{'row destination-region': (sourceTab || destinationTab) && !chartLoaded, 'destination-region-after-test': (testTab || sourceTab || destinationTab) && chartLoaded}" *ngIf="destinationCloudProvider == 'aws'">
               <template ngFor let-option [ngForOf]="dashboardModel.awsRegions" let-i="index">
                 <div class="col-md-6 padding-0" *ngIf="speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion">
                   <img src="/assets/ic_check_box_filled@2x.png" alt="Region" width="22" height="22" class="margin-right-5 display-inline-text-icon" (click)="updateCheckbox(option);" *ngIf="option.isSelected && (speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion)">
@@ -126,7 +126,7 @@
                 </div>
               </template>
             </div>
-            <div class="row " [ngClass]="{'row destination-region': (sourceTab || destinationTab) && !latencyOptions, 'destination-region-after-test': (testTab || sourceTab || destinationTab) && latencyOptions}" *ngIf="destinationCloudProvider == 'gce'">
+            <div class="row " [ngClass]="{'row destination-region': (sourceTab || destinationTab) && !chartLoaded, 'destination-region-after-test': (testTab || sourceTab || destinationTab) && chartLoaded}" *ngIf="destinationCloudProvider == 'gce'">
               <template ngFor let-option [ngForOf]="dashboardModel.gceRegions" let-i="index">
                 <div class="col-md-6 padding-0" *ngIf="speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion">
                   <img src="/assets/ic_check_box_filled@2x.png" alt="Region" width="22" height="22" class="margin-right-5 display-inline-text-icon" (click)="updateCheckbox(option);" *ngIf="option.isSelected && (speedtestModel.sourceCloudProvider != destinationCloudProvider || option.cloud_info.region != speedtestModel.sourceCloudRegion)">
