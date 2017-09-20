@@ -241,9 +241,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
    * [bandwidthInstance description] 
    * @param {[type]} chartInstance [instance of throughput Highchart]
    */
-  bandwidthInstance(chartInstance) {
-    this.bandwidthChart = chartInstance;
-  }
+  // bandwidthInstance(chartInstance) {
+  //   this.bandwidthChart = chartInstance;
+  // }
 
   ngOnInit() {
   }
@@ -289,7 +289,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   updateCheckbox(region: any) {
     this.isTestCompleted = false;
     region.latency = 0.0;
-    region.bandwidth = 0.0;
+    // region.bandwidth = 0.0;
     region.isSelected = !region.isSelected;
     if (!this.isRegionsSelected(region)) {
       region.isSelected = true;
@@ -501,13 +501,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         for (let i = 0; this.chartLoaded && i < this.latencyChart.series.length ; i++) {
           if(this.latencyChart.series.length == 1) {
             this.latencyChart.destroy();
-            this.bandwidthChart.destroy();
+            // this.bandwidthChart.destroy();
             this.chartLoaded = false;
             break;
           } 
           if(this.latencyChart.series[i].name == region.label) {
             this.latencyChart.series[i].remove()
-            this.bandwidthChart.series[i].remove();
+            // this.bandwidthChart.series[i].remove();
             break;
           }
         }
@@ -538,7 +538,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     for (let index = 0; index < this.speedtestModel.destinationCloudRegions[cloudProvider].length; index++) {
       if (region.cloud_info.region === this.speedtestModel.destinationCloudRegions[cloudProvider][index]['cloud_info']['region'] && region.public_ip == this.speedtestModel.destinationCloudRegions[cloudProvider][index]['public_ip']) {
         this.speedtestModel.destinationCloudRegions[cloudProvider][index].latency = 0.0;
-        this.speedtestModel.destinationCloudRegions[cloudProvider][index].bandwidth = 0.0;
+        // this.speedtestModel.destinationCloudRegions[cloudProvider][index].bandwidth = 0.0;
         this.speedtestModel.destinationCloudRegions[cloudProvider].splice(index, 1);
         for (let step = 0; step < this.speedtestModel.destinationRegions.length; step++) {
           if (region.cloud_info.region === this.speedtestModel.destinationRegions[step]['cloud_info']['region'] && region.public_ip === this.speedtestModel.destinationRegions[step]['public_ip']) {
@@ -576,13 +576,13 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         for (let i = 0; this.chartLoaded && i < this.latencyChart.series.length ; i++) {
           if(this.latencyChart.series.length == 1) {
             this.latencyChart.destroy();
-            this.bandwidthChart.destroy();
+            // this.bandwidthChart.destroy();
             this.chartLoaded = false;
             break;
           } 
           if(this.latencyChart.series[i].name == region.label) {
             this.latencyChart.series[i].remove()
-            this.bandwidthChart.series[i].remove();
+            // this.bandwidthChart.series[i].remove();
             break;
           }
         }
@@ -818,7 +818,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     // }
     if(this.speedtestModel.destinationRegions.length < 1) {
       this.latencyChart.destroy();
-      this.bandwidthChart.destroy();
+      // this.bandwidthChart.destroy();
       this.chartLoaded = false;
       return;
     }
@@ -833,11 +833,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.chartModel.chartData = chartData['data'];
       for (let index = 0; index < this.speedtestModel.destinationRegions.length; index++) {
         latencySeries.push(this.getSeriesData('spline', this.speedtestModel.destinationRegions[index].label, this.getChartData(this.speedtestModel.destinationRegions[index].cloud_info.region, 'latency'), this.speedtestModel.destinationRegions[index].color));
-        badwidthSeries.push(this.getSeriesData('spline', this.speedtestModel.destinationRegions[index].label, this.getChartData(this.speedtestModel.destinationRegions[index].cloud_info.region, 'throughput'), this.speedtestModel.destinationRegions[index].color));
+        // badwidthSeries.push(this.getSeriesData('spline', this.speedtestModel.destinationRegions[index].label, this.getChartData(this.speedtestModel.destinationRegions[index].cloud_info.region, 'throughput'), this.speedtestModel.destinationRegions[index].color));
       }
       this.updateLatencyAndBandwidthForDestinationCloud();
       this.latencyOptions = this.getChartConfig('', this.properties.MILISECONDS, latencySeries, 'spline');
-      this.bandwidthOptions = this.getChartConfig('', this.properties.MBPS, badwidthSeries, 'spline');
+      // this.bandwidthOptions = this.getChartConfig('', this.properties.MBPS, badwidthSeries, 'spline');
       this.isTestCompleted = true;
       // this.disabledStart = false;
       this.isDesc = false;
@@ -863,9 +863,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         if (data.latency != 0.0) {
           this.speedtestModel.destinationCloudRegions[key][index]['latency'] = data.latency;
         }
-        if (data.bandwidth != 0.0) {
-          this.speedtestModel.destinationCloudRegions[key][index]['bandwidth'] = data.bandwidth;
-        }
+        // if (data.bandwidth != 0.0) {
+        //   this.speedtestModel.destinationCloudRegions[key][index]['bandwidth'] = data.bandwidth;
+        // }
       }
     }
 
@@ -955,22 +955,22 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   getAvarageLatencyAndBandwidth(object: any) {
     let data = {
       "latency": 0.0,
-      "bandwidth": 0.0
+      // "bandwidth": 0.0
     }
     let latency = 0.0;
-    let bandwidth = 0.0;
+    // let bandwidth = 0.0;
     let countSeries = 0;
     for (let index = 0; index < this.chartModel.chartData.length; index++) {
       if (this.chartModel.chartData[index]['destination_region'] == object.cloud_info.region) {
         countSeries++;
         latency += this.chartModel.chartData[index]['latency'];
-        bandwidth += this.chartModel.chartData[index]['throughput'];
+        // bandwidth += this.chartModel.chartData[index]['throughput'];
       }
     }
 
     if (countSeries != 0) {
       data.latency = parseFloat((latency / countSeries).toFixed(2));
-      data.bandwidth = parseFloat((bandwidth / countSeries).toFixed(2));
+      // data.bandwidth = parseFloat((bandwidth / countSeries).toFixed(2));
     }
     return data;
   }
@@ -984,17 +984,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     let data = this.getAvarageLatencyAndBandwidth(marker);
 
     let content = "";
-    if (data.latency == 0.0 && data.bandwidth == 0.0) {
+    if (data.latency == 0.0) {
       content = "<strong>" + marker.region_name + "</strong>";
     } else {
       content = '<table class="table table-bordered" width="100%">' +
         '<thead>' +
         '<tr> <th style="text-align: center; border-top: none" colspan="2">' + marker.region_name + '</th></tr>' +
-        '<tr> <th style="text-align: center">' + "Latency <br> (msec)" + '</th> <th style="text-align: center">' + 'Throughput <br> (mbps)' + '</th></tr>' +
+        '<tr> <th style="text-align: center">' + "Latency <br> (msec)" + '</th></tr>' +
         '</thead>' +
         '<tbody>' +
-        '<tr><td style="text-align: center;">' + (data.latency == 0.0 ? this.properties.NA_TEXT : data.latency) + '</td> <td style="text-align: center;">' + (data.bandwidth == 0.0 ? this.properties.NA_TEXT : data.bandwidth) + '</td></tr>' +
-        '</tbody>' +
+        '<tr><td style="text-align: center;">' + (data.latency == 0.0 ? this.properties.NA_TEXT : data.latency) + '</td></tr>' + '</tbody>' +
         '</table>';
     }
 
@@ -1048,12 +1047,12 @@ export class DashboardComponent implements OnInit, AfterViewInit {
         if (this.latencyChart.series[index].name !== marker.label && hide) {
           this.latencyChart.series[index].setVisible(false, false);
 
-          if (this.bandwidthChart && this.bandwidthChart.series) {
-            this.bandwidthChart.series[index].setVisible(false, false);
-          }
+          // if (this.bandwidthChart && this.bandwidthChart.series) {
+          //   this.bandwidthChart.series[index].setVisible(false, false);
+          // }
         } else {
           this.latencyChart.series[index].setVisible(true, false);
-          this.bandwidthChart.series[index].setVisible(true, false);
+          // this.bandwidthChart.series[index].setVisible(true, false);
           if (hide) {
             this.latencyChart.series[index].update({
               dataLabels: {
@@ -1061,11 +1060,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
               }
             }, false);
 
-            this.bandwidthChart.series[index].update({
-              dataLabels: {
-                enabled: true
-              }
-            }, false);
+            // this.bandwidthChart.series[index].update({
+            //   dataLabels: {
+            //     enabled: true
+            //   }
+            // }, false);
           } else {
             this.latencyChart.series[index].update({
               dataLabels: {
@@ -1073,16 +1072,16 @@ export class DashboardComponent implements OnInit, AfterViewInit {
               }
             }, false);
 
-            this.bandwidthChart.series[index].update({
-              dataLabels: {
-                enabled: false
-              }
-            }, false);
+            // this.bandwidthChart.series[index].update({
+            //   dataLabels: {
+            //     enabled: false
+            //   }
+            // }, false);
           }
         }
       }
       this.latencyChart.redraw();
-      this.bandwidthChart.redraw();
+      // this.bandwidthChart.redraw();
     }
   }
 
@@ -1159,7 +1158,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       "theme": "light",
       "dataProvider": {
         "map": "worldLow",
-        "zoomLevel": 1.4,
+        "zoomLevel": 1.1,
         "lines": lines,
         "images": images
       },
