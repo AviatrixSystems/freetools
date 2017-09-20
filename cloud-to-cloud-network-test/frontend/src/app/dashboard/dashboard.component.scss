@@ -790,21 +790,21 @@ a:hover {
   height: 94.5%;
 }
 
-.margin-top-7percent{
+.margin-top-10percent{
   margin-top: 10%;
 }
 .height-746 {
   height: 96%;
   overflow-y: auto;
 }
-.height-300 {
-  margin-left: 1px;
-  height: 500 px;
+.destination-region-after-test {
+  margin: 0px;
+  height: 500px;
   overflow-y: auto;
 }
 
 @media (max-width: 768px){
-  .height-300 {
+  .destination-region-after-test {
     height: auto !important;
     overflow-y: auto !important;
   }
@@ -815,4 +815,17 @@ a:hover {
     overflow-y: auto;
     overflow-x: hidden;
   }
+}
+
+.margin-top-5 {
+  margin-top: 5px;
+}
+.margin-botton-ve5 {
+  margin-bottom: -5%;
+}
+.width-100 {
+  width:100%;
+}
+.width-7 {
+  width:7%
 }
