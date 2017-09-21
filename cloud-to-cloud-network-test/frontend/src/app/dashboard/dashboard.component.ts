@@ -904,7 +904,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   handleError(error: any) {
-    this.toasterService.error(error);
+    // this.toasterService.error(error);
   }
 
   /**
