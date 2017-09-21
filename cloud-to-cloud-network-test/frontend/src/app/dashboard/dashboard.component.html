@@ -9,24 +9,9 @@
 <!-- Loading Bar -->
 <!-- <ng2-slim-loading-bar [color]="'#e24301'"></ng2-slim-loading-bar> -->
 <!-- Left and Right Panel -->
-<div class="row mrg-top-15 padding-left-right-15">
-  <div class="col-md-6 pad-right-none" *ngIf="!beginTest">
-    <div class="card card-radious-none height-94percent">
-      <!-- <div class="card-header cart-header-right-panel">               -->
-      <div class="center" style="padding:15px;">
-        <img src="/assets/cloud-01.svg" height="120" width="120" />
-        <p class="begin-text">
-          View recorded network performance between a public cloud region and one/more regions in AWS, Azure and/or Google Cloud.</p>
-        <button class="btn begin-test-btn outline-none" (click)="beginTest=!beginTest">Begin Test
-          <!-- <i class="fa fa-arrow-right fa-lg pull-right padding-left-10" aria-hidden="true"></i> -->
-          <img src="/assets/arrow-36x36-white.png" height="16" width="16" style="margin-left: 10px;" />
-        </button>
-      </div>
-      <!-- </div> -->
-    </div>
-  </div>
+<div class="row mrg-top-15 padding-left-right-15">  
   <!-- Right panel -->
-  <div class="col-md-6 pad-right-none" *ngIf="beginTest">
+  <div class="col-md-6 pad-right-none">
     <div class="card card-radious-none"  [ngClass]="{'height-94percent': (sourceTab || destinationTab) && !chartLoaded, 'height-96percent': (testTab || sourceTab || destinationTab) && chartLoaded}">
       <div class="card-header cart-header-right-panel height-94percent" >
         <!-- Right Panel tooltip and timestamp -->
