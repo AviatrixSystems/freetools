@@ -61,7 +61,7 @@
               <div class="col-4 col-sm-4" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'azure', 'non-active-destination-menu': destinationCloudProvider != 'azure'}">
                 <span class="cursor-pointer" (click)="setDestinationCloudProvider('azure')">Azure</span>
               </div>
-              <div class="col-4 col-sm-4" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'aws', 'non-active-destination-menu': destinationCloudProvider != 'aws'}">
+              <div class="col-4 col-sm-4" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'aws', 'non-active-destination-menu region-tab-border': destinationCloudProvider != 'aws'}">
                 <span class="cursor-pointer" (click)="setDestinationCloudProvider('aws')">AWS</span>
               </div>
               <div class="col-4 col-sm-4" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'gce', 'non-active-destination-menu': destinationCloudProvider != 'gce'}">
