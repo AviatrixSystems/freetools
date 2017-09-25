@@ -335,7 +335,7 @@ a:hover {
   position: absolute;
   pointer-events: none;
 }
-
+/*
 .active-destination-menu:after {
   border-color: rgba(136, 183, 213, 0);
   border-top-color: #fc8768;
@@ -349,6 +349,7 @@ a:hover {
   border-width: 8px;
   margin-left: -10px;
 }
+*/
 
 .bubble {
   border-radius: 1000px;
@@ -471,7 +472,7 @@ a:hover {
 .destination-region {
   margin: 0px; //margin-top: 10px;
   overflow-y: auto;
-  height: 250px;
+  height: 220px;
 }
 
 .padding-top-10 {
@@ -836,4 +837,12 @@ a:hover {
 .region-tab-border {
   border-left: 1px solid #ababab;
   border-right: 1px solid #ababab;
+}
+
+.tab-details-msg {
+  margin: 0px;
+  text-align: center;
+  font-family: sans-serif;
+  padding: 7px;
+  border-bottom: 1px solid #cac7c7;
 }

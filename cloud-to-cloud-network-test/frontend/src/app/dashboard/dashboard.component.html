@@ -58,14 +58,19 @@
         <div class="row height-170" *ngIf="destinationTab">
           <div class="col-sm-12">
             <div class="row destination-tab" align="center">
-              <div class="col-4 col-sm-4" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'azure', 'non-active-destination-menu': destinationCloudProvider != 'azure'}">
-                <span class="cursor-pointer" (click)="setDestinationCloudProvider('azure')">Azure</span>
+              <div class="col-4 col-sm-4 cursor-pointer" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'azure', 'non-active-destination-menu': destinationCloudProvider != 'azure'}" (click)="setDestinationCloudProvider('azure')">
+                <span class="cursor-pointer" >Azure</span>
               </div>
-              <div class="col-4 col-sm-4" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'aws', 'non-active-destination-menu region-tab-border': destinationCloudProvider != 'aws'}">
-                <span class="cursor-pointer" (click)="setDestinationCloudProvider('aws')">AWS</span>
+              <div class="col-4 col-sm-4 cursor-pointer" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'aws', 'non-active-destination-menu region-tab-border': destinationCloudProvider != 'aws'}" (click)="setDestinationCloudProvider('aws')">
+                <span class="">AWS</span>
               </div>
-              <div class="col-4 col-sm-4" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'gce', 'non-active-destination-menu': destinationCloudProvider != 'gce'}">
-                <span class="cursor-pointer" (click)="setDestinationCloudProvider('gce')">GCE</span>
+              <div class="col-4 col-sm-4 cursor-pointer" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'gce', 'non-active-destination-menu': destinationCloudProvider != 'gce'}" (click)="setDestinationCloudProvider('gce')">
+                <span class="cursor-pointer">GCE</span>
+              </div>
+            </div>
+            <div class="row tab-details-msg" align="center">
+              <div class="col-12 col-sm-12">
+                Please select the region(s) from different cloud(s).
               </div>
             </div>
             <div class="row destination-cloud-provider" *ngIf="destinationCloudProvider == 'azure'">
