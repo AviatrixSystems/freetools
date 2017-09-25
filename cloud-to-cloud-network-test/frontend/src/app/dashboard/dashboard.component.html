@@ -58,14 +58,14 @@
         <div class="row height-170" *ngIf="destinationTab">
           <div class="col-sm-12">
             <div class="row destination-tab" align="center">
-              <div class="col-4 col-sm-4" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'azure', 'non-active-destination-menu': destinationCloudProvider != 'azure'}">
-                <span class="cursor-pointer" (click)="setDestinationCloudProvider('azure')">Azure</span>
+              <div class="col-4 col-sm-4 cursor-pointer" (click)="setDestinationCloudProvider('azure')" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'azure', 'non-active-destination-menu': destinationCloudProvider != 'azure'}">
+                <span>Azure</span>
               </div>
-              <div class="col-4 col-sm-4" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'aws', 'non-active-destination-menu region-tab-border': destinationCloudProvider != 'aws'}">
-                <span class="cursor-pointer" (click)="setDestinationCloudProvider('aws')">AWS</span>
+              <div class="col-4 col-sm-4 cursor-pointer" (click)="setDestinationCloudProvider('aws')" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'aws', 'non-active-destination-menu region-tab-border': destinationCloudProvider != 'aws'}">
+                <span>AWS</span>
               </div>
-              <div class="col-4 col-sm-4" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'gce', 'non-active-destination-menu': destinationCloudProvider != 'gce'}">
-                <span class="cursor-pointer" (click)="setDestinationCloudProvider('gce')">GCE</span>
+              <div class="col-4 col-sm-4 cursor-pointer" (click)="setDestinationCloudProvider('gce')" [ngClass]="{'active-destination-menu': destinationCloudProvider == 'gce', 'non-active-destination-menu': destinationCloudProvider != 'gce'}">
+                <span>GCE</span>
               </div>
             </div>
             <div class="row destination-cloud-provider" *ngIf="destinationCloudProvider == 'azure'">
