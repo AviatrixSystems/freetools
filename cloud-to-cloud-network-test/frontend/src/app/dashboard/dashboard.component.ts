@@ -990,7 +990,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       content = '<table class="table table-bordered" width="100%">' +
         '<thead>' +
         '<tr> <th style="text-align: center; border-top: none" colspan="2">' + marker.region_name + '</th></tr>' +
-        '<tr> <th style="text-align: center">' + "Latency <br> (msec)" + '</th></tr>' +
+        '<tr> <th style="text-align: center">' + "Latency (msec)" + '</th></tr>' +
         '</thead>' +
         '<tbody>' +
         '<tr><td style="text-align: center;">' + (data.latency == 0.0 ? this.properties.NA_TEXT : data.latency) + '</td></tr>' + '</tbody>' +
