@@ -4,18 +4,21 @@
   <div class="col-sm-6 pad-right-none">
     <div class="card card-radious-none left-full-panel">
       <div class="card-header margin-bottom-25">
-        <div class="row">
-          <div class="col-sm-9 padding-right-none">
-            <h6 class="card-title card-title-margin">{{properties.RIGHT_PANEL_HEADER}} <span>&nbsp;  <i class="fa fa-info-circle fa-lg info-color cursor-pointer" aria-hidden="true" mdTooltip="{{properties.RIGHT_PANEL_TOOLTIP}}"></i></span></h6>
+        <div class="row margin-top-5">
+          <div class="col-6 col-sm-6 padding-right-none">
+            <h6 class="card-title card-title-margin">{{properties.RIGHT_PANEL_HEADER}} <span>&nbsp;  <i class="fa fa-info-circle fa-lg info-color cursor-pointer" aria-hidden="true" mdTooltip="{{properties.RIGHT_PANEL_TOOLTIP}}"></i></span></h6>        
           </div>
-          <div class="col-sm-3 text-align-right">
+          <div class="col-5 col-sm-5">
+            <span class="card-title"> Source Location : {{sourceLocation}}</span>
+          </div>
+          <div class="col-1 col-sm-1 text-align-right margin-top-minus-5">
             <img class="loader-style" src="../assets/loader.gif" *ngIf="disabledStart">
           </div>
         </div>
       </div>
       <div class="card-block test-card-height padding-top-none">
         <div class="row margin-bottom-25 margin-left-none">
-          <div id="bestRegionBorder" class="col-sm-12 right-stat-panel right-latency-panel-border" [style.border-left-color]="bestLatencyRegion && bestLatencyRegion.latency != 0.0 ? bestLatencyRegion.color : '#26db68' ">
+          <div id="bestRegionBorder" class="col-sm-6 right-stat-panel right-latency-panel-border" [style.border-left-color]="bestLatencyRegion && bestLatencyRegion.latency != 0.0 ? bestLatencyRegion.color : '#26db68' ">
             <span class="font-weight-500">{{getBestlatencyregion()}}</span>
             <br>
             <span class="text-12">Best region for latency sensitive apps</span>
@@ -68,7 +71,7 @@
   <div class="col-sm-6">
     <div class="card card-radious-none height-365">
       <div class="card-header">
-        <div class="row">
+        <div class="row margin-top-5">
           <div class="col-sm-6">
             <h6 class="card-title card-title-margin">{{leftPanelHeader}}</h6>
           </div>

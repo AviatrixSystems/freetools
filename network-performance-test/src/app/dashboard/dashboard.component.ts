@@ -98,6 +98,8 @@ export class DashboardComponent implements AfterViewInit  {
   AZURE_CLOUD: boolean = false;
   GCE_CLOUD: boolean = false;
 
+  sourceLocation: any = null;
+
   /**
    * Declare all required parameters and providers
    * @param {Http}                  private http                   http service
@@ -227,6 +229,7 @@ export class DashboardComponent implements AfterViewInit  {
               if (status == google.maps.GeocoderStatus.OK) {
                   if (results[1]) {
                       self.userLocation.address = results[1].formatted_address;
+                      self.sourceLocation =results[1].address_components[6].long_name +'('+ results[1].address_components[8].long_name + ")" ;
                       self.isInventoryLoaded();
                   }
               }
