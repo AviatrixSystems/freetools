@@ -12,6 +12,10 @@ declare const google: any;
 
 declare const AmCharts: any;
 
+declare const jsPDF: any;
+
+declare const Email: any
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -246,6 +250,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   // }
 
   ngOnInit() {
+    
   }
 
   /**
@@ -845,6 +850,49 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       this.chartLoaded = true;
       // Stop Loader
       this.properties.isLoading = false;
+      var doc = new jsPDF()
+      doc.text('Region', 20, 20)
+      doc.text('Latency', 130, 20)
+      for(let step = 0; step < this.speedtestModel.destinationRegions.length; step++) {
+        doc.text(this.speedtestModel.destinationRegions[step].label, 20, ((step + 1) * 10) + 20)
+        doc.text((this.speedtestModel.destinationRegions[step].latency).toString(), 130, ((step + 1) * 10) + 20)
+      }
+      
+      // doc.save('info.pdf')
+
+      // var email   = require("/home/ramesh/aviatrix-system/freetools/cloud-to-cloud-network-test/frontend/node_modules/emailjs/email");
+      // var server   = email.server.connect({
+      //    user:    "ramesh.tathe@opcito.com", 
+      //    password:"ramesh8264", 
+      //    host:    "smtp.gmail.com", 
+      //    port: 465,
+      //    // ssl:     true
+      // });
+       
+      // // send the message and get a callback with an error or details of the message that was sent
+      // server.send({
+      //    text:    "i hope this works", 
+      //    from:    "ramesh.tathe@opcito.com", 
+      //    to:      "ramesh.tathe@opcito.com",
+      //    // cc:      "else <else@your-email.com>",
+      //    subject: "testing emailjs"
+      // }, function(err, message) { console.log(err || message); });
+
+      let body = "<table style = 'font-family: arial, sans-serif; border-collapse: collapse; width: 50%;'><thead><tr><th style='border: 1px solid #dddddd; text-align: left; padding: 8px; width: 70%;'>Region</th><th style='border: 1px solid #dddddd; text-align: left; padding: 8px; width: 70%;'>Latency</th></tr></thead><tbody>";
+      for(let i = 0; i < this.speedtestModel.destinationRegions.length; i++) {
+        body = body + "<tr><td style='border: 1px solid #dddddd; text-align: left; padding: 8px; width: 70%;'>" + this.speedtestModel.destinationRegions[i]['label'] + "</td><td style='border: 1px solid #dddddd; text-align: left; padding: 8px; width: 30%;'>" + this.speedtestModel.destinationRegions[i]['latency'] + "</td></tr>";
+      }
+      body = body + "</tbody></table>"
+      console.log('Body: ', body);
+
+      Email.send("ramesh.tathe@opcito.com",
+        "ramesh.tathe@opcito.com",
+        "This is a subject",
+        body,
+        "smtp.gmail.com",
+        "ramesh.tathe@opcito.com",
+        "ramesh8264");
+    
     }, (error: any) =>{
         this.handleError(this.properties.SPEEDTEST_ERROR_MESSAGE);
       // Stop Loader
