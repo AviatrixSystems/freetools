@@ -207,13 +207,22 @@ export class DashboardComponent implements AfterViewInit  {
   }
 
   /**
+   * Get ammap
+   * [ngOnInit description]
+   */
+  ngOnInit(){
+    this.generateAmMap();
+  }
+
+  /**
    * get the geo location of user
    * [ngAfterViewInit description]
    */
   ngAfterViewInit() {
+    setTimeout(() => this.generateAmMap(), 50);
     this.initLeftPanelHeader();
     let self = this;
-   
+    setTimeout(() =>{
     this.getGeolocation().subscribe((success: any) => {
       try {
         let geoLocations =  JSON.parse(success._body);
@@ -241,7 +250,7 @@ export class DashboardComponent implements AfterViewInit  {
 
     }, (error: any) => {
       self.getInvetory();
-    });
+    });}, 20);
   }
 
   isInventoryLoaded() {
