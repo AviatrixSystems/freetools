@@ -5,6 +5,7 @@ from flask_cors import CORS, cross_origin
 from influxdb import InfluxDBClient
 from werkzeug.serving import run_simple
 import constants
+import shutil
 
 
 app = Flask(__name__)
@@ -27,9 +28,9 @@ def get_speedtest():
     if not (cloud_id and source_region and destination_regions and timestamp):
         return Response("Bad Request", status=400)
     if source_region in destination_regions:
-	return Response("Source region and destination region can not be same.", status=400)
+	    return Response("Source region and destination region can not be same.", status=400)
     if timestamp not in ['12h', '1d', '7d', '15d', '30d']:
-	return Response("Invalid time period.", status=400)
+	    return Response("Invalid time period.", status=400)
     latency_throughput = service.get_letency_throughput(cloud_id, source_region, destination_regions, timestamp,
                                                         influx_db_client)
     if latency_throughput:
@@ -53,6 +54,21 @@ def save_speedtest():
     resp = Response(status=200)
     return resp
 
+
+@app.route('/api/sendmail', methods=['POST'])
+@cross_origin(origins='*', send_wildcard=True)
+def generate_pdf_and_send_email():
+    data = json.loads(request.data)
+    email_id = data.get('email_id', None)
+    source_cloud_provider = data.get('source_cloud_provider', None)
+    source_region = data.get('user_location', None)
+    latency = data.get('latency', [])
+    if not (email_id and source_cloud_provider and source_region and latency):
+        return Response("Bad Request", status=400)
+    service.generate_pdf_send_mail(email_id, source_cloud_provider, source_region, latency)
+    resp = Response(status=200)
+    shutil.rmtree(email_id)
+    return resp
 
 if __name__ == '__main__':
     from werkzeug.serving import run_simple

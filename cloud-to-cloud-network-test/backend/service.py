@@ -1,5 +1,12 @@
 from constants import Cloud, SAVE_INFLUX_URL, GET_INFLUX_URL
 from datetime import datetime
+from fpdf import FPDF, HTMLMixin
+from email_lib import send_mail
+import os
+
+
+class MyFPDF(FPDF, HTMLMixin):
+    pass
 
 
 def get_letency_throughput(cloud_id, source_region, destination_regions, timestamp, influx_db_client):
@@ -107,3 +114,34 @@ def convert_to_speedtest_format(responce):
         if region:
             result['data'].append(region)
     return result
+
+
+def generate_pdf_send_mail(email_id, source_cloud_provider, source_region, latency):
+    try:
+        os.mkdir(email_id)
+    except:
+        pass
+    pdf_path = '%s/result.pdf' % email_id
+    pdf = MyFPDF()
+    # First page
+    content = generate_pdf(source_cloud_provider, source_region, latency)
+    pdf.add_page()
+    pdf.write_html(content)
+    pdf.output(pdf_path, 'F')
+    send_mail('ramesh.tathe@opcito.com', [email_id], 'Test performance result', 'Hello,\n\nPlease find test performance result in attachment.\n\nThanks\nAviatrix Team', files=[pdf_path])
+
+
+
+def generate_pdf(source_cloud_provider, user_location, latency):
+    content = '<H1 align="center">Aviatrix</H1><table border="1" width="50%">' \
+              '<thead><tr><th width="40%">Source Cloud</th><th width="60%">' \
+              'User Location</th></tr></thead><tbody><tr><td>' + \
+              source_cloud_provider + '</td><td>' + user_location + '</td>' \
+              '</tr></tbody></table><table border="1" width="50%"><thead>' \
+              '<tr><th width="70%">Region</th><th width="30%">Latency</th>' \
+            '</tr></thead><tbody>'
+    for region_ob in latency:
+        content += "<tr><td>%s</td><td>%s</td></tr>" % \
+                   (region_ob['label'], region_ob['latency'])
+    content += "</tbody></table>"
+    return content

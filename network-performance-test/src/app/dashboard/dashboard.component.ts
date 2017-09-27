@@ -186,6 +186,8 @@ export class DashboardComponent implements AfterViewInit  {
    //   }
    // }  
    this.toasterService.success(this.properties.TEST_SUCCESS_MESSAGE);
+   this.dashboardService.sendmail(this.locations, this.sourceLocation).subscribe((resp: any) =>{
+      });
   }
 
   /**

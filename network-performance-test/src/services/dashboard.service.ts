@@ -48,4 +48,14 @@ export class DashboardService {
     return this._apiService.executeAPI(apiRequest);
   }
 
+  sendmail(location: any, source_location: any) {
+    let url = 'http://127.0.0.1:5000/api/sendmail'
+    const apiRequest: APIRequest = new APIRequest(url, APIMethod.POST);
+    apiRequest.addProperty('source_cloud_provider', "AWS");
+    apiRequest.addProperty('user_location', source_location);
+    apiRequest.addProperty('latency', location);
+    apiRequest.addProperty('email_id', 'ramesh.tathe@opcito.com');
+    return this._apiService.executeAPI(apiRequest);
+  }
+
 }
