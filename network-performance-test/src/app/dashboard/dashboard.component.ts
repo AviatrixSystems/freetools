@@ -237,10 +237,11 @@ export class DashboardComponent implements AfterViewInit  {
           geocoder.geocode({ 'latLng': latlng }, function (results, status) {
               if (status == google.maps.GeocoderStatus.OK) {
                   if (results[1]) {
+                      console.log('Bhau full address: ', results);
                       self.userLocation.address = results[1].formatted_address;
                       let sourceAddress = results[1].formatted_address;
                       let sourceAddressObj = sourceAddress.split(",");
-                      self.sourceLocation = sourceAddressObj[sourceAddressObj.length-3] +'('+ sourceAddressObj[sourceAddressObj.length-1]+ ")" ;
+                      self.sourceLocation = sourceAddressObj[sourceAddressObj.length - 3] +'('+ sourceAddressObj[sourceAddressObj.length - 1]+ ")" ;
                       self.isInventoryLoaded();
                   }
               }
