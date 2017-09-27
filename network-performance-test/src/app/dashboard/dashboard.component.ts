@@ -238,7 +238,9 @@ export class DashboardComponent implements AfterViewInit  {
               if (status == google.maps.GeocoderStatus.OK) {
                   if (results[1]) {
                       self.userLocation.address = results[1].formatted_address;
-                      self.sourceLocation =results[1].address_components[6].long_name +'('+ results[1].address_components[8].long_name + ")" ;
+                      let sourceAddress = results[1].formatted_address;
+                      let sourceAddressObj = sourceAddress.split(",");
+                      self.sourceLocation = sourceAddressObj[sourceAddressObj.length-3] +'('+ sourceAddressObj[sourceAddressObj.length-1]+ ")" ;
                       self.isInventoryLoaded();
                   }
               }
