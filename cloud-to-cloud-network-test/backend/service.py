@@ -7,6 +7,18 @@ import os
 
 class MyFPDF(FPDF, HTMLMixin):
     pass
+    def header(self):
+        # Logo
+        self.image('images/aviatrix-logo-final-bold.png', 10, 8, 30, 8)
+        # Arial bold 15
+        self.set_font('Arial', 'B', 24)
+        # Move to the right
+        self.cell(80)
+        # Title
+        self.cell(30, 10, 'Aviatrix', 0, 0, 'C')
+        # Line break
+        self.ln(20)
+
 
 
 def get_letency_throughput(cloud_id, source_region, destination_regions, timestamp, influx_db_client):
@@ -126,6 +138,9 @@ def generate_pdf_send_mail(email_id, source_cloud_provider, source_region, laten
     # First page
     content = generate_pdf(source_cloud_provider, source_region, latency)
     pdf.add_page()
+    pdf.set_title("Aviatrix")
+    pdf.set_font('Arial', 'B', 16)
+    pdf.cell(0, 5, "Best region for latency sensitive apps - %s" % latency[0]['label'], 0, 1, 'C')
     pdf.write_html(content)
     pdf.output(pdf_path, 'F')
     send_mail('ramesh.tathe@opcito.com', [email_id], 'Test performance result', 'Hello,\n\nPlease find test performance result in attachment.\n\nThanks\nAviatrix Team', files=[pdf_path])
@@ -133,11 +148,12 @@ def generate_pdf_send_mail(email_id, source_cloud_provider, source_region, laten
 
 
 def generate_pdf(source_cloud_provider, user_location, latency):
-    content = '<H1 align="center">Aviatrix</H1><table border="1" width="50%">' \
+    content = '<table border="1" width="50%">' \
               '<thead><tr><th width="40%">Source Cloud</th><th width="60%">' \
               'User Location</th></tr></thead><tbody><tr><td>' + \
               source_cloud_provider + '</td><td>' + user_location + '</td>' \
-              '</tr></tbody></table><table border="1" width="50%"><thead>' \
+              '</tr></tbody></table>' \
+              '<table border="1" width="50%"><thead>' \
               '<tr><th width="70%">Region</th><th width="30%">Latency</th>' \
             '</tr></thead><tbody>'
     for region_ob in latency:
