@@ -82,6 +82,8 @@ export class DashboardComponent implements AfterViewInit  {
   isTestStopped: boolean;
   timeout = [];
   visibleSortOption: boolean;
+  isFormSubmittred: boolean;
+  isTestRestarted: boolean;
 
   testStartTime: any;
 
@@ -102,7 +104,7 @@ export class DashboardComponent implements AfterViewInit  {
 
   sourceLocation: any = null;
 
-  isEmailPopOpen: boolean = true;
+  isEmailPopOpen: boolean = false;
   toolUserEmail: any = '';
 
   /**
@@ -170,6 +172,8 @@ export class DashboardComponent implements AfterViewInit  {
      this.isPopupOpen = false;
      this.isTestStopped = false;
      this.visibleSortOption = false;
+     this.isFormSubmittred = false;
+     this.isTestRestarted = false;
 
   }
 
@@ -182,6 +186,7 @@ export class DashboardComponent implements AfterViewInit  {
      this.slimLoadingBarService.reset();
      this.slimLoadingBarService.progress = 0;
      this.isDesc = false;
+     this.isTestRestarted = true;
      this.sortBy('latency')
    // if(this.bestLatencyRegion.latency != 0.00) {
    //   if(this.bestLatencyRegion.latency != 0.00) {
@@ -217,8 +222,45 @@ export class DashboardComponent implements AfterViewInit  {
    */
   ngOnInit(){
     this.generateAmMap();
-    let self = this;   
-    // this.isEmailPopOpen = true;
+  }
+
+  // pratekache 3 point plot zale tarch tru retun kar
+
+  checkLatencyPlot(){
+    let isPlot = true;
+    for(let index = 0; index < this.locations.length; index++) {
+      let obj = this.locations[index];
+      let counter = 0;
+      for(let step=0; step < obj.dashboardModel.latency.length; step++) {
+        if(obj.dashboardModel.latency[step]['value'] > 1) {
+          counter += 1;
+        }
+      }
+      if(counter < 3) {
+        isPlot = false;
+        break;
+      }
+     }
+     if(!isPlot) {
+       setTimeout(() => this.checkLatencyPlot(), 5);
+     } else {
+       return isPlot;
+     }
+  }
+
+  openMarketoForm() {
+    if(this.isTestRestarted) {
+      this.isEmailPopOpen = false;
+      this.isFormSubmittred = true;
+      this.counter = 0;
+      this.impl_set_latency();
+      return;
+    } else if(!this.checkLatencyPlot()) {
+      setTimeout(() => this.openMarketoForm(), 5);
+      return
+    } 
+    let self = this;
+    self.isEmailPopOpen = true;
     MktoForms2.loadForm("//app-ab21.marketo.com", "882-LUR-510", 1143, function(form) {
         form.onSubmit(function(){
             // Get the form field values
@@ -230,8 +272,14 @@ export class DashboardComponent implements AfterViewInit  {
             // Get the form's jQuery element and hide it
             form.getFormElem().hide();
             self.isEmailPopOpen = false;
+            self.isFormSubmittred = true;
+            self.counter = 0;
+            self.isTestRestarted = true;
+            self.timeout.push(setTimeout(() =>self.impl_set_latency(), self.TEST_INTERVAL));
+
             // Return false to prevent the submission handler from taking the lead to the follow up url
             return false;
+
         });
     });
   }
@@ -264,6 +312,7 @@ export class DashboardComponent implements AfterViewInit  {
                       let sourceAddressObj = sourceAddress.split(",");
                       self.sourceLocation = sourceAddressObj[sourceAddressObj.length - 3] + ' (' + sourceAddressObj[sourceAddressObj.length - 1].replace(" ", "") + ")" ;
                       self.isInventoryLoaded();
+                      // self.checkLatencyPlot();
                   }
               }
         });
@@ -505,6 +554,7 @@ export class DashboardComponent implements AfterViewInit  {
     for (var i=0; i<this.timeout.length; i++) {
       clearTimeout(this.timeout[i]);
     }
+    // this.isFormSubmittred = false;
     // Start progress bar
     this.visibleSortOption = false;
     this.counter = 0;
@@ -538,8 +588,7 @@ export class DashboardComponent implements AfterViewInit  {
       object.currentLatencyIndex = 0;
       object.currentResponseIndex = 0;
       object.firstLatencyPass = false;
-      object.pingStartTime = new Date();
-
+      object.pingStartTime = new Date();      
       // Setting up latency chart
       this.setDataPoint(object.dashboardModel.latency, object);
       latencySeries.push(this.getSeriesData('spline', object.label, this.getChartData(object.dashboardModel.latency), object.color));
@@ -550,11 +599,14 @@ export class DashboardComponent implements AfterViewInit  {
   }
 
   impl_set_latency() {
-     if (this.getTimeDiffInSeconds(this.testStartTime, 0) < this.TEST_MINUTES && this.counter <= 4) {
+     if (this.counter <= 1) {
         this.timeout.push(setTimeout(() =>this.impl_set_latency(), this.TEST_INTERVAL));
-     } else {
-       setTimeout(() => this.isProcessCompleted(), 5);
-     }
+     } else if(!this.isFormSubmittred){
+       // this.checkLatencyPlot();
+       this.openMarketoForm();
+       // open marketo form
+     } 
+     
     this.counter += 1;
     this.setLatency(0);
   }
