@@ -249,13 +249,7 @@ export class DashboardComponent implements AfterViewInit  {
   }
 
   openMarketoForm() {
-    if(this.isTestRestarted) {
-      this.isEmailPopOpen = false;
-      this.isFormSubmittred = true;
-      this.counter = 0;
-      this.impl_set_latency();
-      return;
-    } else if(!this.checkLatencyPlot()) {
+    if(!this.checkLatencyPlot()) {
       setTimeout(() => this.openMarketoForm(), 5);
       return
     } 
@@ -274,9 +268,7 @@ export class DashboardComponent implements AfterViewInit  {
             self.isEmailPopOpen = false;
             self.isFormSubmittred = true;
             self.counter = 0;
-            self.isTestRestarted = true;
             self.timeout.push(setTimeout(() =>self.impl_set_latency(), self.TEST_INTERVAL));
-
             // Return false to prevent the submission handler from taking the lead to the follow up url
             return false;
 
@@ -595,7 +587,12 @@ export class DashboardComponent implements AfterViewInit  {
       // setTimeout(()=>this.setLatency(index),10);
     }
     this.latencyOptions = this.getChartConfig('', this.properties.MILISECONDS, latencySeries, 'spline');
-    this.impl_set_latency();
+    if(this.isTestRestarted) {
+      this.impl_set_latency_without_marketo_form();
+    } else {
+      this.impl_set_latency();
+    }
+    
   }
 
   impl_set_latency() {
@@ -605,11 +602,24 @@ export class DashboardComponent implements AfterViewInit  {
        // this.checkLatencyPlot();
        this.openMarketoForm();
        // open marketo form
-     } 
-     
+     } else {
+       setTimeout(() => this.isProcessCompleted(), 5);
+     }
     this.counter += 1;
     this.setLatency(0);
   }
+
+  impl_set_latency_without_marketo_form() {
+     if (this.getTimeDiffInSeconds(this.testStartTime, 0) < this.TEST_MINUTES && this.counter <= 4) {
+        this.timeout.push(setTimeout(() =>this.impl_set_latency_without_marketo_form(), this.TEST_INTERVAL));
+     } else {
+       setTimeout(() => this.isProcessCompleted(), 5);
+     }
+    this.counter += 1;
+    this.setLatency(0);
+  }
+
+
 
   /**
    * set data point on map
