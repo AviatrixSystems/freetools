@@ -12,6 +12,8 @@ declare const google: any;
 
 declare const AmCharts: any;
 
+declare const MktoForms2: any;
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -62,6 +64,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   public width = 5;
   text = '';
   hoveredObject = null;
+  isEmailPopOpen: boolean;
+  toolUserEmail: any = '';
 
   /**
    * Contructor for dashboard component
@@ -114,7 +118,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.selectedAllGCERegion = false;
     this.beginTest = false;
     this.generateAmMap();
+    this.isEmailPopOpen = true;
   }
+
 
   /**
    * set destination cloud provider for destination tab to show regions
@@ -246,8 +252,25 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   // }
 
   ngOnInit() {
+    let self = this;   
+    // this.isEmailPopOpen = true;
+    MktoForms2.loadForm("//app-ab21.marketo.com", "882-LUR-510", 1143, function(form) {
+        form.onSubmit(function(){
+            // Get the form field values
+            var vals = form.vals().Email;
+            self.toolUserEmail = JSON.stringify(vals);
+        });
+        // Add an onSuccess handler
+        form.onSuccess(function(values, followUpUrl) {
+            // Get the form's jQuery element and hide it
+            form.getFormElem().hide();
+            self.isEmailPopOpen = false;
+            // Return false to prevent the submission handler from taking the lead to the follow up url
+            return false;
+        });
+    });
   }
-
+  
   /**
    * After initialized view then get the inventory and set aws, azure and gce regions
    */
@@ -816,6 +839,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     // if (this.isTestCompleted) {
     //   return;
     // }
+    // console.log(this.toolUserEmail);
     if(this.speedtestModel.destinationRegions.length < 1) {
       this.latencyChart.destroy();
       // this.bandwidthChart.destroy();

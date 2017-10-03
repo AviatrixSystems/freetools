@@ -257,8 +257,18 @@
   <!-- End Left panel with map -->
 </div>
 <!-- End Right and left panel -->
-<!-- Left and Right panel for latency and throughput graphs -->
-<div class="row mrg-bottom-15 padding-left-right-15">
-  
+<!-- End Left and Right panel for latency graphs -->
+
+<!-- Modal dialog -->
+<div *ngIf="isEmailPopOpen">
+  <div class="md-overlay-container overlay">
+    <div id="mat-overlay-0" class="mat-overlay-pane dialog-position">
+      <div class="dialog-size">
+        <div style="text-align:center; padding:15px;">
+          <form name="emailForm" id="mktoForm_1143"></form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<!-- End Left and Right panel for latency and throughput graphs -->
+<!-- End Modal dialog -->
