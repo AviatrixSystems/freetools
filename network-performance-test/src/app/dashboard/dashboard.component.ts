@@ -22,6 +22,8 @@ declare const AmCharts: any;
 
 declare const Ping: any
 
+declare const MktoForms2: any;
+
 /**
  * @brief      Component declairation
  *
@@ -99,6 +101,9 @@ export class DashboardComponent implements AfterViewInit  {
   GCE_CLOUD: boolean = false;
 
   sourceLocation: any = null;
+
+  isEmailPopOpen: boolean = true;
+  toolUserEmail: any = '';
 
   /**
    * Declare all required parameters and providers
@@ -212,6 +217,23 @@ export class DashboardComponent implements AfterViewInit  {
    */
   ngOnInit(){
     this.generateAmMap();
+    let self = this;   
+    // this.isEmailPopOpen = true;
+    MktoForms2.loadForm("//app-ab21.marketo.com", "882-LUR-510", 1143, function(form) {
+        form.onSubmit(function(){
+            // Get the form field values
+            var vals = form.vals().Email;
+            self.toolUserEmail = JSON.stringify(vals);
+        });
+        // Add an onSuccess handler
+        form.onSuccess(function(values, followUpUrl) {
+            // Get the form's jQuery element and hide it
+            form.getFormElem().hide();
+            self.isEmailPopOpen = false;
+            // Return false to prevent the submission handler from taking the lead to the follow up url
+            return false;
+        });
+    });
   }
 
   /**
@@ -256,8 +278,9 @@ export class DashboardComponent implements AfterViewInit  {
   }
 
   isInventoryLoaded() {
-    if(this.locations && AmCharts && this.locations.length > 0) {
+    if(this.locations && AmCharts && this.locations.length > 0 && !this.isEmailPopOpen) {
       this.startTest();
+      //console.log(this.toolUserEmail);
     } else {
       setTimeout(()=>this.isInventoryLoaded(), 10);
     }
