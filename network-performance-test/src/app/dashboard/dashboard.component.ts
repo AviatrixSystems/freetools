@@ -242,7 +242,7 @@ export class DashboardComponent implements AfterViewInit  {
       }
      }
      if(!isPlot) {
-       setTimeout(() => this.checkLatencyPlot(), 5);
+       setTimeout(() => this.checkLatencyPlot(), 10);
      } else {
        return isPlot;
      }
@@ -268,7 +268,7 @@ export class DashboardComponent implements AfterViewInit  {
             self.isEmailPopOpen = false;
             self.isFormSubmittred = true;
             self.counter = 0;
-            self.timeout.push(setTimeout(() =>self.impl_set_latency(), self.TEST_INTERVAL));
+            self.impl_set_latency();
             // Return false to prevent the submission handler from taking the lead to the follow up url
             return false;
 
