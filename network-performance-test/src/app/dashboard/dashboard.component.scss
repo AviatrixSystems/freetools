@@ -406,13 +406,13 @@ a:hover {
     background: white;
     box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
     overflow: auto;
-    width: 450px;
-    height:auto;
+    width: 500px;
+    height: 225px;
     border-radius: 10px;
 }
 .dialog-position {
     position: absolute;
-    top: 30%;
+    top: 25%;
     left: 50%;
     transform: translateX(-50%) translateX(0px) translateY(-50%) translateY(0px);
 }
@@ -433,13 +433,19 @@ a:hover {
   padding-left: 30px !important;
 }
 
+
+.mktoLabel {
+  font-size: 15px !important;
+  font-family: sans-serif !important;
+}
+
 .mktoHasWidth {
-  width: 350px !important;
-  margin-bottom: 8px !important;
+  width: 450px !important;
+  margin-bottom: 15px !important;
 }
 
 .mktoField {
-  width: 350px !important;
+  width: 450px !important;
 }
 
 .mktoButtonWrap {
@@ -447,5 +453,16 @@ a:hover {
 }
 
 .mktoForm {
-  margin-left: 32px;
+  //margin-left: 32px;
+  text-align: center !important;
+  margin: 30px 12px 30px 11px;  
+  font-size: 15px !important;
+  font-family: sans-serif !important;
+}
+.mktoForm input, .mktoForm select, .mktoForm textarea {
+  height: 2em;
+  border-width: 0.1px;
+  border-style: inset;
+  border-color: initial;
+  border-image: initial;
 }

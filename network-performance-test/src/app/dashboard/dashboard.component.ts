@@ -227,6 +227,23 @@ export class DashboardComponent implements AfterViewInit  {
     self.isEmailPopOpen = true;
     self.isFormsubmitted = true;
     MktoForms2.loadForm("//app-ab21.marketo.com", "882-LUR-510", 1143, function(form) {
+        //listen for the validate event
+        form.onValidate(function() {
+            // Get the values
+            var vals = form.vals();
+            //Check your condition
+            if (vals.Email == "") {
+                // Prevent form submission
+                form.submittable(false);
+                // Show error message, pointed at VehicleSize element
+                var emailElem = form.getFormElem().find("#Email");
+                form.showErrorMessage("Please enter your email to continue.", emailElem);
+            }
+            else {
+                // Enable submission for those who met the criteria
+                form.submittable(true);
+            }
+        });
         form.onSubmit(function(){
             // Get the form field values
             var vals = form.vals().Email;
@@ -240,7 +257,6 @@ export class DashboardComponent implements AfterViewInit  {
             self.isFormsubmitted = true;
             // Return false to prevent the submission handler from taking the lead to the follow up url
             return false;
-
         });
     });
   }
