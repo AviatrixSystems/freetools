@@ -12,6 +12,8 @@ declare const google: any;
 
 declare const AmCharts: any;
 
+declare const MktoForms2: any;
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -52,6 +54,9 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   selectedAllAzureRegion: boolean;
   selectedAllGCERegion: boolean;
   beginTest: boolean;
+  isEmailPopOpen: boolean;
+  isFormSubmitted: boolean;
+  toolUserEmail: any;
 
   dashboardModel: DashboardModel;
   speedtestModel: SpeedtestModel;
@@ -113,6 +118,8 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     this.selectedAllAzureRegion = false;
     this.selectedAllGCERegion = false;
     this.beginTest = false;
+    this.isFormSubmitted = false;
+    this.isEmailPopOpen = false;
     this.generateAmMap();
   }
 
@@ -808,6 +815,29 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       date.getHours(), date.getMinutes(), date.getSeconds()), value];
   }
 
+  openMarketoForm() {
+    let self = this;
+    self.isEmailPopOpen = true;
+    MktoForms2.loadForm("//app-ab21.marketo.com", "882-LUR-510", 1143, function(form) {
+        form.onSubmit(function(){
+            // Get the form field values
+            var vals = form.vals().Email;
+            self.toolUserEmail = JSON.stringify(vals);
+        });
+        // Add an onSuccess handler
+        form.onSuccess(function(values, followUpUrl) {
+            // Get the form's jQuery element and hide it
+            form.getFormElem().hide();
+            self.isEmailPopOpen = false;
+            self.isFormSubmitted = true;
+            self.properties.emailPopisOpen = true;
+            // Return false to prevent the submission handler from taking the lead to the follow up url
+            return false;
+
+        });
+    });
+  }
+
   /**
    * Starts test for calculating the statistics.
    */
@@ -827,6 +857,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     // this.disabledStart = true;
     let latencySeries = [];
     let badwidthSeries = [];
+    if(!this.isFormSubmitted) {
+
+      this.openMarketoForm();
+    }
+    
     this.dashboardService.getLatencyAndBandwidth(this.speedtestModel).timeout(3000).subscribe((resp: any) =>{
       let chartData = JSON.parse(resp);
       // console.log('chart: ', chartData);
