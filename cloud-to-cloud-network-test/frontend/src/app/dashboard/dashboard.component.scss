@@ -335,6 +335,8 @@ a:hover {
   position: absolute;
   pointer-events: none;
 }
+
+
 /*
 .active-destination-menu:after {
   border-color: rgba(136, 183, 213, 0);
@@ -850,55 +852,66 @@ a:hover {
 
 
 
+
 /* overlay styles, all needed */
+
 .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(0,0,0,0.5);
-    z-index: 10;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
 }
+
 .dialog-size {
-//    padding: 15px;
-    background: white;
-    box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
-    overflow: auto;
-    width: 450px;
-    height:auto;
-    border-radius: 10px;
+  //    padding: 15px;
+  background: white;
+  box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+  overflow: auto;
+  width: 500px;
+  height: 225px;
+  border-radius: 10px;
 }
+
 .dialog-position {
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translateX(-50%) translateX(0px) translateY(-50%) translateY(0px);
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%) translateX(0px) translateY(-50%) translateY(0px);
 }
 
 .padding-right-15 {
   padding-right: 15px !important;
 }
+
 .dialog-header {
-    background-color: #ddd;
-    height: 3em;
-    padding: 15px;
-    font-family: sans-serif;
-    letter-spacing: 0.1em;
-    font-size: 1.2em;
+  background-color: #ddd;
+  height: 3em;
+  padding: 15px;
+  font-family: sans-serif;
+  letter-spacing: 0.1em;
+  font-size: 1.2em;
 }
 
 .padding-left-30 {
   padding-left: 30px !important;
 }
 
+
+.mktoLabel {
+  font-size: 15px !important;
+  font-family: sans-serif !important;
+}
+
 .mktoHasWidth {
-  width: 350px !important;
-  margin-bottom: 8px !important;
+  width: 450px !important;
+  margin-bottom: 15px !important;
 }
 
 .mktoField {
-  width: 350px !important;
+  width: 450px !important;
 }
 
 .mktoButtonWrap {
@@ -906,5 +919,17 @@ a:hover {
 }
 
 .mktoForm {
-  margin-left: 32px;
+  //margin-left: 32px;
+  text-align: center !important;
+  margin: 30px 12px 30px 11px;
+  font-size: 15px !important;
+  font-family: sans-serif !important;
+}
+
+.mktoForm input {
+  height: 2em;
+  border-width: 0.1px;
+  border-style: inset;
+  border-color: initial;
+  border-image: initial;
 }

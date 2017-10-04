@@ -819,6 +819,24 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     let self = this;
     self.isEmailPopOpen = true;
     MktoForms2.loadForm("//app-ab21.marketo.com", "882-LUR-510", 1143, function(form) {
+        //listen for the validate event
+        form.onValidate(function() {
+            // Get the values
+            var vals = form.vals();
+            //Check your condition
+            if (vals.Email == "") {
+                // Prevent form submission
+                form.submittable(false);
+                // Show error message, pointed at VehicleSize element
+                var emailElem = form.getFormElem().find("#Email");
+                form.showErrorMessage("Please enter your email to continue.", emailElem);
+            }
+            else {
+                // Enable submission for those who met the criteria
+                form.submittable(true);
+            }
+        });
+        // Controls the submit event
         form.onSubmit(function(){
             // Get the form field values
             var vals = form.vals().Email;
