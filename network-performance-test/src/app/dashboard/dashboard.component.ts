@@ -22,6 +22,8 @@ declare const AmCharts: any;
 
 declare const Ping: any
 
+declare const MktoForms2: any;
+
 /**
  * @brief      Component declairation
  *
@@ -80,6 +82,9 @@ export class DashboardComponent implements AfterViewInit  {
   isTestStopped: boolean;
   timeout = [];
   visibleSortOption: boolean;
+  isEmailPopOpen: boolean;
+  isFormsubmitted: boolean;
+  toolUserEmail: any = '';
 
   testStartTime: any;
 
@@ -165,6 +170,8 @@ export class DashboardComponent implements AfterViewInit  {
      this.isPopupOpen = false;
      this.isTestStopped = false;
      this.visibleSortOption = false;
+     this.isEmailPopOpen = false;
+     this.isFormsubmitted = false;
 
   }
 
@@ -212,6 +219,46 @@ export class DashboardComponent implements AfterViewInit  {
    */
   ngOnInit(){
     this.generateAmMap();
+  }
+
+
+  openMarketoForm() {
+    let self = this;
+    self.isEmailPopOpen = true;
+    self.isFormsubmitted = true;
+    MktoForms2.loadForm("//app-ab21.marketo.com", "882-LUR-510", 1143, function(form) {
+        //listen for the validate event
+        form.onValidate(function() {
+            // Get the values
+            var vals = form.vals();
+            //Check your condition
+            if (vals.Email == "") {
+                // Prevent form submission
+                form.submittable(false);
+                // Show error message, pointed at VehicleSize element
+                var emailElem = form.getFormElem().find("#Email");
+                form.showErrorMessage("Please enter your email to continue.", emailElem);
+            }
+            else {
+                // Enable submission for those who met the criteria
+                form.submittable(true);
+            }
+        });
+        form.onSubmit(function(){
+            // Get the form field values
+            var vals = form.vals().Email;
+            self.toolUserEmail = JSON.stringify(vals);
+        });
+        // Add an onSuccess handler
+        form.onSuccess(function(values, followUpUrl) {
+            // Get the form's jQuery element and hide it
+            form.getFormElem().hide();
+            self.isEmailPopOpen = false;
+            self.isFormsubmitted = true;
+            // Return false to prevent the submission handler from taking the lead to the follow up url
+            return false;
+        });
+    });
   }
 
   /**
@@ -527,8 +574,12 @@ export class DashboardComponent implements AfterViewInit  {
   }
 
   impl_set_latency() {
+     
      if (this.getTimeDiffInSeconds(this.testStartTime, 0) < this.TEST_MINUTES && this.counter <= 4) {
         this.timeout.push(setTimeout(() =>this.impl_set_latency(), this.TEST_INTERVAL));
+        if(!this.isFormsubmitted && this.getTimeDiffInSeconds(this.testStartTime, 0) > 5) {
+          this.openMarketoForm();
+        }
      } else {
        setTimeout(() => this.isProcessCompleted(), 5);
      }
@@ -584,6 +635,7 @@ export class DashboardComponent implements AfterViewInit  {
    */
   setLatency(index: any) {
     if(index >= this.locations.length) {
+
       return;
     } 
     let obj = this.locations[index];

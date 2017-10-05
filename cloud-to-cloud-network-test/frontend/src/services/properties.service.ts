@@ -57,6 +57,7 @@ export class PropertiesService {
   public INVENTORY_GET_ERROR_MESSAGE: string = "Failed to get inventories.";
   public SPEEDTEST_ERROR_MESSAGE: string = "We failed to fetch some data due to connectivity issues.Please retry again.";
   public isLoading: boolean = false;
+  public emailPopisOpen: boolean = false;
   currentTool: string = null;
   currentToolName: string = null;
   constructor() {
