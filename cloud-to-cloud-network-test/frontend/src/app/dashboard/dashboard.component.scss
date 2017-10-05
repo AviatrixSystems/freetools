@@ -229,7 +229,7 @@ a:hover {
 .next_btn_disabled {
   float: right; // margin-right: 10px; 
   color: #FFFFFF;
-  background-color: #545454;
+  background-color: #ee7700;
   cursor: pointer;
   margin-top: -5px;
   box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.22);
@@ -552,6 +552,7 @@ a:hover {
 .next-button-common {
   outline: none;
   width: 90px;
+  background-color: #ee7700;
 }
 
 .outline-none {
@@ -903,6 +904,7 @@ a:hover {
 .mktoLabel {
   font-size: 15px !important;
   font-family: sans-serif !important;
+  text-align: center !important;
 }
 
 .mktoHasWidth {
@@ -932,4 +934,20 @@ a:hover {
   border-style: inset;
   border-color: initial;
   border-image: initial;
+}
+
+.mktoForm button.mktoButton {
+    cursor: pointer;
+    margin: 0;
+    border: 1px solid #ee7700 !important;
+    background-color: #ee7700 !important;
+    background-image: linear-gradient(to bottom, #ee7700, #ee7700)!important;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#ee7700), to(#ee7700))!important;
+}
+
+.mktoForm .mktoAsterix {
+    float: right !important;
+    color: #bf0000 !important;
+    padding-left: 5px !important;
+    display: none !important;
 }
