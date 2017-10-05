@@ -912,6 +912,13 @@ a:hover {
   text-align: center !important;
 }
 
+.mktoLabel:before{
+  content: "*";
+  margin-right: 6px;
+  vertical-align: middle;
+  color: #bf0000;
+}
+
 .mktoHasWidth {
   width: 450px !important;
   margin-bottom: 15px !important;
@@ -952,8 +959,8 @@ a:hover {
 }
 
 .mktoForm .mktoAsterix {
-    //float: right !important;
-    color: #bf0000 !important;
-    padding-left: 0px !important;
-    //display: none !important;
+  //float: right !important;
+  color: #bf0000 !important;
+  padding-left: 0px !important;
+  display: none !important;
 }

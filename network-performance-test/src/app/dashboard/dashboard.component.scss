@@ -443,6 +443,13 @@ a:hover {
   font-family: sans-serif !important;
 }
 
+.mktoLabel:before{
+  content: "*";
+  margin-right: 6px;
+  vertical-align: middle;
+  color: #bf0000;
+}
+
 .mktoHasWidth {
   width: 450px !important;
   margin-bottom: 15px !important;
@@ -473,18 +480,18 @@ a:hover {
 }
 
 .mktoForm button.mktoButton {
-    cursor: pointer;
-    margin: 0;
-    border: 1px solid #ee7700 !important;
-    background-color: #ee7700 !important;
-    background-image: linear-gradient(to bottom, #ee7700, #ee7700)!important;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#ee7700), to(#ee7700))!important;    
-    border-radius: 0.25rem;
+  cursor: pointer;
+  margin: 0;
+  border: 1px solid #ee7700 !important;
+  background-color: #ee7700 !important;
+  background-image: linear-gradient(to bottom, #ee7700, #ee7700)!important;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#ee7700), to(#ee7700))!important;    
+  border-radius: 0.25rem;
 }
 
 .mktoForm .mktoAsterix {
-    //float: right !important;
-    color: #bf0000 !important;
-    padding-left: 0px !important;
-    //display: none !important;
+  //float: right !important;
+  color: #bf0000 !important;
+  padding-left: 0px !important;
+  display: none !important;
 }
