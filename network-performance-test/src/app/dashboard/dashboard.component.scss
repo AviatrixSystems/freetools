@@ -11,7 +11,7 @@
 }
 
 .card-title-margin {
- // margin-top: 5px !important;
+  // margin-top: 5px !important;
   margin-bottom: 5px !important;
   font-weight: 500;
   text-transform: uppercase;
@@ -382,9 +382,116 @@ a:hover {
 .text-12 {
   font-size: 12px;
 }
+
 .margin-top-5 {
   margin-top: 5px !important;
 }
+
 .margin-top-minus-5 {
   margin-top: -5px !important;
+}
+
+/* overlay styles, all needed */
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.dialog-size {
+  //    padding: 15px;
+  background: white;
+  box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+  overflow: auto;
+  width: 500px;
+  height: 225px;
+  border-radius: 10px;
+}
+
+.dialog-position {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translateX(-50%) translateX(0px) translateY(-50%) translateY(0px);
+}
+
+.padding-right-15 {
+  padding-right: 15px !important;
+}
+
+.dialog-header {
+  background-color: #ddd;
+  height: 3em;
+  padding: 15px;
+  font-family: sans-serif;
+  letter-spacing: 0.1em;
+  font-size: 1.2em;
+}
+
+.padding-left-30 {
+  padding-left: 30px !important;
+}
+
+.mktoLabel {
+  text-align: center !important;
+  font-size: 15px !important;
+  font-family: sans-serif !important;
+}
+
+.mktoLabel:before{
+  content: "*";
+  margin-right: 6px;
+  vertical-align: middle;
+  color: #bf0000;
+}
+
+.mktoHasWidth {
+  width: 450px !important;
+  margin-bottom: 15px !important;
+}
+
+.mktoField {
+  width: 450px !important;
+}
+
+.mktoButtonWrap {
+  margin-left: 0px !important;
+}
+
+.mktoForm {
+  //margin-left: 32px;
+  text-align: center !important;
+  margin: 30px 12px 30px 11px;
+  font-size: 15px !important;
+  font-family: sans-serif !important;
+}
+
+.mktoForm input {
+  height: 2em;
+  border-width: 0.1px;
+  border-style: inset;
+  border-color: initial;
+  border-image: initial;
+}
+
+.mktoForm button.mktoButton {
+  cursor: pointer;
+  margin: 0;
+  border: 1px solid #ee7700 !important;
+  background-color: #ee7700 !important;
+  background-image: linear-gradient(to bottom, #ee7700, #ee7700)!important;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#ee7700), to(#ee7700))!important;    
+  border-radius: 0.25rem;
+}
+
+.mktoForm .mktoAsterix {
+  //float: right !important;
+  color: #bf0000 !important;
+  padding-left: 0px !important;
+  display: none !important;
 }
