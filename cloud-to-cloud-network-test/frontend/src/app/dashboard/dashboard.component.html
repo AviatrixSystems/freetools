@@ -1,7 +1,7 @@
 <!-- Text on Dashboard image -->
 <div class="panel marquee short" id="network-white">
   <div class="content threecolumns tight">
-    <div class="column double" style="margin-left: 10px;">
+    <div class="column double margin-left-10">
       <h4 class="uppercase wide semitight-top">Multi-Cloud Network Performance&nbsp;Test</h4>
     </div>
   </div>
@@ -176,19 +176,11 @@
                 <tbody>
                   <tr *ngFor="let region of speedtestModel.destinationRegions">
                     <td class="width-7"><img src="{{region.logoUrl}}" alt="Region" width="17" height="17"></td>
-                    <td class="text-wrap" style="width:46%;">{{region.region_name}}</td>
-                    <td style="width: 23%; padding-left: 10%">
+                    <td class="text-wrap width-46per">{{region.region_name}}</td>
+                    <td class="latency-column">
                       <span *ngIf="!region.latency"> {{properties.NA_TEXT}}</span>
                       <span *ngIf="region.latency">{{region.latency}}</span>
                     </td>
-                    <!-- <td style="width: 24%; padding-left: 15px">
-                      <span *ngIf="!region.bandwidth">{{properties.NA_TEXT}}
-                        <img src="/assets/ic_remove.png" class="pull-right" alt="Region" width="17" height="17" style="cursor: pointer;" (click)="removeRegionFromDestination(region, region.cloudProvider);">
-                    </span>
-                      <span *ngIf="region.bandwidth">{{region.bandwidth}}
-                        <img src="/assets/ic_remove.png" class="pull-right" alt="Region" width="17" height="17" style="cursor: pointer;" (click)="removeRegionFromDestination(region, region.cloudProvider);">
-                    </span>
-                    </td> -->
                   </tr>
                   <div class="empty-destination-label" *ngIf="speedtestModel.destinationRegions.length < 1">
                     Click on destination(s) tab to select destination(s) region to start test
@@ -205,8 +197,7 @@
       <div class="flow-buttons-bottom">
         <a class="pull-left active-back-button" (click)="backTab();" *ngIf="destinationTab"><i class="fa fa-chevron-left padding-right-10" aria-hidden="true"></i> Previous</a>
         <button class="{{validate() ? 'pull-right btn btn-start next-button-common':'btn next_btn_disabled pull-right next-button-common'}}" (click)="nextTab();" [disabled]="!validate()" *ngIf="sourceTab"> Next <i class="fa fa-chevron-right padding-left-10" aria-hidden="true"></i></button>
-        <button class="{{validate() ? 'pull-right btn btn-start begin-test-button-common':'btn next_btn_disabled pull-right begin-test-button-common'}}" (click)="nextTab();" [disabled]="!validate()" *ngIf="destinationTab"> Begin Test  <i class="fa fa-play padding-left-10" aria-hidden="true"></i></button>
-        <!-- <button class="pull-right btn btn-start outline-none" (click)="startTest();" [disabled]="speedtestModel.destinationRegions.length < 1" *ngIf="!isTestCompleted && !disabledStart && testTab">Begin Test&nbsp;&nbsp;<i class="fa fa-play" aria-hidden="true"></i></button> -->
+        <button class="{{validate() ? 'pull-right btn btn-start begin-test-button-common':'btn next_btn_disabled pull-right begin-test-button-common'}}" (click)="nextTab();" [disabled]="!validate()" *ngIf="destinationTab"> Begin Test  <i class="fa fa-play padding-left-10" aria-hidden="true"></i></button>        
         <button class="btn btn-start outline-none" (click)="startTest();" [disabled]="speedtestModel.destinationRegions.length < 1" *ngIf="testTab">Restart Test<i class="fa fa-play padding-left-10" aria-hidden="true"></i></button>
       </div>
       <!-- End Next and Back buttons -->
@@ -224,14 +215,6 @@
               <i class="fa fa-info-circle fa-lg info-color cursor-pointer" aria-hidden="true" mdTooltip="{{properties.CLOUD_REGION_TOOLTIP}}"></i>
             </div>
           </div>
-          <!-- <div class="col-md-6">
-                  <div class="pull-right">
-                      <i class="fa fa-clock-o fa-lg clock" aria-hidden="true"></i>
-                      <select class="timestamp" [(ngModel)]="speedtestModel.timestamp" (ngModelChange)="changeTimestamp()">
-                          <option *ngFor="let range of dashboardModel.timeRanges" [value]="range.value"> {{ range.label }}</option>
-                      </select>
-                  </div>
-              </div> -->
         </div>
       </div>
       <div class="card-block padding-0">
@@ -268,7 +251,7 @@
   <div class="md-overlay-container overlay">
     <div id="mat-overlay-0" class="mat-overlay-pane dialog-position">
       <div class="dialog-size">
-        <div style="text-align:center; padding:15px;">
+        <div class="email-marketo-form">
           <form name="emailForm" id="mktoForm_1143"></form>
         </div>
       </div>
