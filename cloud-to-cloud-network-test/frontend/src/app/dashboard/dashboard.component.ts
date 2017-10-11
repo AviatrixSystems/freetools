@@ -14,6 +14,14 @@ declare const AmCharts: any;
 
 declare const MktoForms2: any;
 
+/**
+ * Component declairation
+ * @param {ViewEncapsulation.None}} {  selector [description]
+ * @param      selector       The selector
+ * @param      templateUrl    The template url
+ * @param      styleUrls      The style urls
+ * @param      viewProviders  The view providers 
+ */
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -22,7 +30,9 @@ declare const MktoForms2: any;
   encapsulation: ViewEncapsulation.None
 })
 
-// Dashboard component
+/**
+ * Dashboard component
+ */
 export class DashboardComponent implements AfterViewInit {
   sourceTab: boolean;
   destinationTab: boolean;
@@ -291,6 +301,10 @@ export class DashboardComponent implements AfterViewInit {
     this.generateAmMap();
   }
 
+  /**
+   * Select all cloud region.
+   * @param {any} destinationCloudProvider [description]
+   */
   getMarkSelectAllRegion(destinationCloudProvider: any) {
     if(destinationCloudProvider == 'azure') {
       let selectAll = true;
@@ -334,6 +348,11 @@ export class DashboardComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * Remove seleted cloud cloud regions
+   * @param {any}     cloudProvider [description]
+   * @param {boolean} isSelected    [description]
+   */
   removeAllCloudRegions(cloudProvider: any, isSelected: boolean) {
     let regions = [];
     for(let index = 0; index < this.speedtestModel.destinationRegions.length; index++) {
@@ -346,6 +365,10 @@ export class DashboardComponent implements AfterViewInit {
     this.speedtestModel.destinationRegions = regions;
   }
 
+  /**
+   * select And Deselect All CloudRegions description
+   * @param {any} cloudProvider [description]
+   */
   selectAndDeselectAllCloudRegions(cloudProvider: any) {
     this.isTestCompleted = false;
     let cloud = "";
@@ -388,8 +411,10 @@ export class DashboardComponent implements AfterViewInit {
     }
   }
 
-
-
+  /**
+   * Deselect colud provider form selected cloud region after cloud provider change
+   * @param {any} cloudProvider [description]
+   */
   deselectAllCloudRegions(cloudProvider: any) {
     let cloud = "";
     if(cloudProvider == 'azure') {
@@ -486,6 +511,10 @@ export class DashboardComponent implements AfterViewInit {
     return false
   }
 
+  /**
+   * [cleanLatencyFromChartModel description]
+   * @param {any} destination_region [description]
+   */
   cleanLatencyFromChartModel(destination_region: any) {
     for (let index = 0; index < this.chartModel.chartData.length; index++) {
       if (this.chartModel.chartData[index]['destination_region'] == destination_region) {
@@ -494,6 +523,7 @@ export class DashboardComponent implements AfterViewInit {
       }
     }
   }
+
   /**
    * remove region from destination region list
    * [removeRegionFromDestination description]
@@ -924,8 +954,6 @@ export class DashboardComponent implements AfterViewInit {
       return this.properties.GCE_DESTINATION_CLOUD_LOGO_PATH;
     }
   }
-
-  
 
   /**
    * Get Source cloud pin path
